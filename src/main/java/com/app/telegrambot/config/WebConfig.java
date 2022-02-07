@@ -18,9 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
             public <T extends Enum> Converter<String, T> getConverter(Class<T> targetType) {
                 return source -> {
                     try {
-                        return (T) Enum.valueOf(targetType, source);
+                        return (T) Enum.valueOf(targetType, source.toUpperCase());
                     } catch (Exception e) {
-                        return targetType.getEnumConstants()[Integer.parseInt(source)];
+                        return targetType.getEnumConstants()[Integer.parseInt(source.toUpperCase())];
                     }
                 };
             }
