@@ -7,12 +7,12 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJdbcRepositories
+@EnableJdbcRepositories(basePackages = "com.app.telegrambot.repository")
 public class ApplicationConfig extends AbstractJdbcConfiguration {
 
     @Bean
@@ -21,7 +21,7 @@ public class ApplicationConfig extends AbstractJdbcConfiguration {
     }
 
     @Bean
-    public TransactionManager transactionManager(DataSource dataSource) {
+    public PlatformTransactionManager transactionManager(DataSource dataSource){
         return new DataSourceTransactionManager(dataSource);
     }
 }
