@@ -2,12 +2,10 @@ package com.app.telegrambot.controller;
 
 import com.app.telegrambot.domain.module.base.Update;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
 public class MessageRecipientController {
