@@ -5,7 +5,7 @@ import com.app.telegrambot.domain.base.request.SendMessage;
 /**
  * Interface for send messages, files, photos.
  */
-public interface Sender {
+public interface Dispatched {
 
     /**
      * Methods designed to send message.
