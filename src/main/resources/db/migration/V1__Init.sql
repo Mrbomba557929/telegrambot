@@ -23,15 +23,15 @@ CREATE TABLE words
 
 CREATE TABLE translations
 (
-    translate VARCHAR(50) PRIMARY KEY
+    translation VARCHAR(50) PRIMARY KEY
 );
 
 CREATE TABLE words_translations
 (
     word VARCHAR(45),
-    translate VARCHAR(50),
+    translation VARCHAR(50),
     user_id INTEGER,
-    PRIMARY KEY (word, translate, user_id)
+    PRIMARY KEY (word, translation, user_id)
 );
 
 CREATE TABLE modules_words
@@ -48,7 +48,7 @@ ALTER TABLE words_translations
     ADD FOREIGN KEY (word) REFERENCES words (word);
 
 ALTER TABLE words_translations
-    ADD FOREIGN KEY (translate) REFERENCES translations (translate);
+    ADD FOREIGN KEY (translation) REFERENCES translations (translation);
 
 ALTER TABLE words_translations
     ADD FOREIGN KEY (user_id) REFERENCES users (id);

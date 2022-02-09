@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJdbcRepositories(basePackages = "com.app.telegrambot.repository")
-public class ApplicationConfig extends AbstractJdbcConfiguration {
+public class JdbcConfiguration extends AbstractJdbcConfiguration {
 
     @Bean
     public NamedParameterJdbcOperations namedParameterJdbcOperations(DataSource dataSource) {

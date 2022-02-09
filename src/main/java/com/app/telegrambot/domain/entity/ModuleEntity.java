@@ -3,10 +3,13 @@ package com.app.telegrambot.domain.entity;
 import com.app.telegrambot.domain.entity.ref.UserWordRef;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Persistent;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -26,5 +29,9 @@ public class ModuleEntity {
     @Column(value = "created_at")
     private Instant createdAt;
 
+    @MappedCollection(idColumn = "module_id")
     private Set<UserWordRef> words;
+
+    @Persistent
+    private List<WordEntity> unsavedWordsEntities;
 }

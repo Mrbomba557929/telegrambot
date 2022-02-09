@@ -1,6 +1,6 @@
 package com.app.telegrambot.controller;
 
-import com.app.telegrambot.domain.base.Update;
+import com.app.telegrambot.domain.base.response.Update;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;

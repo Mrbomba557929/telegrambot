@@ -1,16 +1,22 @@
 package com.app.telegrambot.command;
 
-import com.app.telegrambot.domain.base.Update;
+import com.app.telegrambot.domain.base.request.SendMessage;
+import com.app.telegrambot.domain.base.response.Update;
 
 /**
- * Command interface for handling telegram-bot commands.
+ * Command abstract class for handling telegram-bot commands.
  */
-public interface Command {
+public abstract class Command implements Sender {
+
+    @Override
+    public void sendMessage(SendMessage sendMessage) {
+
+    }
 
     /**
      * Main method, which is executing command logic.
      *
      * @param update provide {@link Update} object with all the needed data for command.
      */
-    void execute(Update update);
+    public abstract void execute(Update update);
 }

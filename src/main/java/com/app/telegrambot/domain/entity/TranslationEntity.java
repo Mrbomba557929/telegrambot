@@ -1,6 +1,6 @@
 package com.app.telegrambot.domain.entity;
 
-import com.app.telegrambot.domain.entity.ref.WordTranslationRef;
+import com.app.telegrambot.domain.entity.ref.WordRef;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -21,5 +21,5 @@ public class TranslationEntity {
     private String translation;
 
     @MappedCollection(idColumn = "translation")
-    private Set<WordTranslationRef> words;
+    private Set<WordRef> words;
 }

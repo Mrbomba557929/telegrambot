@@ -1,25 +1,34 @@
 package com.app.telegrambot.mapper.impl;
 
 import com.app.telegrambot.domain.dto.ModuleDto;
+import com.app.telegrambot.domain.dto.WordDto;
 import com.app.telegrambot.domain.entity.ModuleEntity;
+import com.app.telegrambot.domain.entity.WordEntity;
+import com.app.telegrambot.exception.business.NotSupportedException;
+import com.app.telegrambot.exception.factory.ExceptionFactory;
 import com.app.telegrambot.mapper.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 /**
  * Implementation of the {@link Mapper}.
  */
 @Component
+@RequiredArgsConstructor
 public class ModuleMapper implements Mapper<ModuleEntity, ModuleDto> {
+
+    private final Mapper<WordEntity, WordDto> wordMapper;
 
     @Override
     public ModuleEntity toEntity(ModuleDto dto) {
-        // TODO: ИСПРАВИТЬ ВСЕ MAPPERS
-        return ModuleEntity.builder()
-                .id(dto.id())
-                .name(dto.name())
-                .createdAt(dto.createdAt())
-                .words(null)
-                .build();
+        throw ExceptionFactory.exceptionBuilder("Error: This method doesn't support!")
+                .status(EXPECTATION_FAILED)
+                .link("ModuleMapper/toEntity")
+                .build(NotSupportedException.class);
     }
 
     @Override

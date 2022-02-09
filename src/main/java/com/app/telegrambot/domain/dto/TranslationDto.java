@@ -4,14 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
-import java.util.List;
-
-public record TranslationDto(String translation, List<WordDto> words) {
+public record TranslationDto(String translation) {
 
     @Builder
     @JsonCreator
-    public TranslationDto(@JsonProperty("translation") String translation, @JsonProperty("words") List<WordDto> words) {
+    public TranslationDto(@JsonProperty("translation") String translation) {
         this.translation = translation;
-        this.words = words;
     }
 }

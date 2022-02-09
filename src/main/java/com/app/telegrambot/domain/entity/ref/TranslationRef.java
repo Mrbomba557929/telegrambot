@@ -7,8 +7,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(value = "words_translations")
 @Data
 @Builder
-public class WordTranslationRef {
-    private String word;
+public class TranslationRef {
     private String translation;
     private Integer userId;
 }

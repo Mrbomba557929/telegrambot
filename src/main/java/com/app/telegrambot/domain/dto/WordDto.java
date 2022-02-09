@@ -6,12 +6,12 @@ import lombok.Builder;
 
 import java.util.List;
 
-public record WordDto(String word, List<TranslationDto> translates) {
+public record WordDto(String word, List<TranslationDto> translations) {
 
     @Builder
     @JsonCreator
-    public WordDto(@JsonProperty("word") String word, @JsonProperty("translates") List<TranslationDto> translates) {
+    public WordDto(@JsonProperty("word") String word, @JsonProperty("translates") List<TranslationDto> translations) {
         this.word = word;
-        this.translates = translates;
+        this.translations = translations;
     }
 }
