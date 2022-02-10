@@ -20,10 +20,6 @@ public interface ModuleRepository extends CrudRepository<ModuleEntity, Integer> 
             )
             SELECT *
             FROM e
-            UNION
-            SELECT *
-            FROM modules
-            WHERE modules.id = e.id
             """)
     ModuleEntity save(@Param("name") String name, @Param("createdAt") Instant createdAt, @Param("userId") Integer userId);
 }
