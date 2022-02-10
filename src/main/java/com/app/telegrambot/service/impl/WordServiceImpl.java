@@ -1,7 +1,7 @@
 package com.app.telegrambot.service.impl;
 
 import com.app.telegrambot.domain.entity.WordEntity;
-import com.app.telegrambot.exception.business.NotFoundException;
+import com.app.telegrambot.exception.runtime.impl.NotFoundException;
 import com.app.telegrambot.exception.factory.ExceptionFactory;
 import com.app.telegrambot.repository.WordRepository;
 import com.app.telegrambot.service.WordService;
@@ -27,7 +27,7 @@ public class WordServiceImpl implements WordService {
                         ExceptionFactory.exceptionBuilder(NOT_FOUND_WORD)
                                 .status(EXPECTATION_FAILED)
                                 .link("WordServiceImpl/findByWord")
-                                .build(NotFoundException.class)
+                                .buildRuntime(NotFoundException.class)
                 );
     }
 }

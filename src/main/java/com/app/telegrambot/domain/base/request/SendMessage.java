@@ -7,6 +7,5 @@ public record SendMessage(@JsonProperty("chat_id") Integer chatId, @JsonProperty
 
     @Builder
     public SendMessage {
-
     }
 }

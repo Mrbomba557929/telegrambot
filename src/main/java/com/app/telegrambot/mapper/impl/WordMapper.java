@@ -3,7 +3,7 @@ package com.app.telegrambot.mapper.impl;
 import com.app.telegrambot.domain.dto.TranslationDto;
 import com.app.telegrambot.domain.dto.WordDto;
 import com.app.telegrambot.domain.entity.WordEntity;
-import com.app.telegrambot.exception.business.NotSupportedException;
+import com.app.telegrambot.exception.runtime.impl.NotSupportedException;
 import com.app.telegrambot.exception.factory.ExceptionFactory;
 import com.app.telegrambot.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class WordMapper implements Mapper<WordEntity, WordDto> {
         throw ExceptionFactory.exceptionBuilder("Error: This method doesn't support!")
                 .status(EXPECTATION_FAILED)
                 .link("WordMapper/toEntity")
-                .build(NotSupportedException.class);
+                .buildRuntime(NotSupportedException.class);
     }
 
     @Override

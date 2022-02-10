@@ -1,10 +1,14 @@
 package com.app.telegrambot.fms;
 
-import lombok.Builder;
+public record State (boolean isActive, Transition transition, Object builder) {
 
-public record State (boolean isActive, Transition transition) {
+    public State(Transition transition, Object object) {
+        this(true, transition, object);
+    }
 
-    @Builder
-    public State {
+    public State(boolean isActive, Transition transition, Object builder) {
+        this.isActive = isActive;
+        this.transition = transition;
+        this.builder = builder;
     }
 }

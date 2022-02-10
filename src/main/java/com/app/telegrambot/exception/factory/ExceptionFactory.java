@@ -1,7 +1,8 @@
 package com.app.telegrambot.exception.factory;
 
-import com.app.telegrambot.exception.ApplicationException;
-import com.app.telegrambot.exception.business.UnknownExceptionClassException;
+import com.app.telegrambot.exception.compiletime.ApplicationCompileTimeException;
+import com.app.telegrambot.exception.runtime.ApplicationRuntimeException;
+import com.app.telegrambot.exception.runtime.impl.UnknownExceptionClassException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +44,8 @@ public class ExceptionFactory {
             return this;
         }
 
-        public ApplicationException build(Class<? extends ApplicationException> eClass) {
-            ApplicationException res;
+        public <T extends ApplicationRuntimeException> T buildRuntime(Class<T> eClass) {
+            T res;
 
             try {
                 res = eClass.getDeclaredConstructor().newInstance();
@@ -54,6 +55,24 @@ public class ExceptionFactory {
             } catch (
                     InstantiationException | IllegalAccessException |
                     NoSuchMethodException | InvocationTargetException e
+            ) {
+                throw new UnknownExceptionClassException();
+            }
+
+            return res;
+        }
+
+        public <T extends ApplicationCompileTimeException> T buildCompileTime(Class<T> eClass) {
+            T res;
+
+            try {
+                res = eClass.getDeclaredConstructor().newInstance();
+                res.setLink(link);
+                res.setMessage(message);
+                res.setStatus(status);
+            } catch (
+                    InstantiationException | IllegalAccessException |
+                            NoSuchMethodException | InvocationTargetException e
             ) {
                 throw new UnknownExceptionClassException();
             }

@@ -1,17 +1,13 @@
 package com.app.telegrambot.command;
 
-import com.app.telegrambot.domain.base.request.SendMessage;
 import com.app.telegrambot.domain.base.response.Update;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Command abstract class for handling telegram-bot commands.
  */
-public abstract class Command implements Dispatched {
-
-    @Override
-    public void sendMessage(SendMessage sendMessage) {
-
-    }
+@Slf4j
+public abstract class Command {
 
     /**
      * Main method, which is executing command logic.

@@ -1,7 +1,7 @@
 package com.app.telegrambot.service.impl;
 
 import com.app.telegrambot.domain.entity.TranslationEntity;
-import com.app.telegrambot.exception.business.NotFoundException;
+import com.app.telegrambot.exception.runtime.impl.NotFoundException;
 import com.app.telegrambot.exception.factory.ExceptionFactory;
 import com.app.telegrambot.repository.TranslationRepository;
 import com.app.telegrambot.service.TranslationService;
@@ -27,7 +27,7 @@ public class TranslationServiceImpl implements TranslationService {
                         ExceptionFactory.exceptionBuilder(NOT_FOUND_TRANSLATION)
                                 .status(EXPECTATION_FAILED)
                                 .link("TranslationServiceImpl/findByTranslation")
-                                .build(NotFoundException.class)
+                                .buildRuntime(NotFoundException.class)
                 );
     }
 }
