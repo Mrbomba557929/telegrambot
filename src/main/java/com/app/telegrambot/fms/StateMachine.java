@@ -20,7 +20,7 @@ public class StateMachine {
         stateMap.put(chatId, state);
     }
 
-    public State retrieveState(Integer chatId) {
+    public State retrieve(Integer chatId) {
 
         if (stateMap.containsKey(chatId)) {
             return stateMap.get(chatId);
@@ -28,8 +28,12 @@ public class StateMachine {
 
         throw ExceptionFactory.exceptionBuilder("Error: State not found!")
                 .status(EXPECTATION_FAILED)
-                .link("StateMachine/retrieveState")
+                .link("StateMachine/retrieve")
                 .buildRuntime(NotFoundException.class);
+    }
+
+    public void remove(Integer chatId) {
+        stateMap.remove(chatId);
     }
 
     public boolean contains(Integer chatId) {

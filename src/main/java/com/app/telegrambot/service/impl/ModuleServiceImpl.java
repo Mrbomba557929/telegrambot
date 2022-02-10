@@ -6,6 +6,8 @@ import com.app.telegrambot.service.ModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 /**
  * Implementation of the {@link ModuleService}.
  */
@@ -17,6 +19,6 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public ModuleEntity save(String name, Integer userId) {
-        return null;
+        return moduleRepository.save(name, Instant.now(), userId);
     }
 }
