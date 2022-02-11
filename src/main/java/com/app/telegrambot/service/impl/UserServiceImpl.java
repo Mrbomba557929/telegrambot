@@ -23,14 +23,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity save(User user) {
         try {
-            return userRepository.save(UserEntity.builder()
-                    .id(user.id())
-                    .firstName(user.firstName())
-                    .lastName(user.lastName())
-                    .username(user.username())
-                    .languageCode(user.languageCode())
-                    .isBot(user.isBot())
-                    .build());
+            return userRepository.save(
+                    user.id(), user.firstName(),
+                    user.lastName(), user.username(),
+                    user.isBot(), user.languageCode());
         } catch (DataAccessException e) {
             log.error("Impossible to save the user. {}", e.getMessage());
             throw ExceptionFactory.exceptionBuilder(e.getMessage())
