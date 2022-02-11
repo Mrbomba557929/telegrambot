@@ -48,7 +48,9 @@ public class CreateModuleCommand extends Command {
 
     public void askForModuleName(Update update) {
         try {
+            log.info("В askForModuleName");
             String moduleName = update.message().text();
+            log.info("Сообщение {}", moduleName);
             ModuleEntity savedModule = moduleService.save(moduleName, update.message().from().id());
 
             messageSender.sendMessage(SendMessage.builder()
