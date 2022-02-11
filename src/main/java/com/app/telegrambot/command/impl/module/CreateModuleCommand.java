@@ -30,13 +30,16 @@ public class CreateModuleCommand extends Command {
     @Override
     public void execute(Update update) {
         try {
+            String name = format("%s %s", update.message().from().firstName(), update.message().from().lastName());
+
             messageSender.sendMessage(SendMessage.builder()
-                    .text(format("%s, введите название модуля.", update.message().from().username()))
+                    .text(format("%s, введите название модуля.", name))
                     .chatId(update.message().chat().id())
                     .build());
 
-            State state = new State(this::askForModuleName, ModuleEntity.builder());
-            stateMachine.transition(update.message().from().id(), state);
+            stateMachine.transition(
+                    update.message().from().id(),
+                    State.create(this::askForModuleName, ModuleEntity.builder()));
 
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
@@ -44,10 +47,10 @@ public class CreateModuleCommand extends Command {
     }
 
     public void askForModuleName(Update update) {
-        String moduleName = update.message().text();
-        ModuleEntity savedModule = moduleService.save(moduleName, update.message().from().id());
-
         try {
+            String moduleName = update.message().text();
+            ModuleEntity savedModule = moduleService.save(moduleName, update.message().from().id());
+
             messageSender.sendMessage(SendMessage.builder()
                     .text(format("%s, модуль %s успешно создан.", update.message().from().username(), savedModule.getName()))
                     .chatId(update.message().chat().id())

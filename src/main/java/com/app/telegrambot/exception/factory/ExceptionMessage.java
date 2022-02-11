@@ -12,7 +12,8 @@ public enum ExceptionMessage {
     NOT_FOUND_USER("Sorry, bro, but the user not found."),
     ERROR_CREATE_MODULE("You need to write the name of the module."),
     ERROR_IN_THE_COMMAND("You have specified the command parameters incorrect."),
-    ERROR_SENDING_MESSAGE("An error occurred while sending the message.");
+    ERROR_SENDING_MESSAGE("An error occurred while sending the message."),
+    IMPOSSIBLE_TO_SAVE_USER("Impossible to save the user!");
 
     private final String message;
 }

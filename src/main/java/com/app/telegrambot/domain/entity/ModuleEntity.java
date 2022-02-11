@@ -2,6 +2,7 @@ package com.app.telegrambot.domain.entity;
 
 import com.app.telegrambot.domain.entity.ref.UserWordRef;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.relational.core.mapping.Column;
@@ -26,8 +27,12 @@ public class ModuleEntity {
     @Column(value = "name")
     private String name;
 
+    @CreatedDate
     @Column(value = "created_at")
     private Instant createdAt;
+
+    @MappedCollection(idColumn = "user_id")
+    private Set<UserEntity> users;
 
     @MappedCollection(idColumn = "module_id")
     private Set<UserWordRef> words;

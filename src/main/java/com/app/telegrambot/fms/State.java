@@ -6,9 +6,7 @@ public record State (boolean isActive, Transition transition, Object builder) {
         this(true, transition, object);
     }
 
-    public State(boolean isActive, Transition transition, Object builder) {
-        this.isActive = isActive;
-        this.transition = transition;
-        this.builder = builder;
+    public static State create(Transition transition, Object builder) {
+        return new State(transition, builder);
     }
 }

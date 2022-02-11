@@ -1,6 +1,7 @@
 package com.app.telegrambot.controller;
 
 import com.app.telegrambot.command.CommandContainer;
+import com.app.telegrambot.context.TelegramBotContextHolder;
 import com.app.telegrambot.domain.base.response.Update;
 import com.app.telegrambot.domain.еnum.CommandName;
 import com.app.telegrambot.fms.StateMachine;
@@ -30,12 +31,15 @@ public class MessageRecipientController {
 
             if (message.startsWith(COMMAND_PREFIX)) {
 
+                TelegramBotContextHolder.UPDATE = update;
+
                 if (stateMachine.contains(update.message().from().id())) {
                     stateMachine.retrieve(update.message().from().id())
                             .transition()
-                            .accept(update);
+                            .execute(update);
                 } else {
-                    commandContainer.retrieve(CommandName.fromText(message)).execute(update);
+                    commandContainer.retrieve(CommandName.fromText(message))
+                            .execute(update);
                 }
             }
         }
