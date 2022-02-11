@@ -25,7 +25,7 @@ public class UserEntity {
     @Column(value = "last_name")
     private String lastName;
 
-    @Column(value = "user_name")
+    @Column(value = "username")
     private String username;
 
     @Column(value = "language_code")
