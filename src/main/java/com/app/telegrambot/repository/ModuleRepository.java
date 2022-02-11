@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
-import java.util.Date;
 
 @Repository
 public interface ModuleRepository extends CrudRepository<ModuleEntity, Integer> {
@@ -22,5 +21,5 @@ public interface ModuleRepository extends CrudRepository<ModuleEntity, Integer> 
             SELECT *
             FROM e
             """)
-    ModuleEntity save(@Param("name") String name, @Param("createdAt") Date createdAt, @Param("userId") Integer userId);
+    ModuleEntity save(@Param("name") String name, @Param("createdAt") Instant createdAt, @Param("userId") Integer userId);
 }

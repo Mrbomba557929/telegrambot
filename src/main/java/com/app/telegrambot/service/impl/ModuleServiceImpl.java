@@ -28,7 +28,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public ModuleEntity save(String name, Integer userId) {
         try {
-            return moduleRepository.save(name, Date.from(Instant.now()), userId);
+            return moduleRepository.save(name, Instant.now(), userId);
         } catch (DataAccessException e) {
             log.error("Impossible to save the user. {}", e.getMessage());
             throw ExceptionFactory.exceptionBuilder(e.getMessage())

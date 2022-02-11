@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Persistent;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ModuleEntity {
     @Column(value = "name")
     private String name;
 
-    @CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(value = "created_at")
     private Instant createdAt;
 
