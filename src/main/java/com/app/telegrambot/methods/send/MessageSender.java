@@ -38,7 +38,7 @@ public class MessageSender implements Senderable {
     public CompletableFuture<Message> sendMessage(SendMessage sendMessage)
             throws TelegramApiException {
 
-        log.info("sendMessage starts");
+        log.info("sendMessage starts {}",  sendMessage);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
