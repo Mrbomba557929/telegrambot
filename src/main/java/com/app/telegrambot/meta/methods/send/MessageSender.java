@@ -55,6 +55,8 @@ public class MessageSender implements Senderable {
 
         ResponseEntity<Message> response = restTemplate.postForEntity(url + "/sendMessage", entity, Message.class);
 
+        log.info("response: {}", response);
+
         if ((response.getStatusCodeValue() >= 400 && response.getStatusCodeValue() <= 499) || !response.hasBody()) {
 
             log.error("An error occurred while sending the message.");
