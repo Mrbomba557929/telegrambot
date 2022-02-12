@@ -1,7 +1,7 @@
 package com.app.telegrambot.command.impl;
 
 import com.app.telegrambot.command.Command;
-import com.app.telegrambot.domain.base.response.Update;
+import com.app.telegrambot.domain.bot.response.Update;
 
 public class UnknownCommand implements Command {
 

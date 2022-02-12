@@ -1,8 +1,8 @@
 package com.app.telegrambot.command.impl.module;
 
 import com.app.telegrambot.command.Command;
-import com.app.telegrambot.domain.base.request.SendMessage;
-import com.app.telegrambot.domain.base.response.Update;
+import com.app.telegrambot.domain.bot.request.SendMessage;
+import com.app.telegrambot.domain.bot.response.Update;
 import com.app.telegrambot.domain.entity.ModuleEntity;
 import com.app.telegrambot.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.fms.State;
@@ -30,13 +30,12 @@ public class CreateModuleCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
-            messageSender.sendMessage(SendMessage.builder()
-                    .text(format("%s, введите название модуля.", update.message().from().fio()))
-                    .chatId(update.message().chat().id())
-                    .build());
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText(format("%s, введите название модуля.", update.message().from().fio()));
+            sendMessage.setChatId(update.message().chat().id());
+            messageSender.sendMessage(sendMessage);
 
             stateMachine.start(update.message().from().id(), State.create(this::askForModuleName, ModuleEntity.builder()));
-
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }
@@ -48,13 +47,12 @@ public class CreateModuleCommand implements Command {
 
             ModuleEntity savedModule = moduleService.save(update.message().text(), update.message().from().id());
 
-            messageSender.sendMessage(SendMessage.builder()
-                    .text(format("%s, модуль '%s' успешно создан.", update.message().from().fio(), savedModule.getName()))
-                    .chatId(update.message().chat().id())
-                    .build());
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText(format("%s, модуль '%s' успешно создан.", update.message().from().fio(), savedModule.getName()));
+            sendMessage.setChatId(update.message().chat().id());
+            messageSender.sendMessage(sendMessage);
 
             stateMachine.stop(update.message().from().id());
-
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }

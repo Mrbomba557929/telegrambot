@@ -1,5 +1,7 @@
-package com.app.telegrambot.domain.base;
+package com.app.telegrambot.domain.bot.message;
 
+import com.app.telegrambot.domain.bot.chat.Chat;
+import com.app.telegrambot.domain.bot.user.User;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

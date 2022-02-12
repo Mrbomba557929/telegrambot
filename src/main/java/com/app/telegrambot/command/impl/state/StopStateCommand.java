@@ -1,8 +1,8 @@
 package com.app.telegrambot.command.impl.state;
 
 import com.app.telegrambot.command.Command;
-import com.app.telegrambot.domain.base.request.SendMessage;
-import com.app.telegrambot.domain.base.response.Update;
+import com.app.telegrambot.domain.bot.request.SendMessage;
+import com.app.telegrambot.domain.bot.response.Update;
 import com.app.telegrambot.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.fms.StateMachine;
 import com.app.telegrambot.methods.send.MessageSender;
@@ -26,19 +26,17 @@ public class StopStateCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+            SendMessage sendMessage = new SendMessage();
+
             if (stateMachine.contains(update.message().chat().id())) {
                 stateMachine.stop(update.message().chat().id());
-
-                sender.sendMessage(SendMessage.builder()
-                        .text(format("%s, состояние успешно остановлено.", update.message().from().fio()))
-                        .chatId(update.message().chat().id())
-                        .build());
+                sendMessage.setText(format("%s, состояние успешно остановлено.", update.message().from().fio()));
             } else {
-                sender.sendMessage(SendMessage.builder()
-                        .text("Дядя, ты что - то перепутал.")
-                        .chatId(update.message().chat().id())
-                        .build());
+                sendMessage.setText("Дядя, ты что - то перепутал.");
             }
+
+            sendMessage.setChatId(update.message().chat().id());
+            sender.sendMessage(sendMessage);
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }

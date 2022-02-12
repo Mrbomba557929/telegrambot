@@ -1,7 +1,7 @@
 package com.app.telegrambot.methods.send;
 
-import com.app.telegrambot.domain.base.Message;
-import com.app.telegrambot.domain.base.request.SendMessage;
+import com.app.telegrambot.domain.bot.message.Message;
+import com.app.telegrambot.domain.bot.request.SendMessage;
 import com.app.telegrambot.exception.compiletime.impl.TelegramApiException;
 
 import java.util.concurrent.CompletableFuture;

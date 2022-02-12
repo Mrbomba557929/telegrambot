@@ -1,4 +1,4 @@
-package com.app.telegrambot.domain.base;
+package com.app.telegrambot.domain.bot.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

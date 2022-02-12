@@ -1,4 +1,4 @@
-package com.app.telegrambot.domain.base;
+package com.app.telegrambot.domain.bot.message;
 
 import com.app.telegrambot.domain.еnum.MessageEntityType;
 import com.fasterxml.jackson.annotation.JsonCreator;

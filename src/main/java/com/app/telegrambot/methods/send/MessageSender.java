@@ -1,7 +1,7 @@
 package com.app.telegrambot.methods.send;
 
-import com.app.telegrambot.domain.base.Message;
-import com.app.telegrambot.domain.base.request.SendMessage;
+import com.app.telegrambot.domain.bot.message.Message;
+import com.app.telegrambot.domain.bot.request.SendMessage;
 import com.app.telegrambot.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.exception.factory.ExceptionFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;

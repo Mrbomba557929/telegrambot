@@ -1,10 +1,10 @@
 package com.app.telegrambot;
 
 import com.app.telegrambot.controller.MessageRecipientController;
-import com.app.telegrambot.domain.base.Chat;
-import com.app.telegrambot.domain.base.Message;
-import com.app.telegrambot.domain.base.User;
-import com.app.telegrambot.domain.base.response.Update;
+import com.app.telegrambot.domain.bot.chat.Chat;
+import com.app.telegrambot.domain.bot.message.Message;
+import com.app.telegrambot.domain.bot.user.User;
+import com.app.telegrambot.domain.bot.response.Update;
 import com.app.telegrambot.domain.еnum.ChatType;
 import com.app.telegrambot.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;

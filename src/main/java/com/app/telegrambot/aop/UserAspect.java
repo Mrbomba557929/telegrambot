@@ -1,6 +1,6 @@
 package com.app.telegrambot.aop;
 
-import com.app.telegrambot.domain.base.response.Update;
+import com.app.telegrambot.domain.bot.response.Update;
 import com.app.telegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
@@ -15,7 +15,7 @@ public class UserAspect {
 
     private final UserService userService;
 
-    @Before("execution(* *.execute(com.app.telegrambot.domain.base.response.Update))")
+    @Before("execution(* *.execute(com.app.telegrambot.domain.bot.response.Update))")
     public void saveUserBefore(JoinPoint joinPoint) {
         Update update = (Update) joinPoint.getArgs()[0];
 

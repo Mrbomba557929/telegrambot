@@ -1,6 +1,6 @@
 package com.app.telegrambot.service.impl;
 
-import com.app.telegrambot.domain.base.User;
+import com.app.telegrambot.domain.bot.user.User;
 import com.app.telegrambot.domain.entity.UserEntity;
 import com.app.telegrambot.exception.factory.ExceptionFactory;
 import com.app.telegrambot.exception.runtime.impl.ImpossibleToSaveException;

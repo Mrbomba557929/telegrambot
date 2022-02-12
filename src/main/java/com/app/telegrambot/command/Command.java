@@ -1,6 +1,6 @@
 package com.app.telegrambot.command;
 
-import com.app.telegrambot.domain.base.response.Update;
+import com.app.telegrambot.domain.bot.response.Update;
 
 /**
  * Command interface for handling telegram-bot commands.

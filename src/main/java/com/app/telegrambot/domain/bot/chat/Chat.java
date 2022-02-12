@@ -1,4 +1,4 @@
-package com.app.telegrambot.domain.base;
+package com.app.telegrambot.domain.bot.chat;
 
 import com.app.telegrambot.domain.еnum.ChatType;
 import com.fasterxml.jackson.annotation.JsonCreator;

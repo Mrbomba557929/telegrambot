@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 public enum CommandName {
 
     CREATE_MODULE("/cm"),
-    STOP_STATE("/stop");
+    STOP_STATE("/stop"),
+    SHOW_MENU("/menu");
 
     private final String commandName;
 

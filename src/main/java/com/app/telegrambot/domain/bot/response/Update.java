@@ -1,6 +1,6 @@
-package com.app.telegrambot.domain.base.response;
+package com.app.telegrambot.domain.bot.response;
 
-import com.app.telegrambot.domain.base.Message;
+import com.app.telegrambot.domain.bot.message.Message;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
