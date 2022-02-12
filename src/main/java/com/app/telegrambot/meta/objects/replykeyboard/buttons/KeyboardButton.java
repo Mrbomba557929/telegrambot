@@ -9,9 +9,9 @@ import lombok.Builder;
 
 import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.WITHOUT_MESSAGE;
 
-public record KeyboardButton(@JsonProperty(TEXT) String text) implements Validable {
+public record KeyboardButton(@JsonProperty(TEXT_FIELD) String text) implements Validable {
 
-    private static final String TEXT = "text";
+    private static final String TEXT_FIELD = "text";
 
     @Builder
     public KeyboardButton {

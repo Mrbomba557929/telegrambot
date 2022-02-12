@@ -16,18 +16,18 @@ import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.WITHOU
 public record Message(Long id, User from, Instant date, Chat chat, String text, List<MessageEntity> entities)
         implements Validable {
 
-    private static final String MESSAGE_ID = "message_id";
-    private static final String FROM = "from";
-    private static final String DATE = "date";
-    private static final String CHAT = "chat";
-    private static final String TEXT = "text";
-    private static final String ENTITIES = "entities";
+    private static final String MESSAGE_ID_FIELD = "message_id";
+    private static final String FROM_FIELD = "from";
+    private static final String DATE_FIELD = "date";
+    private static final String CHAT_FIELD = "chat";
+    private static final String TEXT_FIELD = "text";
+    private static final String ENTITIES_FIELD = "entities";
 
     @Builder
     @JsonCreator
-    public Message(@JsonProperty(MESSAGE_ID) Long id, @JsonProperty(FROM) User from,
-                   @JsonProperty(DATE) Integer date, @JsonProperty(CHAT) Chat chat,
-                   @JsonProperty(TEXT) String text, @JsonProperty(ENTITIES) List<MessageEntity> entities) {
+    public Message(@JsonProperty(MESSAGE_ID_FIELD) Long id, @JsonProperty(FROM_FIELD) User from,
+                   @JsonProperty(DATE_FIELD) Integer date, @JsonProperty(CHAT_FIELD) Chat chat,
+                   @JsonProperty(TEXT_FIELD) String text, @JsonProperty(ENTITIES_FIELD) List<MessageEntity> entities) {
         this(id, from, Instant.ofEpochSecond(date), chat, text, entities);
     }
 

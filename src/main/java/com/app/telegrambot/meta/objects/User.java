@@ -7,18 +7,18 @@ import lombok.Builder;
 public record User(Integer id, Boolean isBot, String firstName,
                    String lastName, String username, String languageCode, String fio) {
 
-    private static final String ID = "id";
-    private static final String IS_BOT = "is_bot";
-    private static final String FIRST_NAME = "first_name";
-    private static final String LAST_NAME = "last_name";
-    private static final String USERNAME = "username";
-    private static final String LANGUAGE_CODE = "language_code";
+    private static final String ID_FIELD = "id";
+    private static final String IS_BOT_FILED = "is_bot";
+    private static final String FIRST_NAME_FIELD = "first_name";
+    private static final String LAST_NAME_FIELD = "last_name";
+    private static final String USERNAME_FIELD = "username";
+    private static final String LANGUAGE_CODE_FIELD = "language_code";
 
     @Builder
     @JsonCreator
-    public User(@JsonProperty(ID) Integer id, @JsonProperty(IS_BOT) Boolean isBot,
-                @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName,
-                @JsonProperty(USERNAME) String username, @JsonProperty(LANGUAGE_CODE) String languageCode) {
+    public User(@JsonProperty(ID_FIELD) Integer id, @JsonProperty(IS_BOT_FILED) Boolean isBot,
+                @JsonProperty(FIRST_NAME_FIELD) String firstName, @JsonProperty(LAST_NAME_FIELD) String lastName,
+                @JsonProperty(USERNAME_FIELD) String username, @JsonProperty(LANGUAGE_CODE_FIELD) String languageCode) {
         this(id, isBot, firstName, lastName, username, languageCode, String.format("%s %s", firstName, lastName));
     }
 }
