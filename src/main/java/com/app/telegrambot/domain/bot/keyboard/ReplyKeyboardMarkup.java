@@ -11,11 +11,11 @@ import java.util.List;
 public class ReplyKeyboardMarkup extends ReplyKeyboard {
 
     @JsonProperty("keyboard")
-    private final List<KeyboardRow> keyboard;
+    private List<KeyboardRow> keyboard;
 
     @JsonProperty("resize_keyboard")
-    private final boolean resizeKeyboard;
+    private boolean resizeKeyboard;
 
     @JsonProperty("selective")
-    private final boolean selective;
+    private boolean selective;
 }
