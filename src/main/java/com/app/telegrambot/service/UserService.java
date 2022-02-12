@@ -23,4 +23,12 @@ public interface UserService {
      * @return saved the {@link UserEntity} entity.
      */
     UserEntity save(User user);
+
+    /**
+     * Method for finding the {@link UserEntity} by the id.
+     *
+     * @param id - the id of the {@link UserEntity}.
+     * @return found the {@link UserEntity}.
+     */
+    UserEntity findById(Integer id);
 }

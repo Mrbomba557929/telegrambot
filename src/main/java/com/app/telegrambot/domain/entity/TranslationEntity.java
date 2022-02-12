@@ -1,25 +1,31 @@
 package com.app.telegrambot.domain.entity;
 
-import com.app.telegrambot.domain.entity.ref.WordRef;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@Table(value = "translations")
+@Getter
+@Setter
+@Entity
+@Table(name = "translations")
 public class TranslationEntity {
 
     @Id
-    @Column(value = "translation")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "translation")
     private String translation;
 
-    @MappedCollection(idColumn = "translation")
-    private Set<WordRef> words;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "words_translations",
+            joinColumns = @JoinColumn(name = "translation_id"),
+            inverseJoinColumns = @JoinColumn(name = "word_id")
+    )
+    private Set<WordEntity> words;
 }

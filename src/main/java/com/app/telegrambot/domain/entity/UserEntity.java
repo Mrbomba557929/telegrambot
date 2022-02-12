@@ -1,39 +1,38 @@
 package com.app.telegrambot.domain.entity;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@Table(value = "users")
+@Getter
+@Setter
+@Entity
+@Table(name = "users")
 public class UserEntity {
 
     @Id
-    @Column(value = "id")
+    @Column(name = "id")
     private int id;
 
-    @Column(value = "first_name")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(value = "last_name")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(value = "username")
+    @Column(name = "username")
     private String username;
 
-    @Column(value = "language_code")
+    @Column(name = "language_code")
     private String languageCode;
 
-    @Column(value = "is_bot")
+    @Column(name = "is_bot")
     private boolean isBot;
 
-    @MappedCollection(idColumn = "user_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<ModuleEntity> modules;
 }

@@ -18,43 +18,32 @@ CREATE TABLE modules
 
 CREATE TABLE words
 (
-    word VARCHAR(45) PRIMARY KEY
+    id SERIAL PRIMARY KEY,
+    word VARCHAR(45),
+    module_id INTEGER
 );
 
 CREATE TABLE translations
 (
-    translation VARCHAR(50) PRIMARY KEY
+    id SERIAL PRIMARY KEY,
+    translation VARCHAR(50) UNIQUE
 );
 
 CREATE TABLE words_translations
 (
-    word VARCHAR(45),
-    translation VARCHAR(50),
-    user_id INTEGER,
-    PRIMARY KEY (word, translation, user_id)
-);
-
-CREATE TABLE modules_words
-(
-    module_id INTEGER,
-    word VARCHAR(45),
-    PRIMARY KEY (module_id, word)
+    word_id INTEGER,
+    translation_id INTEGER,
+    PRIMARY KEY (word_id, translation_id)
 );
 
 ALTER TABLE modules
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
 ALTER TABLE words_translations
-    ADD FOREIGN KEY (word) REFERENCES words (word);
+    ADD FOREIGN KEY (word_id) REFERENCES words (id);
 
 ALTER TABLE words_translations
-    ADD FOREIGN KEY (translation) REFERENCES translations (translation);
+    ADD FOREIGN KEY (translation_id) REFERENCES translations (id);
 
-ALTER TABLE words_translations
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
-
-ALTER TABLE modules_words
+ALTER TABLE words
     ADD FOREIGN KEY (module_id) REFERENCES modules (id);
-
-ALTER TABLE modules_words
-    ADD FOREIGN KEY (word) REFERENCES words (word);

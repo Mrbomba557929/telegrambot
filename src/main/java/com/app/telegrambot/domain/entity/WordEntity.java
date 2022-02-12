@@ -1,34 +1,35 @@
 package com.app.telegrambot.domain.entity;
 
-import com.app.telegrambot.domain.entity.ref.TranslationRef;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Persistent;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.List;
+import javax.persistence.*;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@Table(value = "words")
+@Getter
+@Setter
+@Entity
+@Table(name = "words")
 public class WordEntity {
 
     @Id
-    @Column(value = "word")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "word")
     private String word;
 
-    @MappedCollection(idColumn = "word")
-    private Set<TranslationRef> translations;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "module_id")
+    private ModuleEntity module;
 
-    /**
-     A list of translations that belong to the word but have not yet been saved to the database.
-     It is expected that these translations will be saved later.
-     */
-    @Persistent
-    private List<TranslationEntity> unsavedTranslationsEntities;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "words_translations",
+            joinColumns = @JoinColumn(name = "word_id"),
+            inverseJoinColumns = @JoinColumn(name = "translation_id")
+    )
+    private Set<TranslationEntity> translations;
 }

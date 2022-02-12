@@ -34,7 +34,7 @@ public class ModuleMapper implements Mapper<ModuleEntity, ModuleDto> {
         return ModuleDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .createdAt(entity.getCreatedAt())
+                .createdAt(null)
                 .words(null)
                 .build();
     }

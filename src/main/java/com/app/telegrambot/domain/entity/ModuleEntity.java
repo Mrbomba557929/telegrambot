@@ -1,43 +1,36 @@
 package com.app.telegrambot.domain.entity;
 
-import com.app.telegrambot.domain.entity.ref.UserWordRef;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Persistent;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
-@Table(value = "modules")
+@Getter
+@Setter
+@Entity
+@Table(name = "modules")
 public class ModuleEntity {
 
     @Id
-    @Column(value = "id")
+    @Column(name = "id")
     private int id;
 
-    @Column(value = "name")
+    @Column(name = "name")
     private String name;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(value = "created_at")
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @MappedCollection(idColumn = "user_id")
-    private Set<UserEntity> users;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity user;
 
-    @MappedCollection(idColumn = "module_id")
-    private Set<UserWordRef> words;
-
-    @Persistent
-    private List<WordEntity> unsavedWordsEntities;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "module", cascade = CascadeType.ALL)
+    private Set<WordEntity> words;
 }
