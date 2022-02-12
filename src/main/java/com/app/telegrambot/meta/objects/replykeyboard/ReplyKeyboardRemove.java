@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReplyKeyboardRemove implements ReplyKeyboard {
+public class ReplyKeyboardRemove implements Keyboard {
 
     private static final String REMOVE_KEYBOARD_FIELD = "remove_keyboard";
     private static final String SELECTIVE_FIELD = "selective";

@@ -5,7 +5,9 @@ import com.app.telegrambot.meta.methods.send.SendMessage;
 import com.app.telegrambot.meta.methods.get.Update;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.methods.send.MessageSender;
+import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
 import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboardMarkup;
+import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
 import com.app.telegrambot.meta.objects.replykeyboard.buttons.KeyboardRow;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,24 +26,25 @@ public class ShowMenuCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+            // TODO: сделать inline keyboard вместо reply
             SendMessage sendMessage = new SendMessage();
             sendMessage.setText("Привет, выбери интересующую опицию.");
             sendMessage.setChatId(update.message().chat().id());
 
-            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-            List<KeyboardRow> keyboardRows = new ArrayList<>();
+            List<List<InlineKeyboardButton>> inlineButtons = new ArrayList<>();
+            List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
+            InlineKeyboardButton button1 = InlineKeyboardButton.builder()
+                    .text("Создать модуль")
+                    .callbackData("/cm")
+                    .build();
+            inlineKeyboardButtons.add(button1);
+            inlineButtons.add(inlineKeyboardButtons);
 
-            KeyboardRow keyboardRow = new KeyboardRow();
-            keyboardRow.add("/cm");
+            inlineKeyboardMarkup.setInlineKeyboard(inlineButtons);
 
-            keyboardRows.add(keyboardRow);
-
-            replyKeyboardMarkup.setKeyboard(keyboardRows);
-            replyKeyboardMarkup.setResizeKeyboard(true);
-            replyKeyboardMarkup.setSelective(true);
-
-            sendMessage.setReplyMarkup(replyKeyboardMarkup);
+            sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
             sender.sendMessage(sendMessage);
         } catch (TelegramApiException e) {

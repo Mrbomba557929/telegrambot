@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReplyKeyboardMarkup implements ReplyKeyboard {
+public class ReplyKeyboardMarkup implements Keyboard {
 
     private static final String KEYBOARD_FIELD = "keyboard";
     private static final String RESIZE_KEYBOARD_FIELD = "resize_keyboard";

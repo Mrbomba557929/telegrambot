@@ -1,7 +1,6 @@
 package com.app.telegrambot.meta.methods.send;
 
-import com.app.telegrambot.meta.objects.CallbackQuery;
-import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboard;
+import com.app.telegrambot.meta.objects.replykeyboard.Keyboard;
 import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboardRemove;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -27,7 +26,7 @@ public class SendMessage {
     private String text;
 
     @JsonProperty(REPLY_MARKUP_FIELD)
-    private ReplyKeyboard replyMarkup;
+    private Keyboard replyMarkup;
 
     public SendMessage() {
         ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
