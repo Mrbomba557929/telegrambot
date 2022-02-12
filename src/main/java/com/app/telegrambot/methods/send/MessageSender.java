@@ -45,6 +45,7 @@ public class MessageSender implements Senderable {
         HttpEntity<String> entity;
 
         try {
+            log.info("{}", objectMapper.writeValueAsString(sendMessage));
             entity = new HttpEntity<>(objectMapper.writeValueAsString(sendMessage), headers);
         } catch (JsonProcessingException e) {
             throw ExceptionFactory.exceptionBuilder(e.getMessage())
