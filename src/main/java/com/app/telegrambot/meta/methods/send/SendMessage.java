@@ -26,5 +26,6 @@ public class SendMessage {
     private String text;
 
     @JsonProperty(REPLY_MARKUP)
+    @JsonDeserialize
     private ReplyKeyboard replyMarkup;
 }

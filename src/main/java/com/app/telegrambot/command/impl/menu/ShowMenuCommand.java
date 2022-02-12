@@ -38,6 +38,8 @@ public class ShowMenuCommand implements Command {
             keyboardRows.add(keyboardRow);
 
             replyKeyboardMarkup.setKeyboard(keyboardRows);
+            replyKeyboardMarkup.setResizeKeyboard(true);
+            replyKeyboardMarkup.setSelective(true);
 
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
