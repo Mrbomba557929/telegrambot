@@ -21,7 +21,7 @@ import static java.lang.String.format;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CreateModuleCommand extends Command {
+public class CreateModuleCommand implements Command {
 
     private final StateMachine stateMachine;
     private final MessageSender messageSender;

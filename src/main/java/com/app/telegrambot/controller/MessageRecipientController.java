@@ -29,13 +29,13 @@ public class MessageRecipientController {
         if (update.hasMessage() && update.message().hasText()) {
             String message = update.message().text().trim();
 
-            if (stateMachine.contains(update.message().from().id())) {
-                stateMachine.retrieve(update.message().from().id())
-                        .transition()
-                        .execute(update);
-            } else if (message.startsWith(COMMAND_PREFIX)) {
+            if (message.startsWith(COMMAND_PREFIX)) {
                 TelegramBotContextHolder.UPDATE = update;
                 commandContainer.retrieve(CommandName.fromText(message))
+                        .execute(update);
+            } else if (stateMachine.contains(update.message().from().id())) {
+                stateMachine.retrieve(update.message().from().id())
+                        .transition()
                         .execute(update);
             }
         }
