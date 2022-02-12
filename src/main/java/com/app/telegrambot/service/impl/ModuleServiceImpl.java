@@ -27,7 +27,7 @@ public class ModuleServiceImpl implements ModuleService {
     private final UserService userService;
 
     @Override
-    public ModuleEntity save(String name, Integer userId) {
+    public ModuleEntity save(String name, Long userId) {
         try {
             ModuleEntity moduleEntity = ModuleEntity.builder()
                     .name(name)

@@ -19,7 +19,7 @@ public class UserAspect {
     public void saveUserBefore(JoinPoint joinPoint) {
         Update update = (Update) joinPoint.getArgs()[0];
 
-        if (!userService.existsById(update.message().from().id())) {
+        if (!userService.existsById(update.message().from().idLong())) {
             userService.save(update.message().from());
         }
     }

@@ -14,7 +14,7 @@ public interface UserService {
      * @param id - the id of the {@link UserEntity}.
      * @return true - exist, false - not exist.
      */
-    boolean existsById(Integer id);
+    boolean existsById(Long id);
 
     /**
      * Method for saving the {@link UserEntity} entity.
@@ -30,5 +30,5 @@ public interface UserService {
      * @param id - the id of the {@link UserEntity}.
      * @return found the {@link UserEntity}.
      */
-    UserEntity findById(Integer id);
+    UserEntity findById(Long id);
 }

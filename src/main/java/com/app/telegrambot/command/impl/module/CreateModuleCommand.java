@@ -35,7 +35,7 @@ public class CreateModuleCommand implements Command {
             sendMessage.setChatId(update.message().chat().id());
             messageSender.sendMessage(sendMessage);
 
-            stateMachine.start(update.message().from().id(), State.create(this::askForModuleName, ModuleEntity.builder()));
+            stateMachine.start(update.message().from().idLong(), State.create(this::askForModuleName, ModuleEntity.builder()));
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }
@@ -45,14 +45,14 @@ public class CreateModuleCommand implements Command {
         try {
             log.info("Начало работы askForModuleName метода. Имя модуля: {}", update.message().text());
 
-            ModuleEntity savedModule = moduleService.save(update.message().text(), update.message().from().id());
+            ModuleEntity savedModule = moduleService.save(update.message().text(), update.message().from().idLong());
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setText(format("%s, модуль '%s' успешно создан.", update.message().from().fio(), savedModule.getName()));
             sendMessage.setChatId(update.message().chat().id());
             messageSender.sendMessage(sendMessage);
 
-            stateMachine.stop(update.message().from().id());
+            stateMachine.stop(update.message().from().idLong());
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }

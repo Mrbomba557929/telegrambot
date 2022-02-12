@@ -14,28 +14,28 @@ import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 @Component
 public class StateMachine {
 
-    private final Map<Integer, State> stateMap = new HashMap<>();
+    private final Map<Long, State> stateMap = new HashMap<>();
 
-    public void start(Integer chatId, State state) {
-        stateMap.put(chatId, state);
+    public void start(Long fromId, State state) {
+        stateMap.put(fromId, state);
     }
 
-    public void transition(Integer chatId, Transition transition) {
+    public void transition(Long fromId, Transition transition) {
 
-        if (!stateMap.containsKey(chatId)) {
+        if (!stateMap.containsKey(fromId)) {
             throw ExceptionFactory.exceptionBuilder("Error: State not found!")
                     .status(EXPECTATION_FAILED)
                     .link("StateMachine/retrieve")
                     .buildRuntime(NotFoundException.class);
         }
 
-        stateMap.put(chatId, State.create(transition, stateMap.get(chatId).builder()));
+        stateMap.put(fromId, State.create(transition, stateMap.get(fromId).builder()));
     }
 
-    public State retrieve(Integer chatId) {
+    public State retrieve(Long fromId) {
 
-        if (stateMap.containsKey(chatId)) {
-            return stateMap.get(chatId);
+        if (stateMap.containsKey(fromId)) {
+            return stateMap.get(fromId);
         }
 
         throw ExceptionFactory.exceptionBuilder("Error: State not found!")
@@ -44,11 +44,11 @@ public class StateMachine {
                 .buildRuntime(NotFoundException.class);
     }
 
-    public void stop(Integer chatId) {
-        stateMap.remove(chatId);
+    public void stop(Long fromId) {
+        stateMap.remove(fromId);
     }
 
-    public boolean contains(Integer chatId) {
-        return stateMap.containsKey(chatId);
+    public boolean contains(Long fromId) {
+        return stateMap.containsKey(fromId);
     }
 }

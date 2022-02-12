@@ -15,5 +15,5 @@ public interface ModuleService {
      * @param userId - the id of the {@link UserEntity}.
      * @return saved the {@link ModuleEntity}.
      */
-    ModuleEntity save(String name, Integer userId);
+    ModuleEntity save(String name, Long userId);
 }

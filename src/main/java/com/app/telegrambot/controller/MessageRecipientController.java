@@ -41,8 +41,8 @@ public class MessageRecipientController {
                 TelegramBotContextHolder.UPDATE = update;
                 commandContainer.retrieve(CommandName.fromText(message))
                         .execute(update);
-            } else if (stateMachine.contains(update.message().from().id())) {
-                stateMachine.retrieve(update.message().from().id())
+            } else if (stateMachine.contains(update.message().from().idLong())) {
+                stateMachine.retrieve(update.message().from().idLong())
                         .transition()
                         .execute(update);
             }

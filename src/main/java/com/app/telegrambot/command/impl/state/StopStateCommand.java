@@ -28,8 +28,8 @@ public class StopStateCommand implements Command {
         try {
             SendMessage sendMessage = new SendMessage();
 
-            if (stateMachine.contains(update.message().chat().id())) {
-                stateMachine.stop(update.message().chat().id());
+            if (stateMachine.contains(update.message().from().idLong())) {
+                stateMachine.stop(update.message().from().idLong());
                 sendMessage.setText(format("%s, состояние успешно остановлено.", update.message().from().fio()));
             } else {
                 sendMessage.setText("Дядя, ты что - то перепутал.");

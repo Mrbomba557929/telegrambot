@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity save(User user) {
         try {
             UserEntity userEntity = UserEntity.builder()
-                    .id(user.id())
+                    .id(user.idLong())
                     .firstName(user.firstName())
                     .lastName(user.lastName())
                     .username(user.username())
@@ -43,12 +43,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean existsById(Integer id) {
+    public boolean existsById(Long id) {
         return userRepository.existsById(id);
     }
 
     @Override
-    public UserEntity findById(Integer id) {
+    public UserEntity findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Error: user not found!")
                         .status(EXPECTATION_FAILED)

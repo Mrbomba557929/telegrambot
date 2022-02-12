@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query(value = """
             SELECT
@@ -21,5 +21,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
                 ELSE false
             END
             """, nativeQuery = true)
-    boolean existsById(@Param("id") Integer id);
+    boolean existsById(@Param("id") Long id);
 }
