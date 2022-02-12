@@ -11,10 +11,6 @@ import java.lang.reflect.InvocationTargetException;
 @Component
 public class ExceptionFactory {
 
-    public static Builder exceptionBuilder(ExceptionMessage message) {
-        return new Builder(message);
-    }
-
     public static Builder exceptionBuilder(String message) {
         return new Builder(message);
     }
@@ -22,13 +18,8 @@ public class ExceptionFactory {
     public static class Builder {
 
         private final String message;
-
         private HttpStatus status;
         private String link;
-
-        public Builder(ExceptionMessage message) {
-            this.message = message.getMessage();
-        }
 
         public Builder(String message) {
             this.message = message;
