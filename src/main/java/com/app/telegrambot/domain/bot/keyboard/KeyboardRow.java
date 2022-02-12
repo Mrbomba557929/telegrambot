@@ -1,11 +1,15 @@
 package com.app.telegrambot.domain.bot.keyboard;
 
-import lombok.RequiredArgsConstructor;
-
+import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
-public record KeyboardRow(List<KeyboardButton> keyboardButtons) {
+public class KeyboardRow {
+
+    private final List<KeyboardButton> keyboardButtons;
+
+    public KeyboardRow() {
+        keyboardButtons = new ArrayList<>();
+    }
 
     public boolean add(String text) {
         keyboardButtons.add(KeyboardButton.builder()
