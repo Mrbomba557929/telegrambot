@@ -1,7 +1,7 @@
 package com.app.telegrambot.meta.methods.send;
 
 import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboard;
-import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboardMarkup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SendMessage {
@@ -26,10 +27,6 @@ public class SendMessage {
     private String text;
 
     @JsonProperty(REPLY_MARKUP)
-    @JsonDeserialize
+    @JsonIgnore
     private ReplyKeyboard replyMarkup;
-
-    public SendMessage() {
-        replyMarkup = new ReplyKeyboardMarkup();
-    }
 }
