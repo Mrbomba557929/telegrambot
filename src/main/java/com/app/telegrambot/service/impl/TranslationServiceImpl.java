@@ -8,7 +8,6 @@ import com.app.telegrambot.service.TranslationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.NOT_FOUND_TRANSLATION;
 import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 /**
@@ -24,7 +23,7 @@ public class TranslationServiceImpl implements TranslationService {
     public TranslationEntity findByTranslation(String translation) {
         return translationRepository.findByTranslation(translation)
                 .orElseThrow(() ->
-                        ExceptionFactory.exceptionBuilder(NOT_FOUND_TRANSLATION)
+                        ExceptionFactory.exceptionBuilder("Error: translation not found!")
                                 .status(EXPECTATION_FAILED)
                                 .link("TranslationServiceImpl/findByTranslation")
                                 .buildRuntime(NotFoundException.class)

@@ -25,7 +25,7 @@ public class ShowMenuCommand implements Command {
     public void execute(Update update) {
         try {
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setText("Hello, please select one option.");
+            sendMessage.setText("Привет, выбери интересующую опицию.");
             sendMessage.setChatId(update.message().chat().id());
 
             ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -33,7 +33,7 @@ public class ShowMenuCommand implements Command {
             List<KeyboardRow> keyboardRows = new ArrayList<>();
 
             KeyboardRow keyboardRow = new KeyboardRow();
-            keyboardRow.add("all modules");
+            keyboardRow.add("/cm");
 
             keyboardRows.add(keyboardRow);
 

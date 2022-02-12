@@ -1,5 +1,6 @@
 package com.app.telegrambot.meta.methods.send;
 
+import com.app.telegrambot.meta.objects.CallbackQuery;
 import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboard;
 import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboardRemove;
 import com.fasterxml.jackson.annotation.JsonProperty;

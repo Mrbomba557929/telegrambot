@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.NOT_FOUND_USER;
 import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 @Slf4j
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findById(Integer id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> ExceptionFactory.exceptionBuilder(NOT_FOUND_USER)
+                .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Error: user not found!")
                         .status(EXPECTATION_FAILED)
                         .link("UserServiceImpl/findById")
                         .buildRuntime(NotFoundException.class));

@@ -8,7 +8,6 @@ import com.app.telegrambot.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.NOT_FOUND_WORD;
 import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 /**
@@ -24,7 +23,7 @@ public class WordServiceImpl implements WordService {
     public WordEntity findByWord(String word) {
         return wordRepository.findByWord(word)
                 .orElseThrow(() ->
-                        ExceptionFactory.exceptionBuilder(NOT_FOUND_WORD)
+                        ExceptionFactory.exceptionBuilder("Error: word not found!")
                                 .status(EXPECTATION_FAILED)
                                 .link("WordServiceImpl/findByWord")
                                 .buildRuntime(NotFoundException.class)

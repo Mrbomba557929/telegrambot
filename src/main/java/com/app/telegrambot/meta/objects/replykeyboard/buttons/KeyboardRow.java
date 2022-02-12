@@ -1,7 +1,5 @@
 package com.app.telegrambot.meta.objects.replykeyboard.buttons;
 
-import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiValidationException;
-import com.app.telegrambot.meta.interfaces.Validable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable {
+public class KeyboardRow extends ArrayList<KeyboardButton> {
 
     public KeyboardRow(int initialCapacity) {
         super(initialCapacity);
@@ -53,12 +51,5 @@ public class KeyboardRow extends ArrayList<KeyboardButton> implements Validable 
 
     public boolean remove(String text) {
         return super.remove(new KeyboardButton(text));
-    }
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        for (KeyboardButton button : this) {
-            button.validate();
-        }
     }
 }

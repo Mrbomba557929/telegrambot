@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     public void handleApplicationRuntimeException(ApplicationRuntimeException e) {
         try {
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setText("An error has occurred. Try again.");
+            sendMessage.setText("Произошла какая то ошибка. Попробуйте еще раз выполнить предыдущее действие.");
             sendMessage.setChatId(TelegramBotContextHolder.UPDATE.message().chat().id());
             sender.sendMessage(sendMessage);
         } catch (TelegramApiException ex) {

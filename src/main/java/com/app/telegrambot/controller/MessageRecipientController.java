@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @Slf4j
 @CrossOrigin
 @RestController
@@ -26,9 +28,15 @@ public class MessageRecipientController {
     public void onUpdateReceived(@NonNull @RequestBody Update update) {
         log.info("Пришёл update: {}", update);
 
-        if (update.hasMessage() && update.message().hasText()) {
-            String message = update.message().text().trim();
+        String message = null;
 
+        if (update.hasCallBackQuery()) {
+            message = update.callbackQuery().data();
+        } else if (update.hasMessage() && update.message().hasText()) {
+            message = update.message().text().trim();
+        }
+
+        if (Objects.nonNull(message)) {
             if (message.startsWith(COMMAND_PREFIX)) {
                 TelegramBotContextHolder.UPDATE = update;
                 commandContainer.retrieve(CommandName.fromText(message))

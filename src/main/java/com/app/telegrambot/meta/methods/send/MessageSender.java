@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.ERROR_SENDING_MESSAGE;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 
 @Slf4j
@@ -61,7 +60,7 @@ public class MessageSender implements Senderable {
 
             log.error("An error occurred while sending the message.");
 
-            throw ExceptionFactory.exceptionBuilder(ERROR_SENDING_MESSAGE)
+            throw ExceptionFactory.exceptionBuilder("An error occurred while sending the message.")
                     .status(response.getStatusCode())
                     .link("Command/sendMessage")
                     .buildCompileTime(TelegramApiException.class);

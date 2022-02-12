@@ -1,8 +1,5 @@
 package com.app.telegrambot.meta.objects;
 
-import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiValidationException;
-import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
-import com.app.telegrambot.meta.interfaces.Validable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -11,10 +8,7 @@ import org.apache.logging.log4j.util.Strings;
 import java.time.Instant;
 import java.util.List;
 
-import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.WITHOUT_MESSAGE;
-
-public record Message(Long id, User from, Instant date, Chat chat, String text, List<MessageEntity> entities)
-        implements Validable {
+public record Message(Long id, User from, Instant date, Chat chat, String text, List<MessageEntity> entities) {
 
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String FROM_FIELD = "from";
@@ -33,14 +27,5 @@ public record Message(Long id, User from, Instant date, Chat chat, String text, 
 
     public boolean hasText() {
         return Strings.isNotBlank(text) && Strings.isNotEmpty(text);
-    }
-
-    @Override
-    public void validate() throws TelegramApiValidationException {
-        if (com.google.common.base.Strings.isNullOrEmpty(text)) {
-            throw ExceptionFactory.exceptionBuilder(WITHOUT_MESSAGE)
-                    .link("Message/validate")
-                    .buildCompileTime(TelegramApiValidationException.class);
-        }
     }
 }
