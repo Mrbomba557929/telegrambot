@@ -19,7 +19,6 @@ import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.WITHOU
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ReplyKeyboardMarkup implements ReplyKeyboard, Validable {

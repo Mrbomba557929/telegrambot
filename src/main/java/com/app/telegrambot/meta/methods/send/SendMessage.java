@@ -11,7 +11,6 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SendMessage {
