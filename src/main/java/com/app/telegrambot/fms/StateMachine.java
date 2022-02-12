@@ -16,8 +16,20 @@ public class StateMachine {
 
     private final Map<Integer, State> stateMap = new HashMap<>();
 
-    public void transition(Integer chatId, State state) {
+    public void start(Integer chatId, State state) {
         stateMap.put(chatId, state);
+    }
+
+    public void transition(Integer chatId, Transition transition) {
+
+        if (!stateMap.containsKey(chatId)) {
+            throw ExceptionFactory.exceptionBuilder("Error: State not found!")
+                    .status(EXPECTATION_FAILED)
+                    .link("StateMachine/retrieve")
+                    .buildRuntime(NotFoundException.class);
+        }
+
+        stateMap.put(chatId, State.create(transition, stateMap.get(chatId).builder()));
     }
 
     public State retrieve(Integer chatId) {
@@ -32,7 +44,7 @@ public class StateMachine {
                 .buildRuntime(NotFoundException.class);
     }
 
-    public void remove(Integer chatId) {
+    public void stop(Integer chatId) {
         stateMap.remove(chatId);
     }
 

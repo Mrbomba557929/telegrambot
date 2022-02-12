@@ -30,16 +30,12 @@ public class CreateModuleCommand extends Command {
     @Override
     public void execute(Update update) {
         try {
-            String name = format("%s %s", update.message().from().firstName(), update.message().from().lastName());
-
             messageSender.sendMessage(SendMessage.builder()
-                    .text(format("%s, введите название модуля.", name))
+                    .text(format("%s, введите название модуля.", update.message().from().fio()))
                     .chatId(update.message().chat().id())
                     .build());
 
-            stateMachine.transition(
-                    update.message().from().id(),
-                    State.create(this::askForModuleName, ModuleEntity.builder()));
+            stateMachine.start(update.message().from().id(), State.create(this::askForModuleName, ModuleEntity.builder()));
 
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
@@ -48,20 +44,16 @@ public class CreateModuleCommand extends Command {
 
     public void askForModuleName(Update update) {
         try {
-            log.info("Начало работы askForModuleName метода");
+            log.info("Начало работы askForModuleName метода. Имя модуля: {}", update.message().text());
 
-            String moduleName = update.message().text();
-
-            log.info("Имя модуля: {}", moduleName);
-
-            ModuleEntity savedModule = moduleService.save(moduleName, update.message().from().id());
+            ModuleEntity savedModule = moduleService.save(update.message().text(), update.message().from().id());
 
             messageSender.sendMessage(SendMessage.builder()
-                    .text(format("%s, модуль %s успешно создан.", update.message().from().username(), savedModule.getName()))
+                    .text(format("%s, модуль '%s' успешно создан.", update.message().from().fio(), savedModule.getName()))
                     .chatId(update.message().chat().id())
                     .build());
 
-            stateMachine.remove(update.message().from().id());
+            stateMachine.stop(update.message().from().id());
 
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
