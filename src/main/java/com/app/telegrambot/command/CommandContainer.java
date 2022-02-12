@@ -2,10 +2,13 @@ package com.app.telegrambot.command;
 
 import com.app.telegrambot.command.impl.UnknownCommand;
 import com.app.telegrambot.command.impl.module.CreateModuleCommand;
-import com.app.telegrambot.domain.еnum.CommandName;
+import com.app.telegrambot.command.impl.state.StopStateCommand;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static com.app.telegrambot.command.CommandName.CREATE_MODULE;
+import static com.app.telegrambot.command.CommandName.STOP_STATE;
 
 @Component
 public class CommandContainer {
@@ -13,9 +16,10 @@ public class CommandContainer {
     private final ImmutableMap<CommandName, Command> commands;
 
     @Autowired
-    public CommandContainer(CreateModuleCommand createModuleCommand) {
+    public CommandContainer(CreateModuleCommand createModuleCommand, StopStateCommand stopStateCommand) {
         commands = ImmutableMap.<CommandName, Command>builder()
-                .put(CommandName.CREATE_MODULE, createModuleCommand)
+                .put(CREATE_MODULE, createModuleCommand)
+                .put(STOP_STATE, stopStateCommand)
                 .build();
     }
 

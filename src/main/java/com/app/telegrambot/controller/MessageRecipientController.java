@@ -3,7 +3,7 @@ package com.app.telegrambot.controller;
 import com.app.telegrambot.command.CommandContainer;
 import com.app.telegrambot.context.TelegramBotContextHolder;
 import com.app.telegrambot.domain.base.response.Update;
-import com.app.telegrambot.domain.еnum.CommandName;
+import com.app.telegrambot.command.CommandName;
 import com.app.telegrambot.fms.StateMachine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

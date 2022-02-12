@@ -1,11 +1,12 @@
-package com.app.telegrambot.domain.еnum;
+package com.app.telegrambot.command;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum CommandName {
 
-    CREATE_MODULE("/cm");
+    CREATE_MODULE("/cm"),
+    STOP_STATE("/stop");
 
     private final String commandName;
 
