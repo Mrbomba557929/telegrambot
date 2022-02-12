@@ -1,5 +1,6 @@
 package com.app.telegrambot.meta.methods.send;
 
+import com.app.telegrambot.meta.interfaces.TelegramBot;
 import com.app.telegrambot.meta.objects.replykeyboard.Keyboard;
 import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboardRemove;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +14,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @Builder
-public class SendMessage {
+public class SendMessage implements TelegramBot {
 
     private static final String CHAT_ID_FIELD = "chat_id";
     private static final String TEXT_FIELD = "text";
