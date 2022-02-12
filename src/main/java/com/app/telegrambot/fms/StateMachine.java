@@ -1,7 +1,7 @@
 package com.app.telegrambot.fms;
 
-import com.app.telegrambot.exception.runtime.impl.NotFoundException;
-import com.app.telegrambot.exception.factory.ExceptionFactory;
+import com.app.telegrambot.meta.exception.runtime.impl.NotFoundException;
+import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 

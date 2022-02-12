@@ -1,10 +1,10 @@
 package com.app.telegrambot.service.impl;
 
-import com.app.telegrambot.domain.bot.user.User;
+import com.app.telegrambot.meta.objects.User;
 import com.app.telegrambot.domain.entity.UserEntity;
-import com.app.telegrambot.exception.factory.ExceptionFactory;
-import com.app.telegrambot.exception.runtime.impl.ImpossibleToSaveException;
-import com.app.telegrambot.exception.runtime.impl.NotFoundException;
+import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
+import com.app.telegrambot.meta.exception.runtime.impl.ImpossibleToSaveException;
+import com.app.telegrambot.meta.exception.runtime.impl.NotFoundException;
 import com.app.telegrambot.repository.UserRepository;
 import com.app.telegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import static com.app.telegrambot.exception.factory.ExceptionMessage.NOT_FOUND_USER;
+import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.NOT_FOUND_USER;
 import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 @Slf4j

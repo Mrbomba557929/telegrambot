@@ -1,6 +1,6 @@
 package com.app.telegrambot.service;
 
-import com.app.telegrambot.domain.bot.user.User;
+import com.app.telegrambot.meta.objects.User;
 import com.app.telegrambot.domain.entity.UserEntity;
 
 /**

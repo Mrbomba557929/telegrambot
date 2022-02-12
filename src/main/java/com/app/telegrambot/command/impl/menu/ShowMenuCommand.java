@@ -1,12 +1,12 @@
 package com.app.telegrambot.command.impl.menu;
 
 import com.app.telegrambot.command.Command;
-import com.app.telegrambot.domain.bot.keyboard.KeyboardRow;
-import com.app.telegrambot.domain.bot.keyboard.ReplyKeyboardMarkup;
-import com.app.telegrambot.domain.bot.request.SendMessage;
-import com.app.telegrambot.domain.bot.response.Update;
-import com.app.telegrambot.exception.compiletime.impl.TelegramApiException;
-import com.app.telegrambot.methods.send.MessageSender;
+import com.app.telegrambot.meta.methods.send.SendMessage;
+import com.app.telegrambot.meta.methods.get.Update;
+import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
+import com.app.telegrambot.meta.methods.send.MessageSender;
+import com.app.telegrambot.meta.objects.replykeyboard.ReplyKeyboardMarkup;
+import com.app.telegrambot.meta.objects.replykeyboard.buttons.KeyboardRow;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package com.app.telegrambot.fms;
 
-import com.app.telegrambot.domain.bot.response.Update;
+import com.app.telegrambot.meta.methods.get.Update;
 
 @FunctionalInterface
 public interface Transition {

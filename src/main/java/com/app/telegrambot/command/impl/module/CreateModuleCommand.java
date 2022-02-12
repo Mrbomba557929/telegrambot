@@ -1,13 +1,13 @@
 package com.app.telegrambot.command.impl.module;
 
 import com.app.telegrambot.command.Command;
-import com.app.telegrambot.domain.bot.request.SendMessage;
-import com.app.telegrambot.domain.bot.response.Update;
+import com.app.telegrambot.meta.methods.send.SendMessage;
+import com.app.telegrambot.meta.methods.get.Update;
 import com.app.telegrambot.domain.entity.ModuleEntity;
-import com.app.telegrambot.exception.compiletime.impl.TelegramApiException;
+import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.fms.State;
 import com.app.telegrambot.fms.StateMachine;
-import com.app.telegrambot.methods.send.MessageSender;
+import com.app.telegrambot.meta.methods.send.MessageSender;
 import com.app.telegrambot.service.ModuleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
