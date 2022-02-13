@@ -2,14 +2,15 @@ package com.app.telegrambot.meta.objects.replykeyboard;
 
 import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
-@JsonDeserialize
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ReplyKeyboardRemove implements Keyboard, BotApiObject {
 

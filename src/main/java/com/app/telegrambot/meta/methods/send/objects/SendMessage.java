@@ -1,4 +1,4 @@
-package com.app.telegrambot.meta.methods.send;
+package com.app.telegrambot.meta.methods.send.objects;
 
 import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.app.telegrambot.meta.objects.replykeyboard.Keyboard;

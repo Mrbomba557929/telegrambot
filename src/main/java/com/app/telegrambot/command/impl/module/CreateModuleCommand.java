@@ -1,7 +1,7 @@
 package com.app.telegrambot.command.impl.module;
 
 import com.app.telegrambot.command.Command;
-import com.app.telegrambot.meta.methods.send.SendMessage;
+import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.domain.entity.ModuleEntity;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;

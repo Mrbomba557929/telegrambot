@@ -14,6 +14,10 @@ import static java.lang.String.format;
 public class InlineKeyboardPaginator {
 
     public static final String CAN_NOT_GO_FURTHER = "no";
+    public static final String NEXT_BLOCK = "&raquo;";
+    public static final String PREV_BLOCK = "&laquo;";
+    public static final String CANNOT_BE_SWITCHED = "&times;";
+    public static final String DOT = "\t&#8226;";
 
     public InlineKeyboardMarkup paginate(int currentPage, int totalPages, int totalPagesInBlock, int numberOfBlock,
                                              int firstPage, int lastPage) {
@@ -38,7 +42,7 @@ public class InlineKeyboardPaginator {
                                 lastPage + 3);
 
         pages.add(InlineKeyboardButton.builder()
-                .text(prev.equals(CAN_NOT_GO_FURTHER) ? "&times;" : "&laquo;")
+                .text(prev.equals(CAN_NOT_GO_FURTHER) ? CANNOT_BE_SWITCHED : PREV_BLOCK)
                 .callbackData(prev)
                 .build());
 
@@ -46,7 +50,7 @@ public class InlineKeyboardPaginator {
             String text;
 
             if (i == currentPage) {
-                text = "\t&#8226;" + i + "\t&#8226;";
+                text = DOT + i + DOT;
             } else {
                 text = String.valueOf(i - 1);
             }
@@ -58,7 +62,7 @@ public class InlineKeyboardPaginator {
         }
 
         pages.add(InlineKeyboardButton.builder()
-                .text(next.equals(CAN_NOT_GO_FURTHER) ? "&times;" : "&raquo;")
+                .text(next.equals(CAN_NOT_GO_FURTHER) ? CANNOT_BE_SWITCHED : NEXT_BLOCK)
                 .callbackData(next)
                 .build());
 

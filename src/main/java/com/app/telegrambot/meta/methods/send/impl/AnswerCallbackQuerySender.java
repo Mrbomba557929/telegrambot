@@ -3,7 +3,7 @@ package com.app.telegrambot.meta.methods.send.impl;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
 import com.app.telegrambot.meta.methods.send.Senderable;
-import com.app.telegrambot.meta.objects.AnswerCallbackQuery;
+import com.app.telegrambot.meta.methods.send.objects.AnswerCallbackQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -48,7 +48,7 @@ public class AnswerCallbackQuerySender extends Senderable<Boolean, AnswerCallbac
 
             log.error("Произошла ошибка при вызове метода 'answerCallbackQuery'.");
 
-            throw ExceptionFactory.exceptionBuilder("An error occurred while sending the message.")
+            throw ExceptionFactory.exceptionBuilder("Произошла ошибка при вызове метода 'answerCallbackQuery'.")
                     .link("Command/send")
                     .buildCompileTime(TelegramApiException.class);
         }

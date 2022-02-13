@@ -34,4 +34,14 @@ public class ModuleEntity {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "module", cascade = CascadeType.ALL)
     private Set<WordEntity> words;
+
+    @Override
+    public String toString() {
+        return """
+               Название: %s,
+               Дата создания: %s,
+               Количество слов: %d,
+               Владелец: %s
+               """.formatted(name, createdAt.toString(), words.size(), user.getFirstName() + " " + user.getLastName());
+    }
 }

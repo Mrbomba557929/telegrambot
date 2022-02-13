@@ -3,17 +3,19 @@ package com.app.telegrambot.meta.objects.replykeyboard;
 import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.app.telegrambot.meta.objects.replykeyboard.buttons.KeyboardRow;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonDeserialize
-@Data
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReplyKeyboardMarkup implements Keyboard, BotApiObject {
 
     private static final String KEYBOARD_FIELD = "keyboard";

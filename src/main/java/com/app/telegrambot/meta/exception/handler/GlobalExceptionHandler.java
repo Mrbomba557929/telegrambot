@@ -1,7 +1,7 @@
 package com.app.telegrambot.meta.exception.handler;
 
 import com.app.telegrambot.context.TelegramBotContextHolder;
-import com.app.telegrambot.meta.methods.send.SendMessage;
+import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.exception.runtime.ApplicationRuntimeException;
 import com.app.telegrambot.meta.methods.send.impl.MessageSender;

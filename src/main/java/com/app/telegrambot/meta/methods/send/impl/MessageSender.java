@@ -2,7 +2,7 @@ package com.app.telegrambot.meta.methods.send.impl;
 
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
-import com.app.telegrambot.meta.methods.send.SendMessage;
+import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.methods.send.Senderable;
 import com.app.telegrambot.meta.objects.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,9 +23,8 @@ public class MessageSender extends Senderable<Message, SendMessage> {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
-    @SneakyThrows
     @Override
-    public CompletableFuture<Message> send(SendMessage sendMessage) {
+    public CompletableFuture<Message> send(SendMessage sendMessage) throws TelegramApiException {
 
         log.info("Отправка 'SendMessage' началась. Параметр: {}",  sendMessage);
 
@@ -49,7 +48,7 @@ public class MessageSender extends Senderable<Message, SendMessage> {
 
             log.error("Произошла ошибка при вызове метода 'sendMessage'.");
 
-            throw ExceptionFactory.exceptionBuilder("An error occurred while sending the message.")
+            throw ExceptionFactory.exceptionBuilder("Произошла ошибка при вызове метода 'sendMessage'.")
                     .link("Command/send")
                     .buildCompileTime(TelegramApiException.class);
         }
