@@ -2,6 +2,7 @@ package com.app.telegrambot.command.impl.module;
 
 import com.app.telegrambot.command.Command;
 import com.app.telegrambot.domain.entity.ModuleEntity;
+import com.app.telegrambot.domain.еnum.ParseMode;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.methods.send.impl.AnswerCallbackQuerySender;
 import com.app.telegrambot.meta.methods.send.objects.AnswerCallbackQuery;
@@ -79,6 +80,7 @@ public class ShowAllModulesCommand implements Command {
                     .replyMarkup(inlineKeyboardPaginator.paginate(
                             modules.getNumber(), modules.getTotalPages(), TOTAL_PAGES_IN_BLOCK,
                             numberOfBlock, firstPage, lastPage))
+                    .parseMode(ParseMode.MARKDOWN_V2)
                     .build());
 
         } catch (TelegramApiException e) {
