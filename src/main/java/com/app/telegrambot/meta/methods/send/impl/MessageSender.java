@@ -6,7 +6,6 @@ import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.methods.send.Senderable;
 import com.app.telegrambot.meta.objects.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

@@ -3,6 +3,7 @@ package com.app.telegrambot.command;
 import com.app.telegrambot.command.impl.UnknownCommand;
 import com.app.telegrambot.command.impl.menu.ShowMenuCommand;
 import com.app.telegrambot.command.impl.module.CreateModuleCommand;
+import com.app.telegrambot.command.impl.module.ShowAllModulesCommand;
 import com.app.telegrambot.command.impl.state.StopStateCommand;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,14 @@ public class CommandContainer {
     private final UnknownCommand unknownCommand;
 
     @Autowired
-    public CommandContainer(CreateModuleCommand createModuleCommand, StopStateCommand stopStateCommand, ShowMenuCommand showMenuCommand,
+    public CommandContainer(CreateModuleCommand createModuleCommand, StopStateCommand stopStateCommand,
+                            ShowMenuCommand showMenuCommand, ShowAllModulesCommand showAllModulesCommand,
                             UnknownCommand unknownCommand) {
         commands = ImmutableMap.<CommandName, Command>builder()
                 .put(CREATE_MODULE, createModuleCommand)
                 .put(STOP_STATE, stopStateCommand)
                 .put(SHOW_MENU, showMenuCommand)
+                .put(MODULES, showAllModulesCommand)
                 .build();
 
         this.unknownCommand = unknownCommand;
