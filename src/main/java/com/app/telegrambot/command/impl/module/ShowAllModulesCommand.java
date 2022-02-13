@@ -80,7 +80,7 @@ public class ShowAllModulesCommand implements Command {
                     .replyMarkup(inlineKeyboardPaginator.paginate(
                             modules.getNumber(), modules.getTotalPages(), TOTAL_PAGES_IN_BLOCK,
                             numberOfBlock, firstPage, lastPage))
-                    .parseMode(ParseMode.HTML)
+                    .parseMode(ParseMode.MARKDOWN)
                     .build());
 
         } catch (TelegramApiException e) {
