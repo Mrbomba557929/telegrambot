@@ -38,10 +38,10 @@ public class ModuleEntity {
     @Override
     public String toString() {
         return """
-               Название: %s,
-               Дата создания: %s,
-               Количество слов: %d,
-               Владелец: %s
+               Название:        %s
+               Дата создания:   %s
+               Количество слов: %d
+               Владелец:        %s
                """.formatted(name, createdAt.toString(), words.size(), user.getFirstName() + " " + user.getLastName());
     }
 }

@@ -92,7 +92,7 @@ public class ShowAllModulesCommand implements Command {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < modules.size(); i++) {
-            sb.append(i).append(1).append(".").append("\n").append(modules.get(i).toString()).append("\n\n");
+            sb.append(i).append(".").append("\n").append(modules.get(i).toString()).append("\n\n");
         }
 
         return sb.toString();
