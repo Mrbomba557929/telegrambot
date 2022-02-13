@@ -5,23 +5,29 @@ import com.app.telegrambot.command.impl.menu.ShowMenuCommand;
 import com.app.telegrambot.command.impl.module.CreateModuleCommand;
 import com.app.telegrambot.command.impl.state.StopStateCommand;
 import com.google.common.collect.ImmutableMap;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.app.telegrambot.command.CommandName.*;
 
 @Component
+@RequiredArgsConstructor
 public class CommandContainer {
 
     private final ImmutableMap<CommandName, Command> commands;
+    private final UnknownCommand unknownCommand;
 
     @Autowired
-    public CommandContainer(CreateModuleCommand createModuleCommand, StopStateCommand stopStateCommand, ShowMenuCommand showMenuCommand) {
+    public CommandContainer(CreateModuleCommand createModuleCommand, StopStateCommand stopStateCommand, ShowMenuCommand showMenuCommand,
+                            UnknownCommand unknownCommand) {
         commands = ImmutableMap.<CommandName, Command>builder()
                 .put(CREATE_MODULE, createModuleCommand)
                 .put(STOP_STATE, stopStateCommand)
                 .put(SHOW_MENU, showMenuCommand)
                 .build();
+
+        this.unknownCommand = unknownCommand;
     }
 
     /**
@@ -31,6 +37,6 @@ public class CommandContainer {
      * @return found the {@link Command} or the default {@link UnknownCommand}.
      */
     public Command retrieve(CommandName command) {
-        return commands.getOrDefault(command, new UnknownCommand());
+        return commands.getOrDefault(command, unknownCommand);
     }
 }

@@ -1,5 +1,6 @@
 package com.app.telegrambot.meta.objects;
 
+import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -8,7 +9,8 @@ import org.apache.logging.log4j.util.Strings;
 import java.time.Instant;
 import java.util.List;
 
-public record Message(Long id, User from, Instant date, Chat chat, String text, List<MessageEntity> entities) {
+public record Message(Long id, User from, Instant date, Chat chat, String text, List<MessageEntity> entities)
+        implements BotApiObject {
 
     private static final String MESSAGE_ID_FIELD = "message_id";
     private static final String FROM_FIELD = "from";

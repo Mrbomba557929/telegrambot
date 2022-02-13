@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public interface TelegramBot {
+public interface BotApiObject {
 }

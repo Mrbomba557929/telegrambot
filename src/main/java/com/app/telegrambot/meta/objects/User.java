@@ -1,12 +1,13 @@
 package com.app.telegrambot.meta.objects;
 
+import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 //TODO: СДЕЛАТЬ ВСЕ id, которые integer в STRING!
 public record User(String id, Boolean isBot, String firstName,
-                   String lastName, String username, String languageCode, String fio) {
+                   String lastName, String username, String languageCode, String fio) implements BotApiObject {
 
     private static final String ID_FIELD = "id";
     private static final String IS_BOT_FILED = "is_bot";

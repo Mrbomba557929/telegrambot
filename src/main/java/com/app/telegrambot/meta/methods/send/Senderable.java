@@ -1,20 +1,38 @@
 package com.app.telegrambot.meta.methods.send;
 
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
-import com.app.telegrambot.meta.objects.Message;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Interface for send messages, files, photos.
+ * Abstract class for send messages, files, photos.
  */
-public interface Senderable {
+public abstract class Senderable<R, P> {
+
+    protected final RestTemplate restTemplate;
+    protected final ObjectMapper objectMapper;
+    protected final HttpHeaders headers;
+
+    @Value("${telegrambot.url}")
+    protected String url;
+
+    public Senderable() {
+        this.restTemplate = new RestTemplate();
+        this.objectMapper = new ObjectMapper();
+        this.headers = new HttpHeaders();
+    }
 
     /**
      * Methods designed to send message.
      *
      * @param sendMessage - message to be sent.
-     * @return the response {@link Message}.
+     * @return the response {@link R}.
      */
-    CompletableFuture<Message> sendMessage(SendMessage sendMessage) throws TelegramApiException;
+    @Async("async")
+    public abstract CompletableFuture<R> send(P sendMessage) throws TelegramApiException;
 }

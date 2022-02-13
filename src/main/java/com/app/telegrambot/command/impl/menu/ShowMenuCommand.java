@@ -2,48 +2,50 @@ package com.app.telegrambot.command.impl.menu;
 
 import com.app.telegrambot.command.Command;
 import com.app.telegrambot.meta.methods.send.SendMessage;
-import com.app.telegrambot.meta.methods.get.Update;
+import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
-import com.app.telegrambot.meta.methods.send.MessageSender;
+import com.app.telegrambot.meta.methods.send.impl.MessageSender;
 import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
 import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@link Command} shows the main menu.
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class ShowMenuCommand implements Command {
+
+    public static final String SHOW_MENU_COMMAND_MESSAGE = "Привет, выбери интересующую опицию.";
 
     private final MessageSender sender;
 
     @Override
     public void execute(Update update) {
         try {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setText("Привет, выбери интересующую опицию.");
-            sendMessage.setChatId(update.message().chat().id());
-
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-            List<List<InlineKeyboardButton>> inlineButtons = new ArrayList<>();
-            List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
-            InlineKeyboardButton button1 = InlineKeyboardButton.builder()
-                    .text("Создать модуль")
-                    .callbackData("/cm")
-                    .build();
-            inlineKeyboardButtons.add(button1);
-            inlineButtons.add(inlineKeyboardButtons);
-
-            inlineKeyboardMarkup.setInlineKeyboard(inlineButtons);
-
-            sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-
-            sender.sendMessage(sendMessage);
+            sender.send(SendMessage.builder()
+                    .text(SHOW_MENU_COMMAND_MESSAGE)
+                    .chatId(update.message().chat().id())
+                    .replyMarkup(InlineKeyboardMarkup.builder()
+                            .withRow(
+                                    List.of(
+                                            InlineKeyboardButton.builder()
+                                                    .text("Создать модуль")
+                                                    .callbackData("/cm")
+                                                    .build(),
+                                            InlineKeyboardButton.builder()
+                                                    .text("Мои модули")
+                                                    .callbackData("/m")
+                                                    .build()
+                                    )
+                            )
+                            .build())
+                    .build());
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }

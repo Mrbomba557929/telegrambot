@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
-
 @Data
 @Component
 public class StateMachine {
@@ -24,12 +22,14 @@ public class StateMachine {
 
         if (!stateMap.containsKey(fromId)) {
             throw ExceptionFactory.exceptionBuilder("Error: State not found!")
-                    .status(EXPECTATION_FAILED)
-                    .link("StateMachine/retrieve")
+                    .link("StateMachine/build")
                     .buildRuntime(NotFoundException.class);
         }
 
-        stateMap.put(fromId, State.create(transition, stateMap.get(fromId).builder()));
+        stateMap.put(fromId, State.builder()
+                .transition(transition)
+                .objectBuilder(stateMap.get(fromId).objectBuilder())
+                .build());
     }
 
     public State retrieve(Long fromId) {
@@ -39,8 +39,7 @@ public class StateMachine {
         }
 
         throw ExceptionFactory.exceptionBuilder("Error: State not found!")
-                .status(EXPECTATION_FAILED)
-                .link("StateMachine/retrieve")
+                .link("StateMachine/build")
                 .buildRuntime(NotFoundException.class);
     }
 

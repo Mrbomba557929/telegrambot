@@ -4,7 +4,7 @@ import com.app.telegrambot.context.TelegramBotContextHolder;
 import com.app.telegrambot.meta.methods.send.SendMessage;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.exception.runtime.ApplicationRuntimeException;
-import com.app.telegrambot.meta.methods.send.MessageSender;
+import com.app.telegrambot.meta.methods.send.impl.MessageSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
             SendMessage sendMessage = new SendMessage();
             sendMessage.setText("Произошла какая то ошибка. Попробуйте еще раз выполнить предыдущее действие.");
             sendMessage.setChatId(TelegramBotContextHolder.UPDATE.message().chat().id());
-            sender.sendMessage(sendMessage);
+            sender.send(sendMessage);
         } catch (TelegramApiException ex) {
             log.error("An error occurred while sending the message.");
         }

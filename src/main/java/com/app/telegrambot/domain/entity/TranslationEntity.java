@@ -16,7 +16,7 @@ public class TranslationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "translation")
     private String translation;

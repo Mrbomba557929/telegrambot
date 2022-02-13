@@ -9,11 +9,11 @@ import com.app.telegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-
-import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 
 /**
  * Implementation of the {@link ModuleService}.
@@ -38,9 +38,13 @@ public class ModuleServiceImpl implements ModuleService {
         } catch (DataAccessException e) {
             log.error("Impossible to save the user. {}", e.getMessage());
             throw ExceptionFactory.exceptionBuilder(e.getMessage())
-                    .status(EXPECTATION_FAILED)
                     .link("ModuleServiceImpl/save")
                     .buildRuntime(ImpossibleToSaveException.class);
         }
+    }
+
+    @Override
+    public Page<ModuleEntity> findAll(int page, int size) {
+        return moduleRepository.findAll(PageRequest.of(page, size));
     }
 }

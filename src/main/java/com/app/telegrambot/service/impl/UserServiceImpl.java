@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -36,7 +34,6 @@ public class UserServiceImpl implements UserService {
         } catch (DataAccessException e) {
             log.error("Impossible to save the user. {}", e.getMessage());
             throw ExceptionFactory.exceptionBuilder(e.getMessage())
-                    .status(EXPECTATION_FAILED)
                     .link("UserServiceImpl/save")
                     .buildRuntime(ImpossibleToSaveException.class);
         }
@@ -51,7 +48,6 @@ public class UserServiceImpl implements UserService {
     public UserEntity findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Error: user not found!")
-                        .status(EXPECTATION_FAILED)
                         .link("UserServiceImpl/findById")
                         .buildRuntime(NotFoundException.class));
     }

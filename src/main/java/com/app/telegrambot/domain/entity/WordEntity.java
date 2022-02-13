@@ -16,7 +16,7 @@ public class WordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "word")
     private String word;

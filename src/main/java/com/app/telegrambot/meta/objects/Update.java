@@ -1,14 +1,13 @@
-package com.app.telegrambot.meta.methods.get;
+package com.app.telegrambot.meta.objects;
 
-import com.app.telegrambot.meta.objects.CallbackQuery;
-import com.app.telegrambot.meta.objects.Message;
+import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 import java.util.Objects;
 
 public record Update(@JsonProperty(UPDATE_ID_FIELD) Long id, @JsonProperty(MESSAGE_FIELD) Message message,
-                     @JsonProperty(CALLBACK_QUERY_FIELD) CallbackQuery callbackQuery) {
+                     @JsonProperty(CALLBACK_QUERY_FIELD) CallbackQuery callbackQuery) implements BotApiObject {
 
     private static final String UPDATE_ID_FIELD = "update_id";
     private static final String MESSAGE_FIELD = "message";

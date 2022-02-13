@@ -2,15 +2,17 @@ package com.app.telegrambot.command.impl.state;
 
 import com.app.telegrambot.command.Command;
 import com.app.telegrambot.meta.methods.send.SendMessage;
-import com.app.telegrambot.meta.methods.get.Update;
+import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.fms.StateMachine;
-import com.app.telegrambot.meta.methods.send.MessageSender;
+import com.app.telegrambot.meta.methods.send.impl.MessageSender;
+import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
+import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static java.lang.String.format;
+import java.util.List;
 
 /**
  * {@link Command} to stop the current state.
@@ -20,23 +22,38 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class StopStateCommand implements Command {
 
+    public static final String STOP_STATE_COMMAND_MESSAGE_1 = "Диалог остановлен.";
+    public static final String STOP_STATE_COMMAND_MESSAGE_2 = "Дядя, ты что - то перепутал.";
+
     private final StateMachine stateMachine;
     private final MessageSender sender;
 
     @Override
     public void execute(Update update) {
         try {
-            SendMessage sendMessage = new SendMessage();
+            String message;
 
             if (stateMachine.contains(update.message().from().idLong())) {
                 stateMachine.stop(update.message().from().idLong());
-                sendMessage.setText(format("%s, состояние успешно остановлено.", update.message().from().fio()));
+                message = STOP_STATE_COMMAND_MESSAGE_1;
             } else {
-                sendMessage.setText("Дядя, ты что - то перепутал.");
+                message = STOP_STATE_COMMAND_MESSAGE_2;
             }
 
-            sendMessage.setChatId(update.message().chat().id());
-            sender.sendMessage(sendMessage);
+            sender.send(SendMessage.builder()
+                    .text(message)
+                    .chatId(update.message().chat().id())
+                    .replyMarkup(InlineKeyboardMarkup.builder()
+                            .withRow(
+                                    List.of(
+                                            InlineKeyboardButton.builder()
+                                                    .text("Меню")
+                                                    .callbackData("/menu")
+                                                    .build()
+                                    )
+                            )
+                            .build())
+                    .build());
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }

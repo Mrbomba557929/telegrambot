@@ -2,7 +2,7 @@ package com.app.telegrambot.controller;
 
 import com.app.telegrambot.command.CommandContainer;
 import com.app.telegrambot.context.TelegramBotContextHolder;
-import com.app.telegrambot.meta.methods.get.Update;
+import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.command.CommandName;
 import com.app.telegrambot.fms.StateMachine;
 import com.app.telegrambot.meta.objects.Message;
