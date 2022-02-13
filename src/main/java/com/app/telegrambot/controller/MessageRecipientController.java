@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class MessageRecipientController {
 
-    private final static String COMMAND_PREFIX = "/";
+    public static final String COMMAND_PREFIX = "/";
+    public static final String SEPARATOR = ":";
 
     private final StateMachine stateMachine;
     private final CommandContainer commandContainer;
@@ -33,7 +34,9 @@ public class MessageRecipientController {
                     .message(Message.builder()
                             .from(update.callbackQuery().from())
                             .chat(update.callbackQuery().message().chat())
-                            .text(update.callbackQuery().data())
+                            .text(update.callbackQuery().data().contains(SEPARATOR) ?
+                                    update.callbackQuery().data().split(SEPARATOR)[0] :
+                                    update.callbackQuery().data())
                             .date(update.callbackQuery().message().date().getNano())
                             .id(update.callbackQuery().message().id())
                             .entities(update.callbackQuery().message().entities())

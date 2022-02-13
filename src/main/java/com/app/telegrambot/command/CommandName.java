@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CommandName {
 
+    UNKNOWN_COMMAND("/unknown"),
     CREATE_MODULE("/cm"),
     MODULES("/m"),
     STOP_STATE("/stop"),
@@ -22,12 +23,12 @@ public enum CommandName {
 
         if (text != null) {
             for (CommandName provider : CommandName.values()) {
-                if (provider.commandName.equalsIgnoreCase(text) || text.startsWith(provider.commandName)) {
+                if (provider.commandName.equalsIgnoreCase(text)) {
                     return provider;
                 }
             }
         }
 
-        return null;
+        return UNKNOWN_COMMAND;
     }
 }

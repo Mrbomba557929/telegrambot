@@ -30,6 +30,7 @@ public class ShowAllModulesCommand implements Command {
     public static final String CAN_NOT_GO_FURTHER = "NO";
     public static final String ANSWER_CALLBACK_QUERY = "Дядя, ты слепой что - ли? Ты не можешь так сделать!";
     public static final String[] INITIAL_PAGE_VALUE = new String[] {"1", "1", "1", "3"};
+    public static final String SEPARATOR = ":";
 
     private final MessageSender sender;
     private final AnswerCallbackQuerySender answerCallbackQuerySender;
@@ -51,7 +52,7 @@ public class ShowAllModulesCommand implements Command {
 
             showModules(update, update.message().text().equals("/m") ?
                     INITIAL_PAGE_VALUE :
-                    update.message().text().split(":"));
+                    update.message().text().split(SEPARATOR));
 
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
