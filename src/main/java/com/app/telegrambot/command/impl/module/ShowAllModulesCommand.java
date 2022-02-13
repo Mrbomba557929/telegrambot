@@ -29,7 +29,7 @@ public class ShowAllModulesCommand implements Command {
     public static final Integer TOTAL_PAGES_IN_BLOCK = 3;
     public static final String CAN_NOT_GO_FURTHER = "NO";
     public static final String ANSWER_CALLBACK_QUERY = "Дядя, ты слепой что - ли? Ты не можешь так сделать!";
-    public static final String[] INITIAL_PAGE_VALUE = new String[] {"1", "1", "1", "3"};
+    public static final String[] INITIAL_PAGE_VALUE = new String[] {"/m", "1", "1", "1", "3"};
     public static final String SEPARATOR = ":";
 
     private final MessageSender sender;
