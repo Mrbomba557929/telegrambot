@@ -5,12 +5,11 @@ import com.app.telegrambot.context.TelegramBotContextHolder;
 import com.app.telegrambot.meta.methods.get.Update;
 import com.app.telegrambot.command.CommandName;
 import com.app.telegrambot.fms.StateMachine;
+import com.app.telegrambot.meta.objects.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @Slf4j
 @CrossOrigin
@@ -28,15 +27,24 @@ public class MessageRecipientController {
     public void onUpdateReceived(@NonNull @RequestBody Update update) {
         log.info("Пришёл update: {}", update);
 
-        String message = null;
-
         if (update.hasCallBackQuery()) {
-            message = update.callbackQuery().data();
-        } else if (update.hasMessage() && update.message().hasText()) {
-            message = update.message().text().trim();
+            update = Update.builder()
+                    .id(update.id())
+                    .message(Message.builder()
+                            .from(update.callbackQuery().from())
+                            .chat(update.callbackQuery().message().chat())
+                            .text(update.callbackQuery().data())
+                            .date(update.callbackQuery().message().date().getNano())
+                            .id(update.callbackQuery().message().id())
+                            .entities(update.callbackQuery().message().entities())
+                            .build())
+                    .callbackQuery(update.callbackQuery())
+                    .build();
         }
 
-        if (Objects.nonNull(message)) {
+        if (update.hasMessage() && update.message().hasText()) {
+            String message = update.message().text().trim();
+
             if (message.startsWith(COMMAND_PREFIX)) {
                 TelegramBotContextHolder.UPDATE = update;
                 commandContainer.retrieve(CommandName.fromText(message))
