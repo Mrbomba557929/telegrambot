@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class MessageSender extends Senderable<Message, SendMessage> {
 
-    public static final String SEND_MESSAGE_METHOD = "/send";
+    public static final String SEND_MESSAGE_METHOD = "/sendMessage";
 
     public MessageSender() {
         headers.setContentType(MediaType.APPLICATION_JSON);
