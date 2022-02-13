@@ -14,24 +14,6 @@ public class StateMachine {
 
     private final Map<Long, State> stateMap = new HashMap<>();
 
-    public void start(Long fromId, State state) {
-        stateMap.put(fromId, state);
-    }
-
-    public void transition(Long fromId, Transition transition) {
-
-        if (!stateMap.containsKey(fromId)) {
-            throw ExceptionFactory.exceptionBuilder("Error: State not found!")
-                    .link("StateMachine/build")
-                    .buildRuntime(NotFoundException.class);
-        }
-
-        stateMap.put(fromId, State.builder()
-                .transition(transition)
-                .objectBuilder(stateMap.get(fromId).objectBuilder())
-                .build());
-    }
-
     public State retrieve(Long fromId) {
 
         if (stateMap.containsKey(fromId)) {
@@ -41,6 +23,27 @@ public class StateMachine {
         throw ExceptionFactory.exceptionBuilder("Error: State not found!")
                 .link("StateMachine/build")
                 .buildRuntime(NotFoundException.class);
+    }
+
+    public State addState(Long fromId, State state) {
+        stateMap.put(fromId, state);
+        return retrieve(fromId);
+    }
+
+    public State transition(Long fromId, Transition transition) {
+
+        if (!stateMap.containsKey(fromId)) {
+            throw ExceptionFactory.exceptionBuilder("Error: State not found!")
+                    .link("StateMachine/build")
+                    .buildRuntime(NotFoundException.class);
+        }
+
+        stateMap.put(fromId, State.builder()
+                .transition(transition)
+                .object(stateMap.get(fromId).object())
+                .build());
+
+        return retrieve(fromId);
     }
 
     public void stop(Long fromId) {

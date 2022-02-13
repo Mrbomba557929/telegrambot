@@ -25,10 +25,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShowAllModulesCommand implements Command {
 
-    public static final Integer SIZE = 5;
+    public static final Integer NUMBER_OF_ELEMENTS = 5;
     public static final Integer TOTAL_PAGES_IN_BLOCK = 3;
-    public static final String CAN_NOT_GO_FURTHER = "no";
+    public static final String CAN_NOT_GO_FURTHER = "NO";
     public static final String ANSWER_CALLBACK_QUERY = "Дядя, ты слепой что - ли? Ты не можешь так сделать!";
+    public static final String[] INITIAL_PAGE_VALUE = new String[] {"1", "1", "1", "3"};
 
     private final MessageSender sender;
     private final AnswerCallbackQuerySender answerCallbackQuerySender;
@@ -38,9 +39,8 @@ public class ShowAllModulesCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
-            String[] args = update.message().text().split(":");
 
-            if (args[0].equalsIgnoreCase(CAN_NOT_GO_FURTHER)) {
+            if (update.message().text().equalsIgnoreCase(CAN_NOT_GO_FURTHER)) {
                 answerCallbackQuerySender.send(AnswerCallbackQuery.builder()
                         .callbackQueryId(update.callbackQuery().id())
                         .text(ANSWER_CALLBACK_QUERY)
@@ -49,16 +49,27 @@ public class ShowAllModulesCommand implements Command {
                 return;
             }
 
-            int numberOfBlock = Integer.parseInt(args[1]);
-            int firstPage = Integer.parseInt(args[2]);
-            int lastPage = Integer.parseInt(args[3]);
+            showModules(update, update.message().text().equals("/m") ?
+                    INITIAL_PAGE_VALUE :
+                    update.message().text().split(":"));
+
+        } catch (TelegramApiException e) {
+            log.error("An error occurred {}", e.getMessage());
+        }
+    }
+
+    private void showModules(Update update, String[] args) {
+        try {
+            int numberOfBlock = Integer.parseInt(args[2]);
+            int firstPage = Integer.parseInt(args[3]);
+            int lastPage = Integer.parseInt(args[4]);
 
             Page<ModuleEntity> modules;
 
-            if (args[0].equalsIgnoreCase("next") || args[0].equalsIgnoreCase("prev")) {
-                modules = moduleService.findAll(firstPage, SIZE);
+            if (args[1].equals("next") || args[1].equals("prev")) {
+                modules = moduleService.findAll(firstPage, NUMBER_OF_ELEMENTS);
             } else {
-                modules = moduleService.findAll(Integer.parseInt(args[0]), SIZE);
+                modules = moduleService.findAll(Integer.parseInt(args[1]), NUMBER_OF_ELEMENTS);
             }
 
             sender.send(SendMessage.builder()
@@ -68,6 +79,7 @@ public class ShowAllModulesCommand implements Command {
                             modules.getNumber(), modules.getTotalPages(), TOTAL_PAGES_IN_BLOCK,
                             numberOfBlock, firstPage, lastPage))
                     .build());
+
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }

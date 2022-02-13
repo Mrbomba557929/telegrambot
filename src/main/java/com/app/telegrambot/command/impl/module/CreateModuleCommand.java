@@ -38,9 +38,9 @@ public class CreateModuleCommand implements Command {
                     .chatId(update.message().chat().id())
                     .build());
 
-            stateMachine.start(update.message().from().idLong(), State.builder()
+            stateMachine.addState(update.message().from().idLong(), State.builder()
                     .transition(this::askForModuleName)
-                    .objectBuilder(ModuleEntity.builder())
+                    .object(ModuleEntity.builder())
                     .build());
 
         } catch (TelegramApiException e) {

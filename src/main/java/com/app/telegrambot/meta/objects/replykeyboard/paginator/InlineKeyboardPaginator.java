@@ -13,30 +13,33 @@ import static java.lang.String.format;
 @Component
 public class InlineKeyboardPaginator {
 
-    public static final String CAN_NOT_GO_FURTHER = "no";
+    public static final String CAN_NOT_GO_FURTHER = "NO";
     public static final String NEXT_BLOCK = "&raquo;";
     public static final String PREV_BLOCK = "&laquo;";
+    public static final String PREV_DATA = "/m:prev:%d:%d:%d";
+    public static final String NEXT_DATA = "/m:next:%d:%d:%d";
+    public static final String PAGE_DATA = "/m:%d:%d:%d:%d";
     public static final String CANNOT_BE_SWITCHED = "&times;";
     public static final String DOT = "\t&#8226;";
 
-    public InlineKeyboardMarkup paginate(int currentPage, int totalPages, int totalPagesInBlock, int numberOfBlock,
-                                             int firstPage, int lastPage) {
+    public InlineKeyboardMarkup paginate(int currentPage, int totalPages, int totalPagesInBlock,
+                                         int numberOfBlock, int firstPage, int lastPage) {
         return InlineKeyboardMarkup.builder()
                 .withRow(generatePages(currentPage, totalPages, totalPagesInBlock, numberOfBlock, firstPage, lastPage))
                 .build();
     }
 
-    private List<InlineKeyboardButton> generatePages(int currentPage, int totalPages, int totalPagesInBlock, int numberOfBlock,
-                                                     int firstPage, int lastPage) {
+    private List<InlineKeyboardButton> generatePages(int currentPage, int totalPages, int totalPagesInBlock,
+                                                     int numberOfBlock, int firstPage, int lastPage) {
         List<InlineKeyboardButton> pages = new ArrayList<>();
 
         String prev = numberOfBlock == 1 ?
                 CAN_NOT_GO_FURTHER :
-                format("prev:%d:%d:%d", numberOfBlock - 1, firstPage - 3, firstPage - 1);
+                format(PREV_DATA, numberOfBlock - 1, firstPage - 3, firstPage - 1);
 
         String next = (numberOfBlock + 1) > ceil((double) totalPages / (double) totalPagesInBlock) ?
                 CAN_NOT_GO_FURTHER :
-                format("next:%d:%d:%d", numberOfBlock + 1, lastPage + 1,
+                format(NEXT_DATA, numberOfBlock + 1, lastPage + 1,
                         (numberOfBlock + 1) == ceil((double) totalPages / (double) totalPagesInBlock) ?
                                 totalPages :
                                 lastPage + 3);
@@ -47,17 +50,9 @@ public class InlineKeyboardPaginator {
                 .build());
 
         for (int i = firstPage; i <= lastPage; i++) {
-            String text;
-
-            if (i == currentPage) {
-                text = DOT + i + DOT;
-            } else {
-                text = String.valueOf(i - 1);
-            }
-
             pages.add(InlineKeyboardButton.builder()
-                    .text(text)
-                    .callbackData(format("%d:%d:%d:%d", i - 1, numberOfBlock, firstPage, lastPage))
+                    .text(i == currentPage ? (DOT + i + DOT) : (String.valueOf(i - 1)))
+                    .callbackData(format(PAGE_DATA, i - 1, numberOfBlock, firstPage, lastPage))
                     .build());
         }
 

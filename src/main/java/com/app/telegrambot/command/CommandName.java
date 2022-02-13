@@ -22,7 +22,7 @@ public enum CommandName {
 
         if (text != null) {
             for (CommandName provider : CommandName.values()) {
-                if (provider.commandName.equalsIgnoreCase(text)) {
+                if (provider.commandName.equalsIgnoreCase(text) || text.startsWith(provider.commandName)) {
                     return provider;
                 }
             }
