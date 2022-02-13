@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ReplyKeyboardRemove implements Keyboard, BotApiObject {

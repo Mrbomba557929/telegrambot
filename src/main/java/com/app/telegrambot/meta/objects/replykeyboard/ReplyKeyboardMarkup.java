@@ -13,9 +13,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ReplyKeyboardMarkup implements Keyboard, BotApiObject {
 
     private static final String KEYBOARD_FIELD = "keyboard";

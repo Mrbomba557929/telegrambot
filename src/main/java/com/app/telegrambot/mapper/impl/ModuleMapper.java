@@ -32,7 +32,7 @@ public class ModuleMapper implements Mapper<ModuleEntity, ModuleDto> {
     @Override
     public ModuleDto toDto(ModuleEntity entity) {
         return ModuleDto.builder()
-                .id(entity.getId())
+                .id(1)
                 .name(entity.getName())
                 .createdAt(null)
                 .words(null)

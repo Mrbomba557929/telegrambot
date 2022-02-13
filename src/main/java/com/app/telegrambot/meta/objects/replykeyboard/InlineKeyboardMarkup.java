@@ -13,9 +13,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 public class InlineKeyboardMarkup implements Keyboard, BotApiObject {
 
     private static final String INLINE_KEYBOARD_FIELD = "inline_keyboard";
