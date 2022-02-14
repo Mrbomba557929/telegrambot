@@ -38,6 +38,11 @@ public class InlineKeyboardMarkup implements Keyboard, BotApiObject {
             return this;
         }
 
+        public Builder zip(List<List<InlineKeyboardButton>> rows) {
+            inlineKeyboard.addAll(rows);
+            return this;
+        }
+
         public InlineKeyboardMarkup build() {
             return new InlineKeyboardMarkup(inlineKeyboard);
         }

@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Abstract class for send messages, files, photos.
  */
-public abstract class Senderable<R, P> {
+public abstract class Sender<R, P> {
 
     protected final RestTemplate restTemplate;
     protected final ObjectMapper objectMapper;
@@ -21,7 +21,7 @@ public abstract class Senderable<R, P> {
     @Value("${telegrambot.url}")
     protected String url;
 
-    public Senderable() {
+    public Sender() {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
         this.headers = new HttpHeaders();

@@ -4,11 +4,13 @@ import com.app.telegrambot.command.Command;
 import com.app.telegrambot.domain.entity.ModuleEntity;
 import com.app.telegrambot.domain.еnum.ParseMode;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
-import com.app.telegrambot.meta.methods.send.impl.AnswerCallbackQuerySender;
-import com.app.telegrambot.meta.methods.send.objects.AnswerCallbackQuery;
+import com.app.telegrambot.meta.methods.send.impl.EditMessageTextSender;
+import com.app.telegrambot.meta.methods.send.objects.EditMessageText;
 import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.meta.methods.send.impl.MessageSender;
 import com.app.telegrambot.meta.methods.send.objects.SendMessage;
+import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
+import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
 import com.app.telegrambot.meta.objects.replykeyboard.paginator.InlineKeyboardPaginator;
 import com.app.telegrambot.service.ModuleService;
 import lombok.RequiredArgsConstructor;
@@ -26,75 +28,87 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShowAllModulesCommand implements Command {
 
-    public static final Integer NUMBER_OF_ELEMENTS = 5;
-    public static final Integer TOTAL_PAGES_IN_BLOCK = 3;
-    public static final String CAN_NOT_GO_FURTHER = "NO";
-    public static final String ANSWER_CALLBACK_QUERY = "Дядя, ты слепой что - ли? Ты не можешь так сделать!";
-    public static final String[] INITIAL_PAGE_VALUE = new String[] {"/m", "1", "1", "1", "3"};
-    public static final String SEPARATOR = ":";
+    public static final Integer NUMBER_OF_PAGES = 5;
+    public static final Integer INITIAL_PAGE_SIZE = 1;
 
-    private final MessageSender sender;
-    private final AnswerCallbackQuerySender answerCallbackQuerySender;
+    private final MessageSender messageSender;
+    private final EditMessageTextSender editMessageTextSender;
     private final ModuleService moduleService;
     private final InlineKeyboardPaginator inlineKeyboardPaginator;
+
+    /*
+    TODO: Переработать полностью логику, исправить пагинацию.
+          Когда, к примеру, у нас всего 2 модуля и всё.
+          Придумать что то с callback и командами.
+          Есть ошибки с символами, почему то телеграм не переводит текст в символ.
+          Проверить работу popup.
+          Исправить, чтобы бот не каждый раз выводил сообщение, а изменял предыдущее.
+     */
 
     @Override
     public void execute(Update update) {
         try {
+            InlineKeyboardMarkup.Builder inlineKeyboardMarkup = InlineKeyboardMarkup.builder();
 
-            if (update.message().text().equalsIgnoreCase(CAN_NOT_GO_FURTHER)) {
-                answerCallbackQuerySender.send(AnswerCallbackQuery.builder()
-                        .callbackQueryId(update.callbackQuery().id())
-                        .text(ANSWER_CALLBACK_QUERY)
-                        .showAlert(false)
+            if (!update.hasCallBackQuery()) {
+                Page<ModuleEntity> modules = moduleService.findAll(INITIAL_PAGE_SIZE, NUMBER_OF_PAGES);
+
+                modules.forEach(module -> inlineKeyboardMarkup.withRow(
+                        List.of(
+                                InlineKeyboardButton.builder()
+                                        .text(module.getName())
+                                        .callbackData(String.valueOf(module.getId()))
+                                        .build()
+                        )));
+
+                inlineKeyboardMarkup.zip(inlineKeyboardPaginator
+                        .paginate(modules.getTotalPages(), INITIAL_PAGE_SIZE, "%d")
+                        .getInlineKeyboard());
+
+                // TODO: Придумать с выводов информации о конкретном модуле. То, что я написал - неправильно!
+
+                messageSender.send(SendMessage.builder()
+                        .text(modules.getContent().get(0).toString())
+                        .chatId(update.message().chat().id())
+                        .parseMode(ParseMode.MARKDOWN)
+                        .replyMarkup(inlineKeyboardMarkup.build())
                         .build());
-                return;
-            }
-
-            showModules(update, update.message().text().equals("/m") ?
-                    INITIAL_PAGE_VALUE :
-                    update.message().text().split(SEPARATOR));
-
-        } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
-        }
-    }
-
-    private void showModules(Update update, String[] args) {
-        try {
-            int numberOfBlock = Integer.parseInt(args[2]);
-            int firstPage = Integer.parseInt(args[3]);
-            int lastPage = Integer.parseInt(args[4]);
-
-            Page<ModuleEntity> modules;
-
-            if (args[1].equals("next") || args[1].equals("prev")) {
-                modules = moduleService.findAll(firstPage, NUMBER_OF_ELEMENTS);
             } else {
-                modules = moduleService.findAll(Integer.parseInt(args[1]), NUMBER_OF_ELEMENTS);
-            }
+                int currentPage = Integer.parseInt(update.message().text());
+                Page<ModuleEntity> modules = moduleService.findAll(currentPage, NUMBER_OF_PAGES);
 
-            sender.send(SendMessage.builder()
-                    .text(translateModulesIntoTextRepresentation(modules.getContent()))
-                    .chatId(update.message().chat().id())
-                    .replyMarkup(inlineKeyboardPaginator.paginate(
-                            modules.getNumber(), modules.getTotalPages(), TOTAL_PAGES_IN_BLOCK,
-                            numberOfBlock, firstPage, lastPage))
-                    .parseMode(ParseMode.MARKDOWN)
-                    .build());
+                modules.forEach(module -> inlineKeyboardMarkup.withRow(
+                        List.of(
+                                InlineKeyboardButton.builder()
+                                        .text(module.getName())
+                                        .callbackData(String.valueOf(module.getId()))
+                                        .build()
+                        )));
+
+                inlineKeyboardMarkup.zip(inlineKeyboardPaginator
+                        .paginate(modules.getTotalPages(), INITIAL_PAGE_SIZE, "%d")
+                        .getInlineKeyboard());
+
+                editMessageTextSender.send(EditMessageText.builder()
+                        .chatId(update.message().chat().id())
+                        .messageId(Math.toIntExact(update.message().id()))
+                        .text(modules.getContent().get(0).toString())
+                        .parseMode(ParseMode.MARKDOWN)
+                        .replyMarkup(inlineKeyboardMarkup.build())
+                        .build());
+            }
 
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }
     }
 
-    private String translateModulesIntoTextRepresentation(List<ModuleEntity> modules) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < modules.size(); i++) {
-            sb.append(i).append(".").append("\n").append(modules.get(i).toString()).append("\n\n");
-        }
-
-        return sb.toString();
+    private List<List<InlineKeyboardButton>> translateModulesIntoInlineKeyboardButtons(List<ModuleEntity> modules) {
+        return modules.stream()
+                .map(module -> List.of(InlineKeyboardButton.builder()
+                        .text(module.getName())
+                        .callbackData(String.valueOf(module.getId()))
+                        .build())
+                ).toList();
     }
 }

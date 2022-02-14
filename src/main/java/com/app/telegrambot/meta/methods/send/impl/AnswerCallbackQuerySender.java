@@ -2,7 +2,7 @@ package com.app.telegrambot.meta.methods.send.impl;
 
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
-import com.app.telegrambot.meta.methods.send.Senderable;
+import com.app.telegrambot.meta.methods.send.Sender;
 import com.app.telegrambot.meta.methods.send.objects.AnswerCallbackQuery;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class AnswerCallbackQuerySender extends Senderable<Boolean, AnswerCallbackQuery> {
+public class AnswerCallbackQuerySender extends Sender<Boolean, AnswerCallbackQuery> {
 
     public static final String ANSWER_CALLBACK_QUERY_METHOD = "/answerCallbackQuery";
 
