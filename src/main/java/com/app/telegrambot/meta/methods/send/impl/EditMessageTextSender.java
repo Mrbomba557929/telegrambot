@@ -2,7 +2,6 @@ package com.app.telegrambot.meta.methods.send.impl;
 
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
-import com.app.telegrambot.meta.interfaces.BotApiObject;
 import com.app.telegrambot.meta.methods.send.Sender;
 import com.app.telegrambot.meta.methods.send.objects.EditMessageText;
 import com.app.telegrambot.meta.objects.Message;
@@ -17,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class EditMessageTextSender extends Sender<Message, EditMessageText> implements BotApiObject {
+public class EditMessageTextSender extends Sender<Message, EditMessageText> {
 
     public static final String EDIT_MESSAGE_TEXT_METHOD = "/editMessageText";
 
