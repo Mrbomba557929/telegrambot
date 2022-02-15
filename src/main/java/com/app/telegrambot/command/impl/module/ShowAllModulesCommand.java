@@ -50,9 +50,12 @@ public class ShowAllModulesCommand implements Command {
                     Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
                     INITIAL_PAGE_SIZE;
 
+            log.info("Страница: {}", page);
+
             Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES_IN_BLOCK);
 
             log.info("Количество страниц: {}, Количество элементов: {}", modules.getTotalPages(), modules.getTotalElements());
+            log.info("Количество элементов: {}", modules.getContent().size());
 
             modules.forEach(module -> inlineKeyboardMarkup.withRow(
                     List.of(
