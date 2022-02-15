@@ -46,6 +46,9 @@ public class ShowAllModulesCommand implements Command {
     public void execute(Update update) {
         try {
             InlineKeyboardMarkup.Builder inlineKeyboardMarkup = InlineKeyboardMarkup.builder();
+
+            log.info("Пришло сообщение в find modules: {}", update.message().text());
+
             int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
                     Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
                     INITIAL_PAGE_SIZE;
