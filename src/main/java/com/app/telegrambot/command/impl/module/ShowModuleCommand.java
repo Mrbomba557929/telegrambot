@@ -11,10 +11,14 @@ import com.app.telegrambot.meta.methods.send.impl.MessageSender;
 import com.app.telegrambot.meta.methods.send.objects.EditMessageText;
 import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.objects.Update;
+import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
+import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
 import com.app.telegrambot.service.ModuleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,12 +39,14 @@ public class ShowModuleCommand implements Command {
         try {
 
             if (update.hasCallBackQuery()) {
-                ModuleEntity module = moduleService.findById(Long.parseLong(update.message().text().split(DELIMITER)[1]));
+                Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
+                ModuleEntity module = moduleService.findById(moduleId);
+                tagSelectedModule(update.message().replyMarkup(), moduleId);
                 editMessageTextSender.send(EditMessageText.builder()
                         .chatId(update.message().chat().id())
                         .messageId(Math.toIntExact(update.message().id()))
                         .parseMode(ParseMode.MARKDOWN)
-                        .text(DOT + module.toString() + DOT)
+                        .text(module.toString())
                         .replyMarkup(update.message().replyMarkup())
                         .build());
                 return;
@@ -74,6 +80,23 @@ public class ShowModuleCommand implements Command {
             stateMachine.stop(update.message().from().idLong());
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
+        }
+    }
+
+    private void tagSelectedModule(InlineKeyboardMarkup inlineKeyboardMarkup, Long moduleId) {
+        List<List<InlineKeyboardButton>> inlineKeyboard = inlineKeyboardMarkup.getInlineKeyboard();
+
+        for (int i = 0; i < inlineKeyboard.size() - 1; i++) {
+            InlineKeyboardButton button = inlineKeyboard.get(i).get(0);
+
+            if (Long.parseLong(button.text().split(DELIMITER)[1]) == moduleId) {
+                inlineKeyboard.get(i).set(0, InlineKeyboardButton.builder()
+                        .text(DOT + button.text() + DOT)
+                        .callbackData(button.callbackData())
+                        .url(button.url())
+                        .build());
+                break;
+            }
         }
     }
 }
