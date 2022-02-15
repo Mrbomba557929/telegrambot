@@ -32,8 +32,9 @@ public class ShowAllModulesCommand implements Command {
 
     public static final Integer NUMBER_OF_PAGES = 5;
     public static final Integer INITIAL_PAGE_SIZE = 1;
-    public static final String FIND_MODULE_COMMAND = "/module";
     public static final String FIND_ALL_MODULES_COMMAND = "/modules";
+    public static final String FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX = "/modules:\\d+";
+    public static final String FIND_MODULE_COMMAND = "/module";
     public static final String DELIMITER = ":";
 
     private final MessageSender messageSender;
@@ -45,9 +46,9 @@ public class ShowAllModulesCommand implements Command {
     public void execute(Update update) {
         try {
             InlineKeyboardMarkup.Builder inlineKeyboardMarkup = InlineKeyboardMarkup.builder();
-            int page = update.hasCallBackQuery() ?
-                    Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
-                    INITIAL_PAGE_SIZE;
+            int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
+                    INITIAL_PAGE_SIZE :
+                    Integer.parseInt(update.message().text().split(DELIMITER)[1]);
 
             Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES);
 
