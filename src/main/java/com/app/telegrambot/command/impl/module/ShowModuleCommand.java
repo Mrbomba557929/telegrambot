@@ -89,7 +89,7 @@ public class ShowModuleCommand implements Command {
         for (int i = 0; i < inlineKeyboard.size() - 1; i++) {
             InlineKeyboardButton button = inlineKeyboard.get(i).get(0);
 
-            if (Long.parseLong(button.text().split(DELIMITER)[1]) == moduleId) {
+            if (Long.parseLong(button.callbackData().split(DELIMITER)[1]) == moduleId) {
                 inlineKeyboard.get(i).set(0, InlineKeyboardButton.builder()
                         .text(DOT + button.text() + DOT)
                         .callbackData(button.callbackData())
