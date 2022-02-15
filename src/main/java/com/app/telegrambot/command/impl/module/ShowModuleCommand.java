@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 public class ShowModuleCommand implements Command {
 
     public static final String DELIMITER = ":";
+    public static final String DOT = "·";
     public static final String ASK_FOR_NAME_MODULE = "Назови имя модуля";
 
     private final ModuleService moduleService;
@@ -39,7 +40,7 @@ public class ShowModuleCommand implements Command {
                         .chatId(update.message().chat().id())
                         .messageId(Math.toIntExact(update.message().id()))
                         .parseMode(ParseMode.MARKDOWN)
-                        .text(module.toString())
+                        .text(DOT + module.toString() + DOT)
                         .replyMarkup(update.message().replyMarkup())
                         .build());
                 return;

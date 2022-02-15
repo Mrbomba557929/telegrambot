@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -35,6 +37,7 @@ public class ShowAllModulesCommand implements Command {
     public static final String FIND_ALL_MODULES_COMMAND = "/modules";
     public static final String FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX = "/modules:\\d+";
     public static final String FIND_MODULE_COMMAND = "/module";
+    public static final String DOT = "·";
     public static final String DELIMITER = ":";
 
     private final MessageSender messageSender;
@@ -60,18 +63,11 @@ public class ShowAllModulesCommand implements Command {
             log.info("Количество страниц: {}, Количество элементов: {}", modules.getTotalPages(), modules.getTotalElements());
             log.info("Количество элементов: {}", modules.getContent().size());
 
-            modules.forEach(module -> inlineKeyboardMarkup.withRow(
-                    List.of(
-                            InlineKeyboardButton.builder()
-                                    .text(module.getName())
-                                    .callbackData(format("%s:%s", FIND_MODULE_COMMAND, module.getId()))
-                                    .build()
-                    )
-            ));
-
-            inlineKeyboardMarkup.zip(inlineKeyboardPaginator
-                    .paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
-                    .getInlineKeyboard());
+            inlineKeyboardMarkup
+                    .zip(generateButtonsFromModules(modules.getContent()))
+                    .zip(inlineKeyboardPaginator
+                            .paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
+                            .getInlineKeyboard());
 
             if (update.hasCallBackQuery()) {
                 editMessageTextSender.send(EditMessageText.builder()
@@ -92,5 +88,31 @@ public class ShowAllModulesCommand implements Command {
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }
+    }
+
+    private List<List<InlineKeyboardButton>> generateButtonsFromModules(List<ModuleEntity> modules) {
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+
+        if (Objects.isNull(modules) || modules.size() == 0) {
+            return buttons;
+        }
+
+        buttons.add(List.of(
+                InlineKeyboardButton.builder()
+                        .text(modules.get(0).getName())
+                        .callbackData(format("%s%s:%s%s", DOT, FIND_MODULE_COMMAND, modules.get(0).getId(), DOT))
+                        .build()));
+
+        for (int i = 1; i < modules.size(); i++) {
+            buttons.add(
+                    List.of(
+                            InlineKeyboardButton.builder()
+                                    .text(modules.get(i).getName())
+                                    .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(i).getId()))
+                                    .build()
+                    ));
+        }
+
+        return buttons;
     }
 }
