@@ -30,7 +30,7 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class ShowAllModulesCommand implements Command {
 
-    public static final Integer NUMBER_OF_PAGES = 5;
+    public static final Integer NUMBER_OF_PAGES_IN_BLOCK = 5;
     public static final Integer INITIAL_PAGE_SIZE = 1;
     public static final String FIND_ALL_MODULES_COMMAND = "/modules";
     public static final String FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX = "/modules:\\d+";
@@ -50,7 +50,9 @@ public class ShowAllModulesCommand implements Command {
                     Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
                     INITIAL_PAGE_SIZE;
 
-            Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES);
+            Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES_IN_BLOCK);
+
+            log.info("Получены модули: {}", modules);
 
             modules.forEach(module -> inlineKeyboardMarkup.withRow(
                     List.of(
