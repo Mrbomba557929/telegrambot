@@ -52,7 +52,7 @@ public class ShowAllModulesCommand implements Command {
 
             Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES_IN_BLOCK);
 
-            log.info("Получены модули: {}", modules.getContent());
+            log.info("Количество страниц: {}, Количество элементов: {}", modules.getTotalPages(), modules.getTotalElements());
 
             modules.forEach(module -> inlineKeyboardMarkup.withRow(
                     List.of(
