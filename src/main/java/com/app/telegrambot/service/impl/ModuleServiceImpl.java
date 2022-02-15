@@ -46,7 +46,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Page<ModuleEntity> findAll(int page, int size) {
-        return moduleRepository.findAll(PageRequest.of(page, size));
+        return moduleRepository.findAll(PageRequest.of(page - 1, size));
     }
 
     @Override
