@@ -40,6 +40,7 @@ public class ShowModuleCommand implements Command {
                         .messageId(Math.toIntExact(update.message().id()))
                         .parseMode(ParseMode.MARKDOWN)
                         .text(module.toString())
+                        .replyMarkup(update.message().replyMarkup())
                         .build());
                 return;
             }
