@@ -34,9 +34,7 @@ public class MessageRecipientController {
                     .message(Message.builder()
                             .from(update.callbackQuery().from())
                             .chat(update.callbackQuery().message().chat())
-                            .text(update.callbackQuery().data().contains(SEPARATOR) ?
-                                    update.callbackQuery().data().split(SEPARATOR)[0] :
-                                    update.callbackQuery().data())
+                            .text(update.callbackQuery().data())
                             .date(update.callbackQuery().message().date().getNano())
                             .id(update.callbackQuery().message().id())
                             .entities(update.callbackQuery().message().entities())

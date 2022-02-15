@@ -12,6 +12,9 @@ public enum CommandName {
     SHOW_MENU("/menu"),
     SHOW_MODULE("/module");
 
+    private static final String REGEX = "/[a-zA-Z]+(:\\d+)+";
+    private static final String DELIMITER = ":";
+
     private final String commandName;
 
     /**
@@ -22,11 +25,13 @@ public enum CommandName {
      */
     public static CommandName fromText(String text) {
 
-        if (text != null) {
-            for (CommandName provider : CommandName.values()) {
-                if (provider.commandName.equalsIgnoreCase(text)) {
-                    return provider;
-                }
+        if (text.matches(REGEX)) {
+            text = text.split(DELIMITER)[0];
+        }
+
+        for (CommandName provider : CommandName.values()) {
+            if (provider.commandName.equalsIgnoreCase(text)) {
+                return provider;
             }
         }
 
