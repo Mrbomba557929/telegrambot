@@ -38,6 +38,7 @@ public class MessageRecipientController {
                             .date(update.callbackQuery().message().date().getNano())
                             .id(update.callbackQuery().message().id())
                             .entities(update.callbackQuery().message().entities())
+                            .replyMarkup(update.callbackQuery().message().replyMarkup())
                             .build())
                     .callbackQuery(update.callbackQuery())
                     .build();
