@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface WordRepository extends JpaRepository<WordEntity, Integer> {
+public interface WordRepository extends JpaRepository<WordEntity, Long> {
 
     @Query(value = """
            SELECT words.word

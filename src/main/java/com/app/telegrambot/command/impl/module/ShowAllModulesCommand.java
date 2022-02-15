@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
  * {@link Command} shows all modules.
  */
@@ -30,65 +32,39 @@ public class ShowAllModulesCommand implements Command {
 
     public static final Integer NUMBER_OF_PAGES = 5;
     public static final Integer INITIAL_PAGE_SIZE = 1;
+    public static final String FIND_MODULE_COMMAND = "/module";
+    public static final String FIND_ALL_MODULES_COMMAND = "/modules";
+    public static final String DELIMITER = ":";
 
     private final MessageSender messageSender;
     private final EditMessageTextSender editMessageTextSender;
     private final ModuleService moduleService;
     private final InlineKeyboardPaginator inlineKeyboardPaginator;
 
-    /*
-    TODO: Переработать полностью логику, исправить пагинацию.
-          Когда, к примеру, у нас всего 2 модуля и всё.
-          Придумать что то с callback и командами.
-          Есть ошибки с символами, почему то телеграм не переводит текст в символ.
-          Проверить работу popup.
-          Исправить, чтобы бот не каждый раз выводил сообщение, а изменял предыдущее.
-     */
-
     @Override
     public void execute(Update update) {
         try {
             InlineKeyboardMarkup.Builder inlineKeyboardMarkup = InlineKeyboardMarkup.builder();
+            int page = update.hasCallBackQuery() ?
+                    Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
+                    INITIAL_PAGE_SIZE;
 
-            if (!update.hasCallBackQuery()) {
-                Page<ModuleEntity> modules = moduleService.findAll(INITIAL_PAGE_SIZE, NUMBER_OF_PAGES);
+            Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES);
 
-                modules.forEach(module -> inlineKeyboardMarkup.withRow(
-                        List.of(
-                                InlineKeyboardButton.builder()
-                                        .text(module.getName())
-                                        .callbackData(String.valueOf(module.getId()))
-                                        .build()
-                        )));
+            modules.forEach(module -> inlineKeyboardMarkup.withRow(
+                    List.of(
+                            InlineKeyboardButton.builder()
+                                    .text(module.getName())
+                                    .callbackData(format("%s:%s", FIND_MODULE_COMMAND, module.getId()))
+                                    .build()
+                    )
+            ));
 
-                inlineKeyboardMarkup.zip(inlineKeyboardPaginator
-                        .paginate(modules.getTotalPages(), INITIAL_PAGE_SIZE, "%d")
-                        .getInlineKeyboard());
+            inlineKeyboardMarkup.zip(inlineKeyboardPaginator
+                    .paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
+                    .getInlineKeyboard());
 
-                // TODO: Придумать с выводов информации о конкретном модуле. То, что я написал - неправильно!
-
-                messageSender.send(SendMessage.builder()
-                        .text(modules.getContent().get(0).toString())
-                        .chatId(update.message().chat().id())
-                        .parseMode(ParseMode.MARKDOWN)
-                        .replyMarkup(inlineKeyboardMarkup.build())
-                        .build());
-            } else {
-                int currentPage = Integer.parseInt(update.message().text());
-                Page<ModuleEntity> modules = moduleService.findAll(currentPage, NUMBER_OF_PAGES);
-
-                modules.forEach(module -> inlineKeyboardMarkup.withRow(
-                        List.of(
-                                InlineKeyboardButton.builder()
-                                        .text(module.getName())
-                                        .callbackData(String.valueOf(module.getId()))
-                                        .build()
-                        )));
-
-                inlineKeyboardMarkup.zip(inlineKeyboardPaginator
-                        .paginate(modules.getTotalPages(), INITIAL_PAGE_SIZE, "%d")
-                        .getInlineKeyboard());
-
+            if (update.hasCallBackQuery()) {
                 editMessageTextSender.send(EditMessageText.builder()
                         .chatId(update.message().chat().id())
                         .messageId(Math.toIntExact(update.message().id()))
@@ -96,19 +72,16 @@ public class ShowAllModulesCommand implements Command {
                         .parseMode(ParseMode.MARKDOWN)
                         .replyMarkup(inlineKeyboardMarkup.build())
                         .build());
+            } else {
+                messageSender.send(SendMessage.builder()
+                        .chatId(update.message().chat().id())
+                        .text(modules.getContent().get(0).toString())
+                        .parseMode(ParseMode.MARKDOWN)
+                        .replyMarkup(inlineKeyboardMarkup.build())
+                        .build());
             }
-
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         }
-    }
-
-    private List<List<InlineKeyboardButton>> translateModulesIntoInlineKeyboardButtons(List<ModuleEntity> modules) {
-        return modules.stream()
-                .map(module -> List.of(InlineKeyboardButton.builder()
-                        .text(module.getName())
-                        .callbackData(String.valueOf(module.getId()))
-                        .build())
-                ).toList();
     }
 }

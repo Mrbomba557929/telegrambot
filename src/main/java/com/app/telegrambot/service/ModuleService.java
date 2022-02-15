@@ -26,4 +26,21 @@ public interface ModuleService {
      * @param size - number of pages.
      */
     Page<ModuleEntity> findAll(int page, int size);
+
+    /**
+     * Method searches one the {@link ModuleEntity} by the id.
+     *
+     * @param id of the {@link ModuleEntity}.
+     * @return found the {@link ModuleEntity}.
+     */
+    ModuleEntity findById(Long id);
+
+    /**
+     * Method searches one the {@link ModuleEntity} by the name and the {@link UserEntity} id.
+     *
+     * @param name of the {@link ModuleEntity}.
+     * @param id of the {@link UserEntity}.
+     * @return found the {@link ModuleEntity}.
+     */
+    ModuleEntity findByNameAndUserId(String name, Long id);
 }

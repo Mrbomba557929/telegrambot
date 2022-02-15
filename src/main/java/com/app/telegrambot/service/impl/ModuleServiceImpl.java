@@ -3,6 +3,7 @@ package com.app.telegrambot.service.impl;
 import com.app.telegrambot.domain.entity.ModuleEntity;
 import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
 import com.app.telegrambot.meta.exception.runtime.impl.ImpossibleToSaveException;
+import com.app.telegrambot.meta.exception.runtime.impl.NotFoundException;
 import com.app.telegrambot.repository.ModuleRepository;
 import com.app.telegrambot.service.ModuleService;
 import com.app.telegrambot.service.UserService;
@@ -46,5 +47,21 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public Page<ModuleEntity> findAll(int page, int size) {
         return moduleRepository.findAll(PageRequest.of(page, size));
+    }
+
+    @Override
+    public ModuleEntity findById(Long id) {
+        return moduleRepository.findById(id)
+                .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Пользователь не был найден!")
+                        .link("ModuleServiceImpl/findById")
+                        .buildRuntime(NotFoundException.class));
+    }
+
+    @Override
+    public ModuleEntity findByNameAndUserId(String name, Long id) {
+        return moduleRepository.findByNameAndUserId(name, id)
+                .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Пользователь не был найден!")
+                        .link("ModuleServiceImpl/findById")
+                        .buildRuntime(NotFoundException.class));
     }
 }

@@ -22,7 +22,7 @@ public class InlineKeyboardPaginator {
 
     public InlineKeyboardMarkup paginate(int totalPages, int currentPage, String dataPattern) {
 
-        if (totalPages < 0) {
+        if (totalPages < 0 || currentPage < 0) {
             return new InlineKeyboardMarkup();
         }
 
@@ -35,7 +35,7 @@ public class InlineKeyboardPaginator {
 
         if (totalPages <= NUMBER_OF_PAGES_IN_BLOCK) {
             return generateSingleBlock(totalPages, currentPage, dataPattern);
-        }else if (currentPage < 4) {
+        } else if (currentPage < 4) {
             return generateFirstBlock(totalPages, currentPage, dataPattern);
         } else if (currentPage <= totalPages - 4) {
             return generateMiddleBlock(totalPages, currentPage, dataPattern);

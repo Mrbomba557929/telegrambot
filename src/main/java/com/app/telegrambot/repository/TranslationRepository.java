@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TranslationRepository extends JpaRepository<TranslationEntity, Integer> {
+public interface TranslationRepository extends JpaRepository<TranslationEntity, Long> {
 
     @Query(value = """
-            SELECT translations.translate
+            SELECT translations.translation
             FROM translations
-            WHERE translations.translate = :translation
+            WHERE translations.translation = :translation
             """, nativeQuery = true)
     Optional<TranslationEntity> findByTranslation(@Param("translation") String translation);
 }

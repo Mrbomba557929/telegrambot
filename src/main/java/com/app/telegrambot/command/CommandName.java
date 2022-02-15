@@ -7,9 +7,10 @@ public enum CommandName {
 
     UNKNOWN_COMMAND("/unknown"),
     CREATE_MODULE("/cm"),
-    MODULES("/m"),
+    MODULES("/modules"),
     STOP_STATE("/stop"),
-    SHOW_MENU("/menu");
+    SHOW_MENU("/menu"),
+    SHOW_MODULE("/module");
 
     private final String commandName;
 
