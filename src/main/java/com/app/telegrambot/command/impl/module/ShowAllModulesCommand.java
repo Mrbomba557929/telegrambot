@@ -47,8 +47,8 @@ public class ShowAllModulesCommand implements Command {
         try {
             InlineKeyboardMarkup.Builder inlineKeyboardMarkup = InlineKeyboardMarkup.builder();
             int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
-                    INITIAL_PAGE_SIZE :
-                    Integer.parseInt(update.message().text().split(DELIMITER)[1]);
+                    Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
+                    INITIAL_PAGE_SIZE;
 
             Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES);
 
