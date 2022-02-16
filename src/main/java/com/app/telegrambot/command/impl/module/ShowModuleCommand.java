@@ -29,6 +29,7 @@ public class ShowModuleCommand implements Command {
     public static final String DOT = "·";
     public static final String ASK_FOR_NAME_MODULE = "Назови имя модуля";
     public static final String SELECTED_MODULE_REGEX = DOT + ".+" + DOT;
+    public static final String CALLBACK_QUERY_REGEX = "/module:\\d+";
 
     private final ModuleService moduleService;
     private final EditMessageTextSender editMessageTextSender;
@@ -39,7 +40,7 @@ public class ShowModuleCommand implements Command {
     public void execute(Update update) {
         try {
 
-            if (update.hasCallBackQuery()) {
+            if (update.message().text().matches(CALLBACK_QUERY_REGEX)) {
                 Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
                 editMessageTextSender.send(EditMessageText.builder()
                         .chatId(update.message().chat().id())
