@@ -58,8 +58,7 @@ public class InlineKeyboardPaginator {
 
     private List<InlineKeyboardButton> generateFirstBlock(int totalPages, int currentPage, String dataPattern) {
         AtomicInteger counter = new AtomicInteger(1);
-        return Stream.concat(
-                Stream.generate(() -> {
+        return Stream.concat(Stream.generate(() -> {
                     String text;
 
                     if (counter.get() != 4) {
@@ -108,8 +107,7 @@ public class InlineKeyboardPaginator {
 
     private List<InlineKeyboardButton> generateLastBlock(int totalPages, int currentPage, String dataPattern) {
         AtomicInteger counter = new AtomicInteger(totalPages - 2);
-        return Stream.concat(
-                Stream.of(
+        return Stream.concat(Stream.of(
                         InlineKeyboardButton.builder()
                                 .callbackData(format(dataPattern, 1))
                                 .text(QUOTE_LEFT + 1)
@@ -119,12 +117,14 @@ public class InlineKeyboardPaginator {
                                 .text(LESS_SIGN + (totalPages - 3))
                                 .build()
                 ),
-                Stream.generate(() -> InlineKeyboardButton.builder()
-                        .callbackData(format(dataPattern, counter.get()))
-                        .text(counter.get() == currentPage ?
-                                DOT + counter.getAndIncrement() + DOT :
-                                String.valueOf(counter.getAndIncrement()))
-                        .build())
+                Stream.generate(() ->
+                        InlineKeyboardButton.builder()
+                                .callbackData(format(dataPattern, counter.get()))
+                                .text(counter.get() == currentPage ?
+                                        DOT + counter.getAndIncrement() + DOT :
+                                        String.valueOf(counter.getAndIncrement()))
+                                .build()
+                )
         ).toList();
     }
 }

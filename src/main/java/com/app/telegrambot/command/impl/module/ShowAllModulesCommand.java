@@ -97,20 +97,16 @@ public class ShowAllModulesCommand implements Command {
             return buttons;
         }
 
-        buttons.add(List.of(
-                InlineKeyboardButton.builder()
+        buttons.add(List.of(InlineKeyboardButton.builder()
                         .text(DOT + modules.get(0).getName() + DOT)
                         .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(0).getId()))
                         .build()));
 
         for (int i = 1; i < modules.size(); i++) {
-            buttons.add(
-                    List.of(
-                            InlineKeyboardButton.builder()
-                                    .text(modules.get(i).getName())
-                                    .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(i).getId()))
-                                    .build()
-                    ));
+            buttons.add(List.of(InlineKeyboardButton.builder()
+                            .text(modules.get(i).getName())
+                            .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(i).getId()))
+                            .build()));
         }
 
         return buttons;
