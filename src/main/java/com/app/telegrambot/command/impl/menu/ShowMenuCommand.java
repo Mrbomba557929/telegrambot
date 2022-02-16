@@ -35,16 +35,20 @@ public class ShowMenuCommand implements Command {
                             .withRow(
                                     List.of(
                                             InlineKeyboardButton.builder()
-                                                    .text("Создать модуль")
-                                                    .callbackData("/cm")
-                                                    .build(),
-                                            InlineKeyboardButton.builder()
                                                     .text("Найти модуль")
                                                     .callbackData("/module")
-                                                    .build(),
+                                                    .build()
                                             InlineKeyboardButton.builder()
                                                     .text("Все мои модули")
                                                     .callbackData("/modules")
+                                                    .build()
+                                    )
+                            )
+                            .withRow(
+                                    List.of(
+                                            InlineKeyboardButton.builder()
+                                                    .text("Создать модуль")
+                                                    .callbackData("/cm")
                                                     .build()
                                     )
                             )
