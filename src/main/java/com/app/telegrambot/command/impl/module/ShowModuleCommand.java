@@ -89,7 +89,7 @@ public class ShowModuleCommand implements Command {
 
             if (button.getText().matches(DOT + ".+" + DOT)) {
                 button.setText(button.getText().substring(1, button.getText().length() - 1));
-            } else if (Long.parseLong(button.getText().split(DELIMITER)[1]) == moduleId) {
+            } else if (Long.parseLong(button.getCallbackData().split(DELIMITER)[1]) == moduleId) {
                 button.setText(DOT + button.getText() + DOT);
             }
         }
