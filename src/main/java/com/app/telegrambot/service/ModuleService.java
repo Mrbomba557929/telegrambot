@@ -43,4 +43,21 @@ public interface ModuleService {
      * @return found the {@link ModuleEntity}.
      */
     ModuleEntity findByNameAndUserId(String name, Long id);
+
+    /**
+     * Method deletes the {@link ModuleEntity} by the name and the {@link UserEntity} id.
+     *
+     * @param name of the {@link ModuleEntity}.
+     * @param id of the {@link UserEntity}.
+     */
+    void deleteByNameAndUserId(String name, Long id);
+
+    /**
+     * Method checks exists the {@link ModuleEntity} by the name and the {@link UserEntity} id.
+     *
+     * @param name of the {@link ModuleEntity}.
+     * @param id of the {@link UserEntity}.
+     * @return true or false.
+     */
+    Boolean existsByNameAndUserId(String name, Long id);
 }

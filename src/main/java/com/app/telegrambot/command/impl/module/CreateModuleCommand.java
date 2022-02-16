@@ -48,11 +48,6 @@ public class CreateModuleCommand implements Command {
         }
     }
 
-    /**
-     * The method asks the user for the module name
-     *
-     * @param update with all information.
-     */
     public void askForModuleName(Update update) {
         try {
             log.info("Начало работы askForModuleName метода. Имя модуля: {}", update.message().text());

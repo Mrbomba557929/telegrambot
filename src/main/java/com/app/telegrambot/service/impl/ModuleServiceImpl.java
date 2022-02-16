@@ -65,4 +65,14 @@ public class ModuleServiceImpl implements ModuleService {
                         .link("ModuleServiceImpl/findById")
                         .buildRuntime(NotFoundException.class));
     }
+
+    @Override
+    public void deleteByNameAndUserId(String name, Long id) {
+        moduleRepository.deleteByNameAndUserId(name, id);
+    }
+
+    @Override
+    public Boolean existsByNameAndUserId(String name, Long id) {
+        return moduleRepository.existsByNameAndUserId(name, id);
+    }
 }
