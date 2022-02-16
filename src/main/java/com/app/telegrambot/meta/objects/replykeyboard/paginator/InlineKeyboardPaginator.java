@@ -22,9 +22,6 @@ public class InlineKeyboardPaginator {
 
     public InlineKeyboardMarkup paginate(int totalPages, int currentPage, String dataPattern) {
 
-        // total - 8
-        // current - 5
-
         if (totalPages < 0 || currentPage < 0) {
             return new InlineKeyboardMarkup();
         }

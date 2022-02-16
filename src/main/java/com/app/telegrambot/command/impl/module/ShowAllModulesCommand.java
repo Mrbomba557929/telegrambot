@@ -65,8 +65,7 @@ public class ShowAllModulesCommand implements Command {
 
             inlineKeyboardMarkup
                     .zip(generateButtonsFromModules(modules.getContent()))
-                    .zip(inlineKeyboardPaginator
-                            .paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
+                    .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
                             .getInlineKeyboard());
 
             if (update.hasCallBackQuery()) {
