@@ -66,7 +66,8 @@ public class ShowAllModulesCommand implements Command {
             inlineKeyboardMarkup
                     .zip(generateButtonsFromModules(modules.getContent()))
                     .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
-                            .getInlineKeyboard());
+                            .getInlineKeyboard())
+                    .withRow(getMenuButton());
 
             if (update.hasCallBackQuery()) {
                 editMessageTextSender.send(EditMessageText.builder()
@@ -109,5 +110,14 @@ public class ShowAllModulesCommand implements Command {
         }
 
         return buttons;
+    }
+
+    private List<InlineKeyboardButton> getMenuButton() {
+        return List.of(
+                InlineKeyboardButton.builder()
+                        .text("Меню")
+                        .callbackData("/menu")
+                        .build()
+        );
     }
 }

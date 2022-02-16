@@ -1,6 +1,9 @@
 package com.app.telegrambot.command.impl.menu;
 
 import com.app.telegrambot.command.Command;
+import com.app.telegrambot.domain.еnum.ParseMode;
+import com.app.telegrambot.meta.methods.send.impl.EditMessageTextSender;
+import com.app.telegrambot.meta.methods.send.objects.EditMessageText;
 import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
@@ -22,12 +25,26 @@ import java.util.List;
 public class ShowMenuCommand implements Command {
 
     public static final String SHOW_MENU_COMMAND_MESSAGE = "Привет, выбери интересующую опцию.";
+    public static final String DO_NEED_TO_REPLACE_PREVIOUS_MESSAGE_REGEX = "/menu:previous";
 
     private final MessageSender sender;
+    private final EditMessageTextSender editMessageTextSender;
 
     @Override
     public void execute(Update update) {
         try {
+
+            if (update.message().text().matches(DO_NEED_TO_REPLACE_PREVIOUS_MESSAGE_REGEX)) {
+                editMessageTextSender.send(EditMessageText.builder()
+                        .chatId(update.message().chat().id())
+                        .messageId(Math.toIntExact(update.message().id()))
+                        .text(SHOW_MENU_COMMAND_MESSAGE)
+                        .parseMode(ParseMode.MARKDOWN)
+                        .replyMarkup(generateKeyboard())
+                        .build());
+                return;
+            }
+
             sender.send(SendMessage.builder()
                     .text(SHOW_MENU_COMMAND_MESSAGE)
                     .chatId(update.message().chat().id())
@@ -40,25 +57,21 @@ public class ShowMenuCommand implements Command {
 
     private InlineKeyboardMarkup generateKeyboard() {
         return InlineKeyboardMarkup.builder()
-                .withRow(
-                        List.of(
-                                InlineKeyboardButton.builder()
-                                        .text("Найти модуль")
-                                        .callbackData("/module")
-                                        .build(),
-                                InlineKeyboardButton.builder()
-                                        .text("Все мои модули")
-                                        .callbackData("/modules")
-                                        .build()
-                        )
+                .withRow(List.of(
+                        InlineKeyboardButton.builder()
+                                .text("Найти модуль")
+                                .callbackData("/module")
+                                .build(),
+                        InlineKeyboardButton.builder()
+                                .text("Все мои модули")
+                                .callbackData("/modules")
+                                .build())
                 )
-                .withRow(
-                        List.of(
-                                InlineKeyboardButton.builder()
-                                        .text("Создать модуль")
-                                        .callbackData("/cm")
-                                        .build()
-                        )
+                .withRow(List.of(
+                        InlineKeyboardButton.builder()
+                                .text("Создать модуль")
+                                .callbackData("/cm")
+                                .build())
                 )
                 .build();
     }

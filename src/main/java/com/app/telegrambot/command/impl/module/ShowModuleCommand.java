@@ -77,7 +77,6 @@ public class ShowModuleCommand implements Command {
                     .parseMode(ParseMode.MARKDOWN)
                     .replyMarkup(generateKeyboard())
                     .build());
-
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
         } finally {
@@ -118,7 +117,7 @@ public class ShowModuleCommand implements Command {
                 .withRow(List.of(
                         InlineKeyboardButton.builder()
                                 .text("Меню")
-                                .callbackData("/menu")
+                                .callbackData("/menu:previous")
                                 .build()
                 ))
                 .build();
