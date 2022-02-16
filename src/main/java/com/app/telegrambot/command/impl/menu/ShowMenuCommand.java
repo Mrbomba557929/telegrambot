@@ -39,7 +39,11 @@ public class ShowMenuCommand implements Command {
                                                     .callbackData("/cm")
                                                     .build(),
                                             InlineKeyboardButton.builder()
-                                                    .text("Мои модули")
+                                                    .text("Найти модуль")
+                                                    .callbackData("/module")
+                                                    .build(),
+                                            InlineKeyboardButton.builder()
+                                                    .text("Все мои модули")
                                                     .callbackData("/modules")
                                                     .build()
                                     )
