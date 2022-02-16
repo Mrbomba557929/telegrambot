@@ -69,7 +69,7 @@ public class ShowModuleCommand implements Command {
 
     private void askForNameModule(Update update) {
         try {
-            ModuleEntity module = moduleService.findByNameAndUserIdSortedByCreationDate(update.message().text(), update.message().from().idLong());
+            ModuleEntity module = moduleService.findByNameAndUserId(update.message().text(), update.message().from().idLong());
 
             messageSender.send(SendMessage.builder()
                     .text(module.toString())

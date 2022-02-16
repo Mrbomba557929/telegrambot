@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -46,7 +47,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Page<ModuleEntity> findAll(int page, int size) {
-        return moduleRepository.findAll(PageRequest.of(page - 1, size));
+        return moduleRepository.findAll(PageRequest.of(page - 1, size, Sort.by("createdAt").descending()));
     }
 
     @Override
@@ -58,8 +59,8 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public ModuleEntity findByNameAndUserIdSortedByCreationDate(String name, Long id) {
-        return moduleRepository.findByNameAndUserIdSortedByCreationDate(name, id)
+    public ModuleEntity findByNameAndUserId(String name, Long id) {
+        return moduleRepository.findByNameAndUserId(name, id)
                 .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Пользователь не был найден!")
                         .link("ModuleServiceImpl/findById")
                         .buildRuntime(NotFoundException.class));
