@@ -68,17 +68,19 @@ public class ShowModuleCommand implements Command {
 
     private void askForNameModule(Update update) {
         try {
-            ModuleEntity module = moduleService.findByNameAndUserId(update.message().text(), update.message().from().idLong());
+            ModuleEntity module = moduleService.findByNameAndUserIdSortedByCreationDate(update.message().text(), update.message().from().idLong());
 
             messageSender.send(SendMessage.builder()
                     .text(module.toString())
                     .chatId(update.message().chat().id())
                     .parseMode(ParseMode.MARKDOWN)
+                    .replyMarkup(generateKeyboard())
                     .build());
 
-            stateMachine.stop(update.message().from().idLong());
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
+        } finally {
+            stateMachine.stop(update.message().from().idLong());
         }
     }
 
@@ -97,8 +99,27 @@ public class ShowModuleCommand implements Command {
             }
         }
 
-        inlineKeyboardMarkup.setInlineKeyboard(inlineKeyboard);
-
         return inlineKeyboardMarkup;
+    }
+
+    private InlineKeyboardMarkup generateKeyboard() {
+        return InlineKeyboardMarkup.builder()
+                .withRow(List.of(
+                        InlineKeyboardButton.builder()
+                                .text("Добавить слова")
+                                .callbackData("/addWords")
+                                .build(),
+                        InlineKeyboardButton.builder()
+                                .text("Удалить модуль")
+                                .callbackData("/deleteModule")
+                                .build()
+                ))
+                .withRow(List.of(
+                        InlineKeyboardButton.builder()
+                                .text("Меню")
+                                .callbackData("/menu")
+                                .build()
+                ))
+                .build();
     }
 }

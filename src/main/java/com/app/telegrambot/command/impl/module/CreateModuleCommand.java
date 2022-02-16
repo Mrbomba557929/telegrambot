@@ -63,10 +63,10 @@ public class CreateModuleCommand implements Command {
                     .text(format(ASK_FOR_MODULE_NAME_MESSAGE, update.message().from().fio(), savedModule.getName()))
                     .chatId(update.message().chat().id())
                     .build());
-
-            stateMachine.stop(update.message().from().idLong());
         } catch (TelegramApiException e) {
             log.error("An error occurred {}", e.getMessage());
+        } finally {
+            stateMachine.stop(update.message().from().idLong());
         }
     }
 }

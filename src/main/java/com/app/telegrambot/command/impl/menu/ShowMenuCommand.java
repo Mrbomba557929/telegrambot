@@ -21,7 +21,7 @@ import java.util.List;
 @Component
 public class ShowMenuCommand implements Command {
 
-    public static final String SHOW_MENU_COMMAND_MESSAGE = "Привет, выбери интересующую опицию.";
+    public static final String SHOW_MENU_COMMAND_MESSAGE = "Привет, выбери интересующую опцию.";
 
     private final MessageSender sender;
 

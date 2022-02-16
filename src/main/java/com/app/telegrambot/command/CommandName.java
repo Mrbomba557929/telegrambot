@@ -8,9 +8,9 @@ public enum CommandName {
     UNKNOWN_COMMAND("/unknown"),
     CREATE_MODULE("/cm"),
     MODULES("/modules"),
+    SHOW_MODULE("/module"),
     STOP_STATE("/stop"),
-    SHOW_MENU("/menu"),
-    SHOW_MODULE("/module");
+    SHOW_MENU("/menu");
 
     private static final String REGEX = "/[a-zA-Z]+(:\\d+)+";
     private static final String DELIMITER = ":";

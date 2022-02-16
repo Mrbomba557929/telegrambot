@@ -58,8 +58,8 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public ModuleEntity findByNameAndUserId(String name, Long id) {
-        return moduleRepository.findByNameAndUserId(name, id)
+    public ModuleEntity findByNameAndUserIdSortedByCreationDate(String name, Long id) {
+        return moduleRepository.findByNameAndUserIdSortedByCreationDate(name, id)
                 .orElseThrow(() -> ExceptionFactory.exceptionBuilder("Пользователь не был найден!")
                         .link("ModuleServiceImpl/findById")
                         .buildRuntime(NotFoundException.class));

@@ -42,5 +42,5 @@ public interface ModuleService {
      * @param id of the {@link UserEntity}.
      * @return found the {@link ModuleEntity}.
      */
-    ModuleEntity findByNameAndUserId(String name, Long id);
+    ModuleEntity findByNameAndUserIdSortedByCreationDate(String name, Long id);
 }

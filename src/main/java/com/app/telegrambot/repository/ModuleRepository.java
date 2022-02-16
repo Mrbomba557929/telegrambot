@@ -14,6 +14,7 @@ public interface ModuleRepository extends JpaRepository<ModuleEntity, Long> {
     SELECT *
     FROM modules
     WHERE modules.name = ?1 AND modules.user_id = ?2
+    ORDER BY modules.created_at DESC
     """)
-    Optional<ModuleEntity> findByNameAndUserId(String name, Long userId);
+    Optional<ModuleEntity> findByNameAndUserIdSortedByCreationDate(String name, Long userId);
 }
