@@ -12,7 +12,7 @@ public enum CommandName {
     STOP_STATE("/stop"),
     SHOW_MENU("/menu");
 
-    private static final String REGEX = "/[a-zA-Z]+(:\\d+)+";
+    private static final String REGEX = "/[a-zA-Z]+(:.+)+";
     private static final String DELIMITER = ":";
 
     private final String commandName;
