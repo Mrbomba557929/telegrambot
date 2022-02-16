@@ -124,7 +124,7 @@ public class InlineKeyboardPaginator {
                                         DOT + counter.getAndIncrement() + DOT :
                                         String.valueOf(counter.getAndIncrement()))
                                 .build()
-                )
+                ).limit(3)
         ).toList();
     }
 }

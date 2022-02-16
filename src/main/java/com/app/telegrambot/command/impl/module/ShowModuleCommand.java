@@ -28,6 +28,7 @@ public class ShowModuleCommand implements Command {
     public static final String DELIMITER = ":";
     public static final String DOT = "·";
     public static final String ASK_FOR_NAME_MODULE = "Назови имя модуля";
+    public static final String SELECTED_MODULE_REGEX = DOT + ".+" + DOT;
 
     private final ModuleService moduleService;
     private final EditMessageTextSender editMessageTextSender;
@@ -87,7 +88,7 @@ public class ShowModuleCommand implements Command {
         for (int i = 0; i < inlineKeyboard.size() - 1; i++) {
             InlineKeyboardButton button = inlineKeyboard.get(i).get(0);
 
-            if (button.getText().matches(DOT + ".+" + DOT)) {
+            if (button.getText().matches(SELECTED_MODULE_REGEX)) {
                 button.setText(button.getText().substring(1, button.getText().length() - 1));
             } else if (Long.parseLong(button.getCallbackData().split(DELIMITER)[1]) == moduleId) {
                 button.setText(DOT + button.getText() + DOT);
