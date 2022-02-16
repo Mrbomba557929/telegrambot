@@ -37,7 +37,7 @@ public class ShowMenuCommand implements Command {
                                             InlineKeyboardButton.builder()
                                                     .text("Найти модуль")
                                                     .callbackData("/module")
-                                                    .build()
+                                                    .build(),
                                             InlineKeyboardButton.builder()
                                                     .text("Все мои модули")
                                                     .callbackData("/modules")
