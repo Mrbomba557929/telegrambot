@@ -48,7 +48,7 @@ public class StopStateCommand implements Command {
                                     List.of(
                                             InlineKeyboardButton.builder()
                                                     .text("Меню")
-                                                    .callbackData("/menu")
+                                                    .callbackData("/menu:previous")
                                                     .build()
                                     )
                             )

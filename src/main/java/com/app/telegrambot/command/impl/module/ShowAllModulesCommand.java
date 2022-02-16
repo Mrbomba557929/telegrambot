@@ -116,7 +116,7 @@ public class ShowAllModulesCommand implements Command {
         return List.of(
                 InlineKeyboardButton.builder()
                         .text("Меню")
-                        .callbackData("/menu")
+                        .callbackData("/menu:previous")
                         .build()
         );
     }
