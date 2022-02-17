@@ -50,6 +50,8 @@ public class StartCommand implements Command {
                                 .text("/menu")
                                 .build()
                 ))
+                .resizeKeyboard(true)
+                .selective(true)
                 .build();
     }
 }
