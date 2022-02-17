@@ -111,7 +111,7 @@ public class ShowModuleCommand implements Command {
             }
         }
 
-        inlineKeyboard.get(inlineKeyboard.size() - 1).get(0).setText("/module:" + moduleId);
+        inlineKeyboard.get(inlineKeyboard.size() - 1).get(0).setCallbackData("/module:" + moduleId);
 
         return inlineKeyboardMarkup;
     }
