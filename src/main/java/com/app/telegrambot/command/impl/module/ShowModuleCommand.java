@@ -99,7 +99,7 @@ public class ShowModuleCommand implements Command {
     private InlineKeyboardMarkup tagSelectedModule(InlineKeyboardMarkup inlineKeyboardMarkup, Long moduleId) {
         List<List<InlineKeyboardButton>> inlineKeyboard = inlineKeyboardMarkup.getInlineKeyboard();
 
-        for (int i = 0; i < inlineKeyboard.size() - 1; i++) {
+        for (int i = 0; i < inlineKeyboard.size() - 2; i++) {
             InlineKeyboardButton button = inlineKeyboard.get(i).get(0);
 
             if (button.getText().matches(SELECTED_MODULE_REGEX)) {
