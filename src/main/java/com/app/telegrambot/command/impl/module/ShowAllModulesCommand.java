@@ -51,6 +51,7 @@ public class ShowAllModulesCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+
             log.info("Пришло сообщение в find modules: {}", update.message().text());
 
             int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
@@ -64,38 +65,48 @@ public class ShowAllModulesCommand implements Command {
             log.info("Количество страниц: {}, Количество элементов: {}", modules.getTotalPages(), modules.getTotalElements());
             log.info("Количество элементов: {}", modules.getContent().size());
 
-            InlineKeyboardMarkup inlineKeyboardMarkup = InlineKeyboardMarkup.builder()
-                    .zip(generateButtonsFromModules(modules.getContent()))
-                    .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d").getInlineKeyboard())
-                    .withRow(generateKeyboard())
-                    .build();
-
             if (update.hasCallBackQuery()) {
                 editMessageTextSender.send(EditMessageText.builder()
                         .chatId(update.message().chat().id())
                         .messageId(Math.toIntExact(update.message().id()))
                         .text(modules.getContent().get(0).toString())
                         .parseMode(ParseMode.MARKDOWN)
-                        .replyMarkup(inlineKeyboardMarkup)
+                        .replyMarkup(generateKeyboard(modules, page))
                         .build());
             } else {
                 messageSender.send(SendMessage.builder()
                         .chatId(update.message().chat().id())
                         .text(modules.getContent().get(0).toString())
                         .parseMode(ParseMode.MARKDOWN)
-                        .replyMarkup(inlineKeyboardMarkup)
+                        .replyMarkup(generateKeyboard(modules, page))
                         .build());
             }
+
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         }
     }
 
-    private List<List<InlineKeyboardButton>> generateButtonsFromModules(List<ModuleEntity> modules) {
+    private InlineKeyboardMarkup generateKeyboard(Page<ModuleEntity> modules, int page) {
+        return InlineKeyboardMarkup.builder()
+                .zip(generateButtonsForModules(modules.getContent()))
+                .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d").getInlineKeyboard())
+                .zip(generateButtonsForBottomKeyboard())
+                .withRow(modules.getContent().size() > 0
+                        ? List.of(
+                        InlineKeyboardButton.builder()
+                                .text("Посмотреть выбранный модуль")
+                                .callbackData("/module:" + modules.getContent().get(0).getId())
+                                .build())
+                        : null)
+                .build();
+    }
+
+    private List<List<InlineKeyboardButton>> generateButtonsForModules(List<ModuleEntity> modules) {
 
         if (Objects.isNull(modules)) {
             throw ExceptionFactory.exceptionBuilder(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE)
-                    .link("ShowAllModulesCommand/generateButtonsFromModules")
+                    .link("ShowAllModulesCommand/generateButtonsForModules")
                     .buildRuntime(IllegalArgumentException.class);
         }
 
@@ -111,12 +122,14 @@ public class ShowAllModulesCommand implements Command {
         return buttons;
     }
 
-    private List<InlineKeyboardButton> generateKeyboard() {
+    private List<List<InlineKeyboardButton>> generateButtonsForBottomKeyboard() {
         return List.of(
-                InlineKeyboardButton.builder()
-                        .text("Меню")
-                        .callbackData("/menu:previous")
-                        .build()
+                List.of(
+                        InlineKeyboardButton.builder()
+                                .text("Меню")
+                                .callbackData("/menu:previous")
+                                .build()
+                )
         );
     }
 }

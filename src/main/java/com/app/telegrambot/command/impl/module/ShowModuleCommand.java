@@ -29,7 +29,7 @@ public class ShowModuleCommand implements Command {
     public static final String DOT = "·";
     public static final String ASK_FOR_NAME_MODULE = "Назови имя модуля";
     public static final String SELECTED_MODULE_REGEX = DOT + ".+" + DOT;
-    public static final String CALLBACK_QUERY_REGEX = "/module:\\d+";
+    public static final String CURRENT_MODULE_REGEX = "/module:\\d+";
 
     private final ModuleService moduleService;
     private final EditMessageTextSender editMessageTextSender;
@@ -40,8 +40,8 @@ public class ShowModuleCommand implements Command {
     public void execute(Update update) {
         try {
 
-            if (update.message().text().matches(CALLBACK_QUERY_REGEX)) {
-                this.callback(update);
+            if (update.message().text().matches(CURRENT_MODULE_REGEX)) {
+                this.editMessage(update);
                 return;
             }
 
@@ -60,7 +60,7 @@ public class ShowModuleCommand implements Command {
         }
     }
 
-    public void callback(Update update) {
+    private void editMessage(Update update) {
         try {
 
             Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
@@ -110,6 +110,8 @@ public class ShowModuleCommand implements Command {
                 button.setText(DOT + button.getText() + DOT);
             }
         }
+
+        inlineKeyboard.get(inlineKeyboard.size() - 1).get(0).setText("/module:" + moduleId);
 
         return inlineKeyboardMarkup;
     }

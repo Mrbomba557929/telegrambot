@@ -41,7 +41,6 @@ public class ModuleEntity {
                Название:        %s
                Дата создания:   %s
                Количество слов: %d
-               Владелец:        %s
-               """.formatted(name, createdAt.toString(), words.size(), user.getFirstName() + " " + user.getLastName());
+               """.formatted(name, createdAt.toString(), words.size());
     }
 }
