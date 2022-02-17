@@ -15,6 +15,10 @@ public class ExceptionFactory {
         return new Builder(message);
     }
 
+    public static Builder exceptionBuilder(ExceptionMessage message) {
+        return new Builder(message.getMessage());
+    }
+
     public static class Builder {
 
         private final String message;

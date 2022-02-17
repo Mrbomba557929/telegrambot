@@ -1,5 +1,7 @@
 package com.app.telegrambot.meta.objects.replykeyboard.paginator;
 
+import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
+import com.app.telegrambot.meta.exception.runtime.impl.IllegalArgumentException;
 import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
 import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
+import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE;
 import static java.lang.String.format;
 
 @Component
@@ -22,8 +25,10 @@ public class InlineKeyboardPaginator {
 
     public InlineKeyboardMarkup paginate(int totalPages, int currentPage, String dataPattern) {
 
-        if (totalPages < 0 || currentPage < 0) {
-            return new InlineKeyboardMarkup();
+        if (totalPages <= 0 || currentPage <= 0) {
+            throw ExceptionFactory.exceptionBuilder(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE)
+                    .link("InlineKeyboardPaginator/paginate")
+                    .buildRuntime(IllegalArgumentException.class);
         }
 
         return InlineKeyboardMarkup.builder()
@@ -61,12 +66,12 @@ public class InlineKeyboardPaginator {
         return Stream.concat(Stream.generate(() -> {
                     String text;
 
-                    if (counter.get() != 4) {
+                    if (counter.get() == 4) {
+                        text = counter.get() + GREATER_SIGN;
+                    } else {
                         text = counter.get() == currentPage ?
                                 DOT + counter.get() + DOT :
                                 String.valueOf(counter.get());
-                    } else {
-                        text = counter.get() + GREATER_SIGN;
                     }
 
                     return InlineKeyboardButton.builder()

@@ -41,14 +41,7 @@ public class ShowModuleCommand implements Command {
         try {
 
             if (update.message().text().matches(CALLBACK_QUERY_REGEX)) {
-                Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
-                editMessageTextSender.send(EditMessageText.builder()
-                        .chatId(update.message().chat().id())
-                        .messageId(Math.toIntExact(update.message().id()))
-                        .parseMode(ParseMode.MARKDOWN)
-                        .text(moduleService.findById(moduleId).toString())
-                        .replyMarkup(tagSelectedModule(update.message().replyMarkup(), moduleId))
-                        .build());
+                this.callback(update);
                 return;
             }
 
@@ -63,12 +56,30 @@ public class ShowModuleCommand implements Command {
                     .build());
 
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
+        }
+    }
+
+    public void callback(Update update) {
+        try {
+
+            Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
+            editMessageTextSender.send(EditMessageText.builder()
+                    .chatId(update.message().chat().id())
+                    .messageId(Math.toIntExact(update.message().id()))
+                    .parseMode(ParseMode.MARKDOWN)
+                    .text(moduleService.findById(moduleId).toString())
+                    .replyMarkup(tagSelectedModule(update.message().replyMarkup(), moduleId))
+                    .build());
+
+        } catch (TelegramApiException e) {
+            log.error("Произошла ошибки при отправке запроса: {}", e.getMessage());
         }
     }
 
     private void askForNameModule(Update update) {
         try {
+
             ModuleEntity module = moduleService.findByNameAndUserId(update.message().text(), update.message().from().idLong());
 
             messageSender.send(SendMessage.builder()
@@ -77,8 +88,9 @@ public class ShowModuleCommand implements Command {
                     .parseMode(ParseMode.MARKDOWN)
                     .replyMarkup(generateKeyboard())
                     .build());
+
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         } finally {
             stateMachine.stop(update.message().from().idLong());
         }

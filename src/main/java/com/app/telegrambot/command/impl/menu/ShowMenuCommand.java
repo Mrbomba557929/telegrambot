@@ -25,7 +25,7 @@ import java.util.List;
 public class ShowMenuCommand implements Command {
 
     public static final String SHOW_MENU_COMMAND_MESSAGE = "Привет, выбери интересующую опцию.";
-    public static final String DO_NEED_TO_REPLACE_PREVIOUS_MESSAGE_REGEX = "/menu:previous";
+    public static final String MESSAGE_REGEX = "/menu:previous";
 
     private final MessageSender sender;
     private final EditMessageTextSender editMessageTextSender;
@@ -34,7 +34,7 @@ public class ShowMenuCommand implements Command {
     public void execute(Update update) {
         try {
 
-            if (update.message().text().matches(DO_NEED_TO_REPLACE_PREVIOUS_MESSAGE_REGEX)) {
+            if (update.message().text().matches(MESSAGE_REGEX)) {
                 editMessageTextSender.send(EditMessageText.builder()
                         .chatId(update.message().chat().id())
                         .messageId(Math.toIntExact(update.message().id()))
@@ -50,8 +50,9 @@ public class ShowMenuCommand implements Command {
                     .chatId(update.message().chat().id())
                     .replyMarkup(generateKeyboard())
                     .build());
+
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         }
     }
 

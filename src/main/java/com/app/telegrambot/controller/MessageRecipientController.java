@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class MessageRecipientController {
 
     public static final String COMMAND_PREFIX = "/";
-    public static final String SEPARATOR = ":";
 
     private final StateMachine stateMachine;
     private final CommandContainer commandContainer;

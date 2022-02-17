@@ -31,6 +31,7 @@ public class DeleteModuleCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+
             messageSender.send(SendMessage.builder()
                     .text(DELETE_MODULE_MESSAGE)
                     .chatId(update.message().chat().id())
@@ -42,31 +43,33 @@ public class DeleteModuleCommand implements Command {
                     .build());
 
         } catch (TelegramApiException e) {
-            log.info("Произошла ошибка при отправки сообщения: {}", e.getMessage());
+            log.info("Произошла ошибка при отправке сообщения: {}", e.getMessage());
         }
     }
 
     private void askForModuleName(Update update) {
         try {
+
             String moduleName = update.message().text();
             Long userId = update.message().from().idLong();
 
+            String text;
+
             if (moduleService.existsByNameAndUserId(moduleName, userId)) {
-                moduleService.deleteByNameAndUserId(update.message().text(), update.message().from().idLong());
-                messageSender.send(SendMessage.builder()
-                        .text(format(MESSAGE_AFTER_REMOVING_MODULE, update.message().text()))
-                        .chatId(update.message().chat().id())
-                        .parseMode(ParseMode.MARKDOWN)
-                        .build());
+                moduleService.deleteByNameAndUserId(moduleName, userId);
+                text = MESSAGE_AFTER_REMOVING_MODULE;
             } else {
-                messageSender.send(SendMessage.builder()
-                        .text(format(ERROR_MESSAGE, update.message().text()))
-                        .chatId(update.message().chat().id())
-                        .parseMode(ParseMode.MARKDOWN)
-                        .build());
+                text = ERROR_MESSAGE;
             }
 
-            stateMachine.stop(update.message().from().idLong());
+            messageSender.send(SendMessage.builder()
+                    .text(format(text, update.message().text()))
+                    .chatId(update.message().chat().id())
+                    .parseMode(ParseMode.MARKDOWN)
+                    .build());
+
+            stateMachine.stop(userId);
+
         } catch (TelegramApiException e) {
             log.info("Произошла ошибка при отправки сообщения: {}", e.getMessage());
         }

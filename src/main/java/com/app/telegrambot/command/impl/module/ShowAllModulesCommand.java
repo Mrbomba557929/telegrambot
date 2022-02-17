@@ -4,6 +4,8 @@ import com.app.telegrambot.command.Command;
 import com.app.telegrambot.domain.entity.ModuleEntity;
 import com.app.telegrambot.domain.еnum.ParseMode;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
+import com.app.telegrambot.meta.exception.factory.ExceptionFactory;
+import com.app.telegrambot.meta.exception.runtime.impl.IllegalArgumentException;
 import com.app.telegrambot.meta.methods.send.impl.EditMessageTextSender;
 import com.app.telegrambot.meta.methods.send.objects.EditMessageText;
 import com.app.telegrambot.meta.objects.Update;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.app.telegrambot.meta.exception.factory.ExceptionMessage.ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE;
 import static java.lang.String.format;
 
 /**
@@ -48,8 +51,6 @@ public class ShowAllModulesCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
-            InlineKeyboardMarkup.Builder inlineKeyboardMarkup = InlineKeyboardMarkup.builder();
-
             log.info("Пришло сообщение в find modules: {}", update.message().text());
 
             int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
@@ -63,11 +64,11 @@ public class ShowAllModulesCommand implements Command {
             log.info("Количество страниц: {}, Количество элементов: {}", modules.getTotalPages(), modules.getTotalElements());
             log.info("Количество элементов: {}", modules.getContent().size());
 
-            inlineKeyboardMarkup
+            InlineKeyboardMarkup inlineKeyboardMarkup = InlineKeyboardMarkup.builder()
                     .zip(generateButtonsFromModules(modules.getContent()))
-                    .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d")
-                            .getInlineKeyboard())
-                    .withRow(getMenuButton());
+                    .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d").getInlineKeyboard())
+                    .withRow(generateKeyboard())
+                    .build();
 
             if (update.hasCallBackQuery()) {
                 editMessageTextSender.send(EditMessageText.builder()
@@ -75,14 +76,14 @@ public class ShowAllModulesCommand implements Command {
                         .messageId(Math.toIntExact(update.message().id()))
                         .text(modules.getContent().get(0).toString())
                         .parseMode(ParseMode.MARKDOWN)
-                        .replyMarkup(inlineKeyboardMarkup.build())
+                        .replyMarkup(inlineKeyboardMarkup)
                         .build());
             } else {
                 messageSender.send(SendMessage.builder()
                         .chatId(update.message().chat().id())
                         .text(modules.getContent().get(0).toString())
                         .parseMode(ParseMode.MARKDOWN)
-                        .replyMarkup(inlineKeyboardMarkup.build())
+                        .replyMarkup(inlineKeyboardMarkup)
                         .build());
             }
         } catch (TelegramApiException e) {
@@ -91,20 +92,18 @@ public class ShowAllModulesCommand implements Command {
     }
 
     private List<List<InlineKeyboardButton>> generateButtonsFromModules(List<ModuleEntity> modules) {
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
 
-        if (Objects.isNull(modules) || modules.size() == 0) {
-            return buttons;
+        if (Objects.isNull(modules)) {
+            throw ExceptionFactory.exceptionBuilder(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE)
+                    .link("ShowAllModulesCommand/generateButtonsFromModules")
+                    .buildRuntime(IllegalArgumentException.class);
         }
 
-        buttons.add(List.of(InlineKeyboardButton.builder()
-                        .text(DOT + modules.get(0).getName() + DOT)
-                        .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(0).getId()))
-                        .build()));
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
 
-        for (int i = 1; i < modules.size(); i++) {
+        for (int i = 0; i < modules.size(); i++) {
             buttons.add(List.of(InlineKeyboardButton.builder()
-                            .text(modules.get(i).getName())
+                            .text(i == 0 ? (DOT + modules.get(i).getName() + DOT) : (modules.get(i).getName()))
                             .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(i).getId()))
                             .build()));
         }
@@ -112,7 +111,7 @@ public class ShowAllModulesCommand implements Command {
         return buttons;
     }
 
-    private List<InlineKeyboardButton> getMenuButton() {
+    private List<InlineKeyboardButton> generateKeyboard() {
         return List.of(
                 InlineKeyboardButton.builder()
                         .text("Меню")

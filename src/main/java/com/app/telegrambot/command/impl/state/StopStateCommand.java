@@ -31,6 +31,7 @@ public class StopStateCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+
             String message;
 
             if (stateMachine.contains(update.message().from().idLong())) {
@@ -43,19 +44,24 @@ public class StopStateCommand implements Command {
             sender.send(SendMessage.builder()
                     .text(message)
                     .chatId(update.message().chat().id())
-                    .replyMarkup(InlineKeyboardMarkup.builder()
-                            .withRow(
-                                    List.of(
-                                            InlineKeyboardButton.builder()
-                                                    .text("Меню")
-                                                    .callbackData("/menu:previous")
-                                                    .build()
-                                    )
-                            )
-                            .build())
+                    .replyMarkup(generateKeyboard())
                     .build());
+
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         }
+    }
+
+    private InlineKeyboardMarkup generateKeyboard() {
+        return InlineKeyboardMarkup.builder()
+                .withRow(
+                        List.of(
+                                InlineKeyboardButton.builder()
+                                        .text("Меню")
+                                        .callbackData("/menu:previous")
+                                        .build()
+                        )
+                )
+                .build();
     }
 }

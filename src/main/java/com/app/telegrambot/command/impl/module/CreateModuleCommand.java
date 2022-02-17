@@ -33,6 +33,8 @@ public class CreateModuleCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+
+
             messageSender.send(SendMessage.builder()
                     .text(format(CREATE_MODULE_COMMAND_MESSAGE, update.message().from().fio()))
                     .chatId(update.message().chat().id())
@@ -44,12 +46,13 @@ public class CreateModuleCommand implements Command {
                     .build());
 
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         }
     }
 
     public void askForModuleName(Update update) {
         try {
+
             log.info("Начало работы askForModuleName метода. Имя модуля: {}", update.message().text());
 
             ModuleEntity savedModule = moduleService.save(update.message().text(), update.message().from().idLong());
@@ -58,8 +61,9 @@ public class CreateModuleCommand implements Command {
                     .text(format(ASK_FOR_MODULE_NAME_MESSAGE, update.message().from().fio(), savedModule.getName()))
                     .chatId(update.message().chat().id())
                     .build());
+
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         } finally {
             stateMachine.stop(update.message().from().idLong());
         }

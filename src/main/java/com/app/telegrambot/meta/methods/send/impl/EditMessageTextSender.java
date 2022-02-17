@@ -37,7 +37,7 @@ public class EditMessageTextSender extends Sender<Message, EditMessageText> {
             entity = new HttpEntity<>(jsonValue, headers);
         } catch (JsonProcessingException e) {
             throw ExceptionFactory.exceptionBuilder(e.getMessage())
-                    .link("Command/send")
+                    .link("EditMessageTextSender/send")
                     .buildCompileTime(TelegramApiException.class);
         }
 

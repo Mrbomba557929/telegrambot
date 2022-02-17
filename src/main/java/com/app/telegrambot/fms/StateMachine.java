@@ -25,9 +25,8 @@ public class StateMachine {
                 .buildRuntime(NotFoundException.class);
     }
 
-    public State addState(Long fromId, State state) {
+    public void addState(Long fromId, State state) {
         stateMap.put(fromId, state);
-        return retrieve(fromId);
     }
 
     public State transition(Long fromId, Transition transition) {

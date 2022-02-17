@@ -21,6 +21,12 @@ public class KeyboardRow extends ArrayList<KeyboardButton> {
         super(c);
     }
 
+    public static KeyboardRow of(KeyboardButton... buttons) {
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.addAll(List.of(buttons));
+        return keyboardRow;
+    }
+
     public boolean add(String text) {
         return super.add(new KeyboardButton(text));
     }

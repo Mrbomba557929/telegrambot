@@ -28,22 +28,28 @@ public class UnknownCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
+
             sender.send(SendMessage.builder()
                     .text(UNKNOWN_COMMAND_MESSAGE)
                     .chatId(update.message().chat().id())
-                    .replyMarkup(InlineKeyboardMarkup.builder()
-                            .withRow(
-                                    List.of(
-                                            InlineKeyboardButton.builder()
-                                                    .text("Меню")
-                                                    .callbackData("/menu")
-                                                    .build()
-                                    )
-                            )
-                            .build())
+                    .replyMarkup(generateKeyboard())
                     .build());
+
         } catch (TelegramApiException e) {
-            log.error("An error occurred {}", e.getMessage());
+            log.error("Произошла ошибка при отправке запроса: {}", e.getMessage());
         }
+    }
+
+    private InlineKeyboardMarkup generateKeyboard() {
+        return InlineKeyboardMarkup.builder()
+                .withRow(
+                        List.of(
+                                InlineKeyboardButton.builder()
+                                        .text("Меню")
+                                        .callbackData("/menu")
+                                        .build()
+                        )
+                )
+                .build();
     }
 }
