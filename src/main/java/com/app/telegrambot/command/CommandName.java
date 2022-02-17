@@ -11,7 +11,8 @@ public enum CommandName {
     SHOW_MODULE("/module"),
     STOP_STATE("/stop"),
     SHOW_MENU("/menu"),
-    DELETE_MODULE("/deleteModule");
+    DELETE_MODULE("/deleteModule"),
+    START("/start");
 
     private static final String REGEX = "/[a-zA-Z]+(:.+)+";
     private static final String DELIMITER = ":";

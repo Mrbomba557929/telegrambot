@@ -1,5 +1,6 @@
 package com.app.telegrambot.command;
 
+import com.app.telegrambot.command.impl.StartCommand;
 import com.app.telegrambot.command.impl.UnknownCommand;
 import com.app.telegrambot.command.impl.menu.ShowMenuCommand;
 import com.app.telegrambot.command.impl.module.CreateModuleCommand;
@@ -25,7 +26,7 @@ public class CommandContainer {
     public CommandContainer(CreateModuleCommand createModuleCommand, StopStateCommand stopStateCommand,
                             ShowMenuCommand showMenuCommand, ShowAllModulesCommand showAllModulesCommand,
                             UnknownCommand unknownCommand, ShowModuleCommand showModuleCommand,
-                            DeleteModuleCommand deleteModuleCommand) {
+                            DeleteModuleCommand deleteModuleCommand, StartCommand startCommand) {
         commands = ImmutableMap.<CommandName, Command>builder()
                 .put(CREATE_MODULE, createModuleCommand)
                 .put(STOP_STATE, stopStateCommand)
@@ -33,6 +34,7 @@ public class CommandContainer {
                 .put(MODULES, showAllModulesCommand)
                 .put(SHOW_MODULE, showModuleCommand)
                 .put(DELETE_MODULE, deleteModuleCommand)
+                .put(START, startCommand)
                 .build();
 
         this.unknownCommand = unknownCommand;
