@@ -28,7 +28,7 @@ public class DeleteModuleCommand implements Command {
 
     public static final String DELETE_MODULE_MESSAGE = "Введите название модуля, который нужно удалить.";
     public static final String MESSAGE_AFTER_REMOVING_MODULE = "Модуль '%s' успешно удален.";
-    public static final String ERROR_MESSAGE = "Модуль '%s' не найдел. Убедись, что ты правильно написал название.";
+    public static final String ERROR_MESSAGE = "Модуль '%s' не найден. Убедись, что ты правильно написал название.";
 
     public static final String REGEX = "/deleteModule:[a-zA-Z0-9]+";
     public static final String DELIMITER = ":";
@@ -77,7 +77,9 @@ public class DeleteModuleCommand implements Command {
 
             String text;
 
+            log.info("Существует ли модуль с name = {} и user id = {}: {}", moduleName, userId, moduleService.existsByNameAndUserId(moduleName, userId));
             if (moduleService.existsByNameAndUserId(moduleName, userId)) {
+                log.info("Да, существует");
                 moduleService.deleteByNameAndUserId(moduleName, userId);
                 text = MESSAGE_AFTER_REMOVING_MODULE;
             } else {
@@ -85,7 +87,7 @@ public class DeleteModuleCommand implements Command {
             }
 
             messageSender.send(SendMessage.builder()
-                    .text(format(text, update.message().text()))
+                    .text(format(text, moduleName))
                     .chatId(update.message().chat().id())
                     .parseMode(ParseMode.MARKDOWN)
                     .replyMarkup(generateKeyboard())
