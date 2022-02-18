@@ -42,14 +42,7 @@ public class DeleteModuleCommand implements Command {
         try {
 
             if (update.hasCallBackQuery() && update.message().text().matches(REGEX)) {
-                deleteModuleByName(Update.builder()
-                        .id(update.id())
-                        .message(Message.builder()
-                                .text(update.message().text().split(DELIMITER)[1])
-                                .from(update.message().from())
-                                .chat(update.message().chat())
-                                .build())
-                        .build());
+                deleteModuleByName(update);
                 return;
             }
 
@@ -72,7 +65,14 @@ public class DeleteModuleCommand implements Command {
     private void deleteModuleByName(Update update) {
         try {
 
-            String moduleName = update.message().text();
+            String moduleName;
+
+            if (update.message().text().matches(REGEX)) {
+                moduleName = update.message().text().split(DELIMITER)[1];
+            } else {
+                moduleName = update.message().text();
+            }
+
             Long userId = update.message().from().idLong();
 
             String text;

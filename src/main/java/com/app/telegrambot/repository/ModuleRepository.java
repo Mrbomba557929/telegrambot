@@ -15,7 +15,7 @@ public interface ModuleRepository extends JpaRepository<ModuleEntity, Long> {
     SELECT *
     FROM modules
     WHERE
-        modules.name = ?1 AND 
+        modules.name = ?1 AND
         modules.user_id = ?2
     """)
     Optional<ModuleEntity> findByNameAndUserId(String name, Long userId);
@@ -23,7 +23,7 @@ public interface ModuleRepository extends JpaRepository<ModuleEntity, Long> {
     @Query(nativeQuery = true, value = """
     DELETE FROM modules
     WHERE
-        modules.name = ?1 AND 
+        modules.name = ?1 AND
         modules.user_id = ?2
     """)
     void deleteByNameAndUserId(String name, Long userId);
