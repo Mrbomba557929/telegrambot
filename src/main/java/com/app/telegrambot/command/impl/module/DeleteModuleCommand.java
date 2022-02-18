@@ -30,7 +30,7 @@ public class DeleteModuleCommand implements Command {
     public static final String MESSAGE_AFTER_REMOVING_MODULE = "Модуль '%s' успешно удален.";
     public static final String ERROR_MESSAGE = "Модуль '%s' не найдел. Убедись, что ты правильно написал название.";
 
-    public static final String REGEX = "/deleteModule:\\w+";
+    public static final String REGEX = "/deleteModule:[a-zA-Z0-9]+";
     public static final String DELIMITER = ":";
 
     private final StateMachine stateMachine;
