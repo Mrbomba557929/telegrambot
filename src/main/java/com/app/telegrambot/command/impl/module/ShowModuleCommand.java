@@ -76,7 +76,7 @@ public class ShowModuleCommand implements Command {
                     .text(module.toString())
                     .chatId(update.message().chat().id())
                     .parseMode(ParseMode.MARKDOWN)
-                    .replyMarkup(generateKeyboard())
+                    .replyMarkup(generateKeyboard(module.getName()))
                     .build());
 
         } catch (TelegramApiException e) {
@@ -88,20 +88,21 @@ public class ShowModuleCommand implements Command {
 
     private void editMessage(Update update) throws TelegramApiException {
         Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
+        ModuleEntity module = moduleService.findById(moduleId);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = null;
 
         if (update.message().text().endsWith(SHOW_ALL_MODULES)) {
             inlineKeyboardMarkup = markSelectedModuleAndReturnKeyboard(update.message().replyMarkup(), moduleId);
         } else if (update.message().text().endsWith(SHOW_MODULE)) {
-            inlineKeyboardMarkup = generateKeyboard();
+            inlineKeyboardMarkup = generateKeyboard(module.getName());
         }
 
         editMessageTextSender.send(EditMessageText.builder()
                 .chatId(update.message().chat().id())
                 .messageId(Math.toIntExact(update.message().id()))
                 .parseMode(ParseMode.MARKDOWN)
-                .text(moduleService.findById(moduleId).toString())
+                .text(module.toString())
                 .replyMarkup(inlineKeyboardMarkup)
                 .build());
     }
@@ -126,7 +127,7 @@ public class ShowModuleCommand implements Command {
         return inlineKeyboardMarkup;
     }
 
-    private InlineKeyboardMarkup generateKeyboard() {
+    private InlineKeyboardMarkup generateKeyboard(String moduleName) {
         return InlineKeyboardMarkup.builder()
                 .withRow(List.of(
                         InlineKeyboardButton.builder()
@@ -135,7 +136,7 @@ public class ShowModuleCommand implements Command {
                                 .build(),
                         InlineKeyboardButton.builder()
                                 .text("Удалить модуль")
-                                .callbackData("/deleteModule")
+                                .callbackData("/deleteModule:" + moduleName)
                                 .build()
                 ))
                 .withRow(List.of(

@@ -51,19 +51,11 @@ public class ShowAllModulesCommand implements Command {
     @Override
     public void execute(Update update) {
         try {
-
-            log.info("Пришло сообщение в find modules: {}", update.message().text());
-
             int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
                     Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
                     INITIAL_PAGE_SIZE;
 
-            log.info("Страница: {}", page);
-
             Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES_IN_BLOCK);
-
-            log.info("Количество страниц: {}, Количество элементов: {}", modules.getTotalPages(), modules.getTotalElements());
-            log.info("Количество элементов: {}", modules.getContent().size());
 
             if (update.hasCallBackQuery()) {
                 editMessageTextSender.send(EditMessageText.builder()
