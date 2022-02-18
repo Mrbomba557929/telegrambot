@@ -96,7 +96,7 @@ public class ShowAllModulesCommand implements Command {
                         ? List.of(
                         InlineKeyboardButton.builder()
                                 .text("Посмотреть выбранный модуль")
-                                .callbackData("/module:" + modules.getContent().get(0).getId())
+                                .callbackData(format("/module:%d:showModule", modules.getContent().get(0).getId()))
                                 .build())
                         : null)
                 .build();
@@ -115,7 +115,7 @@ public class ShowAllModulesCommand implements Command {
         for (int i = 0; i < modules.size(); i++) {
             buttons.add(List.of(InlineKeyboardButton.builder()
                             .text(i == 0 ? (DOT + modules.get(i).getName() + DOT) : (modules.get(i).getName()))
-                            .callbackData(format("%s:%s", FIND_MODULE_COMMAND, modules.get(i).getId()))
+                            .callbackData(format("%s:%s:showAllModules", FIND_MODULE_COMMAND, modules.get(i).getId()))
                             .build()));
         }
 
