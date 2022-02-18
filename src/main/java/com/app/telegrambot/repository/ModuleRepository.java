@@ -2,9 +2,10 @@ package com.app.telegrambot.repository;
 
 import com.app.telegrambot.domain.entity.ModuleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,8 @@ public interface ModuleRepository extends JpaRepository<ModuleEntity, Long> {
     """)
     Optional<ModuleEntity> findByNameAndUserId(String name, Long userId);
 
+    @Transactional
+    @Modifying
     @Query(nativeQuery = true, value = """
     DELETE FROM modules
     WHERE
