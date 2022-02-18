@@ -58,7 +58,7 @@ public class ShowModuleCommand implements Command {
                     .build());
 
             stateMachine.addState(update.message().from().idLong(), State.builder()
-                    .transition(this::askForNameModule)
+                    .transition(this::findModuleByName)
                     .build());
 
         } catch (TelegramApiException e) {
@@ -66,30 +66,8 @@ public class ShowModuleCommand implements Command {
         }
     }
 
-    private void editMessage(Update update) throws TelegramApiException {
-        Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
-
-        InlineKeyboardMarkup inlineKeyboardMarkup;
-
-        if (update.message().text().endsWith(SHOW_ALL_MODULES)) {
-            inlineKeyboardMarkup = markSelectedModuleAndReturnKeyboard(update.message().replyMarkup(), moduleId);
-        } else if (update.message().text().endsWith(SHOW_MODULE)) {
-            inlineKeyboardMarkup = generateKeyboard();
-        } else {
-            inlineKeyboardMarkup = update.message().replyMarkup();
-        }
-
-        editMessageTextSender.send(EditMessageText.builder()
-                .chatId(update.message().chat().id())
-                .messageId(Math.toIntExact(update.message().id()))
-                .parseMode(ParseMode.MARKDOWN)
-                .text(moduleService.findById(moduleId).toString())
-                .replyMarkup(inlineKeyboardMarkup)
-                .build());
-    }
-
     @PartOfState
-    private void askForNameModule(Update update) {
+    private void findModuleByName(Update update) {
         try {
 
             ModuleEntity module = moduleService.findByNameAndUserId(update.message().text(), update.message().from().idLong());
@@ -106,6 +84,26 @@ public class ShowModuleCommand implements Command {
         } finally {
             stateMachine.stop(update.message().from().idLong());
         }
+    }
+
+    private void editMessage(Update update) throws TelegramApiException {
+        Long moduleId = Long.parseLong(update.message().text().split(DELIMITER)[1]);
+
+        InlineKeyboardMarkup inlineKeyboardMarkup = null;
+
+        if (update.message().text().endsWith(SHOW_ALL_MODULES)) {
+            inlineKeyboardMarkup = markSelectedModuleAndReturnKeyboard(update.message().replyMarkup(), moduleId);
+        } else if (update.message().text().endsWith(SHOW_MODULE)) {
+            inlineKeyboardMarkup = generateKeyboard();
+        }
+
+        editMessageTextSender.send(EditMessageText.builder()
+                .chatId(update.message().chat().id())
+                .messageId(Math.toIntExact(update.message().id()))
+                .parseMode(ParseMode.MARKDOWN)
+                .text(moduleService.findById(moduleId).toString())
+                .replyMarkup(inlineKeyboardMarkup)
+                .build());
     }
 
     private InlineKeyboardMarkup markSelectedModuleAndReturnKeyboard(InlineKeyboardMarkup inlineKeyboardMarkup, Long moduleId) {

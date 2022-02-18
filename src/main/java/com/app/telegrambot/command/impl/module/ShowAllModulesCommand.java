@@ -91,7 +91,7 @@ public class ShowAllModulesCommand implements Command {
         return InlineKeyboardMarkup.builder()
                 .zip(generateButtonsForModules(modules.getContent()))
                 .zip(inlineKeyboardPaginator.paginate(modules.getTotalPages(), page, FIND_ALL_MODULES_COMMAND + ":%d").getInlineKeyboard())
-                .zip(generateButtonsForBottomKeyboard())
+                .zip(generateBottomButtons())
                 .withRow(modules.getContent().size() > 0
                         ? List.of(
                         InlineKeyboardButton.builder()
@@ -122,7 +122,7 @@ public class ShowAllModulesCommand implements Command {
         return buttons;
     }
 
-    private List<List<InlineKeyboardButton>> generateButtonsForBottomKeyboard() {
+    private List<List<InlineKeyboardButton>> generateBottomButtons() {
         return List.of(
                 List.of(
                         InlineKeyboardButton.builder()
