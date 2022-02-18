@@ -35,7 +35,7 @@ public interface ModuleRepository extends JpaRepository<ModuleEntity, Long> {
                     SELECT *
                     FROM modules
                     WHERE
-                        modules.id = ?1 AND
+                        modules.name = ?1 AND
                         modules.user_id = ?2
                 )
                 THEN true
