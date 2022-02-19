@@ -8,7 +8,6 @@ import com.app.telegrambot.fms.StateMachine;
 import com.app.telegrambot.meta.exception.compiletime.impl.TelegramApiException;
 import com.app.telegrambot.meta.methods.send.impl.MessageSender;
 import com.app.telegrambot.meta.methods.send.objects.SendMessage;
-import com.app.telegrambot.meta.objects.Message;
 import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.meta.objects.replykeyboard.InlineKeyboardMarkup;
 import com.app.telegrambot.meta.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -77,9 +76,7 @@ public class DeleteModuleCommand implements Command {
 
             String text;
 
-            log.info("Существует ли модуль с name = {} и user id = {}: {}", moduleName, userId, moduleService.existsByNameAndUserId(moduleName, userId));
             if (moduleService.existsByNameAndUserId(moduleName, userId)) {
-                log.info("Да, существует");
                 moduleService.deleteByNameAndUserId(moduleName, userId);
                 text = MESSAGE_AFTER_REMOVING_MODULE;
             } else {

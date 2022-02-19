@@ -14,4 +14,12 @@ public interface WordService {
      * @return found the {@link WordEntity}.
      */
     WordEntity findByWord(String word);
+
+    /**
+     * Method for saving the {@link WordEntity}.
+     *
+     * @param word - the word of the {@link WordEntity}.
+     * @return saved the {@link WordEntity}.
+     */
+    WordEntity save(WordEntity word);
 }

@@ -132,7 +132,7 @@ public class ShowModuleCommand implements Command {
                 .withRow(List.of(
                         InlineKeyboardButton.builder()
                                 .text("Добавить слова")
-                                .callbackData("/addWords")
+                                .callbackData(format("/addWords:%s", moduleName))
                                 .build(),
                         InlineKeyboardButton.builder()
                                 .text("Удалить модуль")

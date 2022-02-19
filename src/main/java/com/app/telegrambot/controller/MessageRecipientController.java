@@ -47,6 +47,11 @@ public class MessageRecipientController {
             String message = update.message().text().trim();
 
             if (message.startsWith(COMMAND_PREFIX)) {
+
+                if (stateMachine.contains(update.message().from().idLong())) {
+                    stateMachine.stop(update.message().from().idLong());
+                }
+
                 TelegramBotContextHolder.UPDATE = update;
                 commandContainer.retrieve(CommandName.fromText(message))
                         .execute(update);

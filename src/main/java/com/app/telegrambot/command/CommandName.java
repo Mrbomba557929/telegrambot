@@ -12,7 +12,9 @@ public enum CommandName {
     STOP_STATE("/stop"),
     SHOW_MENU("/menu"),
     DELETE_MODULE("/deleteModule"),
-    START("/start");
+    START("/start"),
+    ADD_WORD("/addWords"),
+    SHOW_ALL_WORDS("/showWords");
 
     private static final String REGEX = "/[a-zA-Z]+(:.+)+";
     private static final String DELIMITER = ":";

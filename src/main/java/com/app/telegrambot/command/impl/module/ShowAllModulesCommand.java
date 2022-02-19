@@ -36,7 +36,7 @@ import static java.lang.String.format;
 public class ShowAllModulesCommand implements Command {
 
     public static final Integer NUMBER_OF_PAGES_IN_BLOCK = 5;
-    public static final Integer INITIAL_PAGE_SIZE = 1;
+    public static final Integer INITIAL_PAGE = 1;
     public static final String FIND_ALL_MODULES_COMMAND = "/modules";
     public static final String FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX = "/modules:\\d+";
     public static final String FIND_MODULE_COMMAND = "/module";
@@ -53,7 +53,7 @@ public class ShowAllModulesCommand implements Command {
         try {
             int page = update.message().text().matches(FIND_ALL_MODULES_WITH_CURRENT_PAGE_REGEX) ?
                     Integer.parseInt(update.message().text().split(DELIMITER)[1]) :
-                    INITIAL_PAGE_SIZE;
+                    INITIAL_PAGE;
 
             Page<ModuleEntity> modules = moduleService.findAll(page, NUMBER_OF_PAGES_IN_BLOCK);
 

@@ -26,4 +26,9 @@ public class WordServiceImpl implements WordService {
                                 .buildRuntime(NotFoundException.class)
                 );
     }
+
+    @Override
+    public WordEntity save(WordEntity word) {
+        return wordRepository.save(word);
+    }
 }

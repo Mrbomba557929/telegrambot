@@ -1,6 +1,7 @@
 package com.app.telegrambot.command.impl.module;
 
 import com.app.telegrambot.command.Command;
+import com.app.telegrambot.fms.PartOfState;
 import com.app.telegrambot.meta.methods.send.objects.SendMessage;
 import com.app.telegrambot.meta.objects.Update;
 import com.app.telegrambot.domain.entity.ModuleEntity;
@@ -34,14 +35,13 @@ public class CreateModuleCommand implements Command {
     public void execute(Update update) {
         try {
 
-
             messageSender.send(SendMessage.builder()
                     .text(format(CREATE_MODULE_COMMAND_MESSAGE, update.message().from().fio()))
                     .chatId(update.message().chat().id())
                     .build());
 
             stateMachine.addState(update.message().from().idLong(), State.builder()
-                    .transition(this::askForModuleName)
+                    .transition(this::saveModule)
                     .object(ModuleEntity.builder())
                     .build());
 
@@ -50,7 +50,8 @@ public class CreateModuleCommand implements Command {
         }
     }
 
-    public void askForModuleName(Update update) {
+    @PartOfState
+    public void saveModule(Update update) {
         try {
 
             log.info("Начало работы askForModuleName метода. Имя модуля: {}", update.message().text());
